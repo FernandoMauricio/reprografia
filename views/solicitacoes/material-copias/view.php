@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 use kartik\detail\DetailView;
 use app\models\solicitacoes\Acabamento;
 use app\models\solicitacoes\MaterialCopiasItens;
@@ -11,14 +12,18 @@ use app\models\solicitacoes\MaterialCopiasItens;
 $this->title = $model->matc_id;
 $this->params['breadcrumbs'][] = ['label' => 'Solicitações de Cópias', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
-
-//Pega as mensagens
-foreach (Yii::$app->session->getAllFlashes() as $key => $message) {
-echo '<div class="alert alert-'.$key.'">'.$message.'</div>';
-}
-
 ?>
 <div class="material-copias-view">
+  <h2>
+    <?= 'Solicitação de Cópia: '. Html::encode($this->title) ?>
+  </h2>
+  <p>
+    <?= Html::a('<span class="glyphicon glyphicon-arrow-left"></span> Retornar', ['index'], ['class' => 'btn btn-default']) ?>
+  </p>
+  <p>
+    <span class="pull-left"><b>Data da Solicitação: </b><small><span class="label label-primary" style="font-size: 100%;font-weight:normal"><?= date('d/m/Y', strtotime($model->matc_data)); ?></span></small></span>
+    <span class="pull-right"><b>Situação: </b><small><span class="label label-warning" style="font-size: 100%;font-weight:normal"><?= $model->situacao->sitmat_descricao; ?></span></small></span>
+  </p><br /><br />
 
 <div class="panel panel-primary">
   <div class="panel-heading">
@@ -40,30 +45,6 @@ $attributes = [
                 [
                     'columns' => [
                         [
-                            'attribute'=>'matc_id', 
-                            'displayOnly'=>true,
-                            'valueColOptions'=>['style'=>'width:0%'],
-                            'labelColOptions'=>['style'=>'width:5%'],
-                        ],
-
-                        [
-                            'attribute'=>'matc_data', 
-                            'displayOnly'=>true,
-                            'format'=>['date','php:d/m/Y'],
-                            'valueColOptions'=>['style'=>'width:0%'],
-                        ],
-
-                        [
-                            'attribute'=>'situacao_id', 
-                            'value'=>$model->situacao->sitmat_descricao,
-                            'valueColOptions'=>['style'=>'width:20%'],
-                        ],
-                    ],
-                ],
-
-                [
-                    'columns' => [
-                        [
                             'attribute'=>'matc_solicitante', 
                             'displayOnly'=>true,
                             'value'=> $model->colaborador->usuario->usu_nomeusuario,
@@ -79,6 +60,12 @@ $attributes = [
                             'labelColOptions'=>['style'=>'width:10%'],
                         ],
 
+                        [
+                            'attribute'=>'matc_centrocusto', 
+                            'displayOnly'=>true,
+                            'valueColOptions'=>['style'=>'width:0%'],
+                            'labelColOptions'=>['style'=>'width:15%'],
+                        ],
                     ],
                 ],
 
@@ -108,12 +95,7 @@ $attributes = [
                             'labelColOptions'=>['style'=>'width:0%'],
                         ],
 
-                        [
-                            'attribute'=>'matc_centrocusto', 
-                            'displayOnly'=>true,
-                            'valueColOptions'=>['style'=>'width:0%'],
-                            'labelColOptions'=>['style'=>'width:15%'],
-                        ],
+
 
                     ],
                 ],
