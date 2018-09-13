@@ -24,7 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) . "<small>Solicitação de Cópia: ".$id_solicitacaoCopias. "</small>" ?></h1>
 
     <p>
-        <?= Html::button('Inserir Justificativa', ['value'=> Url::to('index.php?r=solicitacoes/material-copias-justificativas/create'), 'class' => 'btn btn-success', 'id'=>'modalButton']) ?>
+        <?= Html::button('Inserir Justificativa', ['value'=> Url::to('index.php?r=solicitacoes/material-copias-justificativas/create&id='.$id_solicitacaoCopias.''), 'class' => 'btn btn-success', 'id'=>'modalButton']) ?>
     </p>
 
     <?php

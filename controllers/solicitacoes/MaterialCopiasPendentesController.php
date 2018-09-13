@@ -90,8 +90,8 @@ class MaterialCopiasPendentesController extends Controller
         $session->set('sess_materialcopias', $model->matc_id);
 
         return $this->redirect(Yii::$app->request->BaseUrl . '/index.php?r=solicitacoes/material-copias-justificativas/index', [
-             'model' => $model,
-         ]);
+            'model' => $model,
+        ]);
     }
 
     /**
