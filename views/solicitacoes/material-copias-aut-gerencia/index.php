@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use kartik\grid\GridView;
 use app\models\solicitacoes\Situacao;
+use app\models\cadastros\Centrocusto;
 use kartik\widgets\Select2;
 use yii\helpers\ArrayHelper;
 use yii\widgets\Pjax;
@@ -20,84 +21,93 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <?php
 
-    $gridColumns = [
+$gridColumns = [
 
-                            [
-                                'class'=>'kartik\grid\ExpandRowColumn',
-                                'width'=>'50px',
-                                'value'=>function ($model, $key, $index, $column) {
-                                    return GridView::ROW_COLLAPSED;
-                                },
-                                'detail'=>function ($model, $key, $index, $column) {
-                                    return Yii::$app->controller->renderPartial('/solicitacoes/material-copias/view_expand', ['model'=>$model]);
-                                },
-                                'headerOptions'=>['class'=>'kartik-sheet-style'],
-                                'expandOneOnly'=>true,
-                            ],
+    [
+        'class'=>'kartik\grid\ExpandRowColumn',
+        'width'=>'50px',
+        'value'=>function ($model, $key, $index, $column) {
+            return GridView::ROW_COLLAPSED;
+        },
+        'detail'=>function ($model, $key, $index, $column) {
+            return Yii::$app->controller->renderPartial('/solicitacoes/material-copias/view_expand', ['model'=>$model]);
+        },
+        'headerOptions'=>['class'=>'kartik-sheet-style'],
+        'expandOneOnly'=>true,
+    ],
 
-                            [
-                              'attribute'=>'matc_id',
-                              'width'=>'5%'
-                            ],
+    [
+      'attribute'=>'matc_id',
+      'width'=>'5%'
+    ],
 
-                            [
-                              'attribute'=>'matc_centrocusto',
-                              'width'=>'5%'
-                            ],
-
-
-                            [
-                              'attribute'=>'matc_unidade',
-                              'value'=> 'unidade.uni_nomeabreviado',
-                              'width'=>'20%'
-                            ],
-
-                            'matc_curso',
-
-
-                            [
-                                'attribute'=>'situacao_id', 
-                                'vAlign'=>'middle',
-                                'width'=>'250px',
-                                'value'=>function ($model, $key, $index, $widget) { 
-                                    return Html::a($model->situacao->sitmat_descricao);
-                                },
-                                'filterType'=>GridView::FILTER_SELECT2,
-                                'filter'=>ArrayHelper::map(Situacao::find()->orderBy('sitmat_status')->asArray()->all(), 'sitmat_descricao', 'sitmat_descricao'), 
-                                'filterInputOptions'=>['placeholder'=>'Situação'],
-                                'format'=>'raw'
-                            ],
+    [
+        'attribute'=>'matc_centrocusto', 
+        'width'=>'5%',
+        'value'=>function ($model, $key, $index, $widget) { 
+            return $model->matc_centrocusto;
+        },
+        'filterType'=>GridView::FILTER_SELECT2,
+        'filter'=>ArrayHelper::map(Centrocusto::find()->where(['cen_codsituacao' => 1])->orderBy('cen_codano')->asArray()->all(), 'cen_centrocustoreduzido', 'cen_centrocustoreduzido'),
+        'filterWidgetOptions'=>[
+            'pluginOptions'=>['allowClear'=>true],
+        ],
+        'filterInputOptions'=>['placeholder'=>'Centro de Custo...'],
+    ],
 
 
-                                ['class' => 'yii\grid\ActionColumn',
-                                'template' => '{aprovar} {reprovar}',
-                                'options' => ['width' => '15%'],
-                                'buttons' => [
+    [
+      'attribute'=>'matc_unidade',
+      'value'=> 'unidade.uni_nomeabreviado',
+      'width'=>'20%'
+    ],
 
-                                //APROVAR REQUISIÇÃO
-                                'aprovar' => function ($url, $model) {
-                                    return Html::a('<span class="glyphicon glyphicon-ok"></span> Aprovar', $url, [
-                                                'class' => 'btn btn-success btn-xs',
-                                                'title' => Yii::t('app', 'Aprovar Solicitação'),
-                                                'data'  => [
-                                                    'confirm' => 'Você tem CERTEZA que deseja APROVAR a solicitação?',
-                                                    'method' => 'post',
-                                                     ],
-                                                ]);
-                                            },
+    'matc_curso',
 
-                                //REPROVAR REQUISIÇÃO
-                                'reprovar' => function ($url, $model) {
-                                    return Html::a('<span class="glyphicon glyphicon-remove"></span> Reprovar', $url, [
-                                                'class' => 'btn btn-danger btn-xs',
-                                                'title' => Yii::t('app', 'Reprovar Solicitação'),
-                                                ]);
-                                            },
 
-                            ],
-                            ],
+    [
+        'attribute'=>'situacao_id', 
+        'vAlign'=>'middle',
+        'width'=>'250px',
+        'value'=>function ($model, $key, $index, $widget) { 
+            return Html::a($model->situacao->sitmat_descricao);
+        },
+        'filterType'=>GridView::FILTER_SELECT2,
+        'filter'=>ArrayHelper::map(Situacao::find()->orderBy('sitmat_status')->asArray()->all(), 'sitmat_descricao', 'sitmat_descricao'), 
+        'filterInputOptions'=>['placeholder'=>'Situação'],
+        'format'=>'raw'
+    ],
 
-                 ]; 
+
+    ['class' => 'yii\grid\ActionColumn',
+    'template' => '{aprovar} {reprovar}',
+    'options' => ['width' => '15%'],
+    'buttons' => [
+
+    //APROVAR REQUISIÇÃO
+    'aprovar' => function ($url, $model) {
+        return Html::a('<span class="glyphicon glyphicon-ok"></span> Aprovar', $url, [
+                    'class' => 'btn btn-success btn-xs',
+                    'title' => Yii::t('app', 'Aprovar Solicitação'),
+                    'data'  => [
+                        'confirm' => 'Você tem CERTEZA que deseja APROVAR a solicitação?',
+                        'method' => 'post',
+                         ],
+                    ]);
+                },
+
+    //REPROVAR REQUISIÇÃO
+    'reprovar' => function ($url, $model) {
+        return Html::a('<span class="glyphicon glyphicon-remove"></span> Reprovar', $url, [
+                    'class' => 'btn btn-danger btn-xs',
+                    'title' => Yii::t('app', 'Reprovar Solicitação'),
+                    ]);
+                },
+
+    ],
+    ],
+
+]; 
 ?>
 
     <?php Pjax::begin(['id'=>'w0-pjax']); ?>
