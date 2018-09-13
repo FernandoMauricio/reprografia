@@ -25,7 +25,7 @@ $gridColumns = [
 
     [
         'class'=>'kartik\grid\ExpandRowColumn',
-        'width'=>'50px',
+        'width'=>'2%',
         'value'=>function ($model, $key, $index, $column) {
             return GridView::ROW_COLLAPSED;
         },
@@ -38,7 +38,7 @@ $gridColumns = [
 
     [
       'attribute'=>'matc_id',
-      'width'=>'5%'
+      'width'=>'3%'
     ],
 
     [
@@ -62,20 +62,24 @@ $gridColumns = [
       'width'=>'20%'
     ],
 
-    'matc_curso',
+    [
+        'attribute'=>'matc_curso', 
+        'width'=>'30%',
+    ],
 
 
     [
         'attribute'=>'situacao_id', 
-        'vAlign'=>'middle',
-        'width'=>'250px',
+        'width'=>'15%',
         'value'=>function ($model, $key, $index, $widget) { 
-            return Html::a($model->situacao->sitmat_descricao);
+            return $model->situacao->sitmat_descricao;
         },
         'filterType'=>GridView::FILTER_SELECT2,
-        'filter'=>ArrayHelper::map(Situacao::find()->orderBy('sitmat_status')->asArray()->all(), 'sitmat_descricao', 'sitmat_descricao'), 
-        'filterInputOptions'=>['placeholder'=>'Situação'],
-        'format'=>'raw'
+        'filter'=>ArrayHelper::map(Situacao::find()->orderBy('sitmat_status')->asArray()->all(), 'sitmat_id', 'sitmat_descricao'),
+        'filterWidgetOptions'=>[
+            'pluginOptions'=>['allowClear'=>true],
+        ],
+        'filterInputOptions'=>['placeholder'=>'Situação...'],
     ],
 
 
