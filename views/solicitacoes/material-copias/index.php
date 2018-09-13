@@ -13,15 +13,9 @@ use yii\widgets\Pjax;
 
 $session = Yii::$app->session;
 $unidade = $session['sess_unidade'];
-
-
-//Pega as mensagens
-foreach (Yii::$app->session->getAllFlashes() as $key => $message) {
-echo '<div class="alert alert-'.$key.'">'.$message.'</div>';
-}
-
 $this->title = 'Solicitações de Cópias';
 $this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="material-copias-index">
 

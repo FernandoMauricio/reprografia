@@ -29,79 +29,74 @@ $this->params['breadcrumbs'][] = $this->title;
   <div class="panel-heading">
     <h3 class="panel-title"><i class="glyphicon glyphicon-book"></i> DETALHES DA SOLICITAÇÃO DE CÓPIA</h3>
   </div>
-    <div class="panel-body">
-          <div class="row">
-
-  <?php
+<div class="panel-body">
+<div class="row">
+<?php
 $attributes = [
-
 //-------------- SESSÃO 1 INFORMAÇÕES DA SOLICITAÇÃO
-                [
-                    'group'=>true,
-                    'label'=>'SEÇÃO 1: Informações da Solicitação',
-                    'rowOptions'=>['class'=>'info']
-                ],
+  [
+      'group'=>true,
+      'label'=>'SEÇÃO 1: Informações da Solicitação',
+      'rowOptions'=>['class'=>'info']
+  ],
 
-                [
-                    'columns' => [
-                        [
-                            'attribute'=>'matc_solicitante', 
-                            'displayOnly'=>true,
-                            'value'=> $model->colaborador->usuario->usu_nomeusuario,
-                            'valueColOptions'=>['style'=>'width:0%'],
-                            'labelColOptions'=>['style'=>'width:10%'],
-                        ],
+  [
+      'columns' => [
+          [
+            'attribute'=>'matc_solicitante', 
+            'displayOnly'=>true,
+            'value'=> $model->colaborador->usuario->usu_nomeusuario,
+            'valueColOptions'=>['style'=>'width:30%'],
+            'labelColOptions'=>['style'=>'width:12%'],
+          ],
 
-                        [
-                            'attribute'=>'matc_unidade', 
-                            'displayOnly'=>true,
-                            'value'=> $model->unidade->uni_nomeabreviado,
-                            'valueColOptions'=>['style'=>'width:0%'],
-                            'labelColOptions'=>['style'=>'width:10%'],
-                        ],
+          [
+            'attribute'=>'matc_unidade', 
+            'displayOnly'=>true,
+            'value'=> $model->unidade->uni_nomeabreviado,
+            'labelColOptions'=>['style'=>'width:12%'],
+          ],
+      ],
+  ],
 
-                        [
-                            'attribute'=>'matc_centrocusto', 
-                            'displayOnly'=>true,
-                            'valueColOptions'=>['style'=>'width:0%'],
-                            'labelColOptions'=>['style'=>'width:15%'],
-                        ],
-                    ],
-                ],
+  [
+      'columns' => [
 
-                [
-                    'columns' => [
+          [
+            'attribute'=>'matc_segmento', 
+            'displayOnly'=>true,
+            'value'=> $model->segmento->seg_descricao,
+            'valueColOptions'=>['style'=>'width:30%'],
+            'labelColOptions'=>['style'=>'width:12%'],
+          ],
 
-                        [
-                            'attribute'=>'matc_segmento', 
-                            'displayOnly'=>true,
-                            'value'=> $model->segmento->seg_descricao,
-                            'valueColOptions'=>['style'=>'width:20%'],
-                            'labelColOptions'=>['style'=>'width:0%'],
-                        ],
+          [
+            'attribute'=>'matc_tipoacao', 
+            'displayOnly'=>true,
+            'value'=> $model->tipo->tip_descricao,
+            'labelColOptions'=>['style'=>'width:12%'],
+          ],
+      ],
+  ],
 
-                        [
-                            'attribute'=>'matc_tipoacao', 
-                            'displayOnly'=>true,
-                            'value'=> $model->tipo->tip_descricao,
-                            'valueColOptions'=>['style'=>'width:20%'],
-                            'labelColOptions'=>['style'=>'width:12%'],
-                        ],
+  [
+      'columns' => [
 
-                        [
-                            'attribute'=>'matc_curso', 
-                            'displayOnly'=>true,
-                            'valueColOptions'=>['style'=>'width:30%'],
-                            'labelColOptions'=>['style'=>'width:0%'],
-                        ],
+          [
+            'attribute'=>'matc_curso', 
+            'displayOnly'=>true,
+            'valueColOptions'=>['style'=>'width:30%'],
+            'labelColOptions'=>['style'=>'width:12%'],
+          ],
 
-
-
-                    ],
-                ],
-
-            ];
-
+          [
+            'attribute'=>'matc_centrocusto', 
+            'displayOnly'=>true,
+            'labelColOptions'=>['style'=>'width:12%'],
+          ],
+      ],
+  ],
+];
     echo DetailView::widget([
         'model'=>$model,
         'condensed'=>true,
@@ -110,28 +105,28 @@ $attributes = [
         'attributes'=> $attributes,
     ]);
 
-    ?>
+?>
                <!-- SEÇÃO 2 INFORMAÇÕES DAS IMPRESSÕES -->
 
-  <table class="table table-condensed table-hover">
-    <thead>
+<table class="table table-condensed table-hover">
+  <thead>
     <tr class="info"><th colspan="12">SEÇÃO 2: Informações das Impressões</th></tr>
-    </thead>
-    <thead>
-      <tr>
-        <th>Material</th>
-        <th>Qte Originais</th>
-        <th>Qte Exempalres</th>
-        <th>Qte Cópias</th>
-        <th>Mono</th>
-        <th>Color</th>
-        <th>Qte Total</th>
-        <th>Observação</th>
-        <th>Arquivo</th>
-      </tr>
-    </thead>
-    <tbody>
-        <tr>
+  </thead>
+  <thead>
+    <tr>
+      <th>Material</th>
+      <th>Qte Originais</th>
+      <th>Qte Exempalres</th>
+      <th>Qte Cópias</th>
+      <th>Mono</th>
+      <th>Color</th>
+      <th>Qte Total</th>
+      <th>Observação</th>
+      <th>Arquivo</th>
+    </tr>
+  </thead>
+<tbody>
+<tr>
 <?php
 
   $query_itens = "SELECT * FROM materialcopias_item WHERE materialcopias_id = '".$model->matc_id."'";
@@ -217,7 +212,7 @@ $attributes = [
                <td>TOTAL GERAL<i> (Total Mono + Total Color)</i></td>
                <td style="color:red"><strong><?php echo 'R$ ' . number_format($sum, 2, ',', '.') ?></strong></td>
         </tr>
-    </tbody>                            
+    </tbody>
   </table>
 
                           <!-- CAIXA DE AUTORIZAÇÃO GERÊNCIA DO SETOR -->
@@ -235,9 +230,7 @@ $attributes = [
         <tbody>
           <tr>
             <td colspan="2" style="text-align: center;">
-
             <?php echo $model->matc_autorizadoGer ? '<span class="label label-success">AUTORIZADO</span>' : '<span class="label label-danger">NÃO AUTORIZADO</span>' ?>
-
           </tr>
           <tr>
             <td colspan="2"><strong>Responsável:</strong> <?php echo $model->matc_ResponsavelGer ?></td>
@@ -250,7 +243,6 @@ $attributes = [
 
       <?php } ?>
 </div>
-
                         <!-- CAIXA DE AUTORIZAÇÃO DEP -->
 <div class="container">
 <div class="row">
@@ -278,12 +270,9 @@ $attributes = [
           </tr>
         </tbody>
       </table>
-
       <?php } ?>
 </div>
                         <!-- CAIXA DE DE ENCAMINHAMENTO REPROGRAFIA -->
-
-
     <?php if($model->matc_ResponsavelRepro != NULL){ ?>
 <div class="col-md-4">
      <table class="table" colspan="2"  border="1" style="max-width: 50%;">

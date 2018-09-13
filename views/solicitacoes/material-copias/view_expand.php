@@ -16,100 +16,72 @@ use app\models\solicitacoes\MaterialCopiasItens;
   </div>
     <div class="panel-body">
           <div class="row">
-
-  <?php
+<?php
 $attributes = [
-
 //-------------- SESSÃO 1 INFORMAÇÕES DA SOLICITAÇÃO
-                [
-                    'group'=>true,
-                    'label'=>'SEÇÃO 1: Informações da Solicitação',
-                    'rowOptions'=>['class'=>'info']
-                ],
+  [
+      'group'=>true,
+      'label'=>'SEÇÃO 1: Informações da Solicitação',
+      'rowOptions'=>['class'=>'info']
+  ],
 
-                [
-                    'columns' => [
-                        [
-                            'attribute'=>'matc_id', 
-                            'displayOnly'=>true,
-                            'valueColOptions'=>['style'=>'width:0%'],
-                            'labelColOptions'=>['style'=>'width:5%'],
-                        ],
+  [
+      'columns' => [
+          [
+            'attribute'=>'matc_solicitante', 
+            'displayOnly'=>true,
+            'value'=> $model->colaborador->usuario->usu_nomeusuario,
+            'valueColOptions'=>['style'=>'width:30%'],
+            'labelColOptions'=>['style'=>'width:12%'],
+          ],
 
-                        [
-                            'attribute'=>'matc_data', 
-                            'displayOnly'=>true,
-                            'format'=>['date','php:d/m/Y'],
-                            'valueColOptions'=>['style'=>'width:0%'],
-                        ],
+          [
+            'attribute'=>'matc_unidade', 
+            'displayOnly'=>true,
+            'value'=> $model->unidade->uni_nomeabreviado,
+            'labelColOptions'=>['style'=>'width:12%'],
+          ],
+      ],
+  ],
 
-                        [
-                            'attribute'=>'situacao_id', 
-                            'value'=>$model->situacao->sitmat_descricao,
-                            'valueColOptions'=>['style'=>'width:20%'],
-                        ],
-                    ],
-                ],
+  [
+      'columns' => [
 
-                [
-                    'columns' => [
-                        [
-                            'attribute'=>'matc_solicitante', 
-                            'displayOnly'=>true,
-                            'value'=> $model->colaborador->usuario->usu_nomeusuario,
-                            'valueColOptions'=>['style'=>'width:0%'],
-                            'labelColOptions'=>['style'=>'width:10%'],
-                        ],
+          [
+            'attribute'=>'matc_segmento', 
+            'displayOnly'=>true,
+            'value'=> $model->segmento->seg_descricao,
+            'valueColOptions'=>['style'=>'width:30%'],
+            'labelColOptions'=>['style'=>'width:12%'],
+          ],
 
-                        [
-                            'attribute'=>'matc_unidade', 
-                            'displayOnly'=>true,
-                            'value'=> $model->unidade->uni_nomeabreviado,
-                            'valueColOptions'=>['style'=>'width:0%'],
-                            'labelColOptions'=>['style'=>'width:10%'],
-                        ],
+          [
+            'attribute'=>'matc_tipoacao', 
+            'displayOnly'=>true,
+            'value'=> $model->tipo->tip_descricao,
+            'labelColOptions'=>['style'=>'width:12%'],
+          ],
+      ],
+  ],
 
-                    ],
-                ],
+  [
+      'columns' => [
 
-                [
-                    'columns' => [
+          [
+            'attribute'=>'matc_curso', 
+            'displayOnly'=>true,
+            'valueColOptions'=>['style'=>'width:30%'],
+            'labelColOptions'=>['style'=>'width:12%'],
+          ],
 
-                        [
-                            'attribute'=>'matc_segmento', 
-                            'displayOnly'=>true,
-                            'value'=> $model->segmento->seg_descricao,
-                            'valueColOptions'=>['style'=>'width:20%'],
-                            'labelColOptions'=>['style'=>'width:0%'],
-                        ],
-
-                        [
-                            'attribute'=>'matc_tipoacao', 
-                            'displayOnly'=>true,
-                            'value'=> $model->tipo->tip_descricao,
-                            'valueColOptions'=>['style'=>'width:20%'],
-                            'labelColOptions'=>['style'=>'width:12%'],
-                        ],
-
-                        [
-                            'attribute'=>'matc_curso', 
-                            'displayOnly'=>true,
-                            'valueColOptions'=>['style'=>'width:30%'],
-                            'labelColOptions'=>['style'=>'width:0%'],
-                        ],
-
-                        [
-                            'attribute'=>'matc_centrocusto', 
-                            'displayOnly'=>true,
-                            'valueColOptions'=>['style'=>'width:0%'],
-                            'labelColOptions'=>['style'=>'width:15%'],
-                        ],
-
-                    ],
-                ],
-
-            ];
-
+          [
+            'attribute'=>'matc_centrocusto', 
+            'displayOnly'=>true,
+            'labelColOptions'=>['style'=>'width:12%'],
+          ],
+      ],
+  ],
+];
     echo DetailView::widget([
         'model'=>$model,
         'condensed'=>true,
@@ -118,8 +90,7 @@ $attributes = [
         'attributes'=> $attributes,
     ]);
 
-    ?>
-
+?>
                 <!-- SEÇÃO 2 INFORMAÇÕES DAS IMPRESSÕES -->
 
   <table class="table table-condensed table-hover">
@@ -166,7 +137,7 @@ $attributes = [
         <td><?php echo $item_color; ?></td>
         <td><?php echo $item_qteTotal; ?></td>
         <td><?php echo $item_observacao; ?></td>
-        <td valign="middle"><a target="_blank" href="http://localhost/aux_planejamento/web/uploads/repositorio/<?php echo $item_repositorio; ?>/<?php echo $item_arquivo; ?>" "><?php echo $item_arquivo; ?></a>
+        <td valign="middle"><a target="_blank" data-pjax="0" href="<?='http://localhost/aux_planejamento/web/uploads/repositorio/'.$item_repositorio.'/'.$item_arquivo; ?>"><?php echo $item_arquivo; ?></a>
       </tr>
 
     <?php } ?>

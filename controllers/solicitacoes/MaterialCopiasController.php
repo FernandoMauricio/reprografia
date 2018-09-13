@@ -48,8 +48,10 @@ class MaterialCopiasController extends Controller
      */
     public function actionIndex()
     {
+        $this->layout = 'main-full';
         $searchModel = new MaterialCopiasSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider->sort = ['defaultOrder' => ['matc_id'=>SORT_DESC]];
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -282,42 +284,11 @@ class MaterialCopiasController extends Controller
                     }
                     if ($flag) {
                         $transaction->commit();
-
+                        //-------atualiza a situação pra aprovado pela gerência do setor
+                        Yii::$app->db->createCommand('UPDATE `materialcopias_matc` SET `situacao_id` = 1, `matc_autorizadoGer` = NULL, `matc_ResponsavelGer` = NULL, `matc_dataGer` = NULL, `matc_autorizado` = NULL, `matc_ResponsavelAut` = NULL, `matc_dataAut` = NULL WHERE `matc_id` = '.$model->matc_id.'')->execute();
+                        //ENVIANDO EMAIL PARA O GERENTE DO SETOR INFORMANDO SOBRE A SOLICITAÇÃO PENDENTE DE AUTORIZAÇÃO
+                        Yii::$app->runAction('email/enviar-email-autorizacao-gerencia', ['id' => $model->matc_id]);
                         Yii::$app->session->setFlash('success', '<strong>SUCESSO! </strong> Solicitação de Cópia atualizada!</strong>');
-
-            //-------atualiza a situação pra aprovado pela gerência do setor
-            Yii::$app->db->createCommand('UPDATE `materialcopias_matc` SET `situacao_id` = 1, `matc_autorizadoGer` = NULL, `matc_ResponsavelGer` = NULL, `matc_dataGer` = NULL, `matc_autorizado` = NULL, `matc_ResponsavelAut` = NULL, `matc_dataAut` = NULL WHERE `matc_id` = '.$model->matc_id.'')
-            ->execute();
-
-         //ENVIANDO EMAIL PARA O GERENTE INFORMANDO SOBRE A SOLICITAÇÃO PENDENTE DE AUTORIZAÇÃO
-          $sql_email = "SELECT emus_email FROM emailusuario_emus, colaborador_col, responsavelambiente_ream WHERE ream_codunidade = '".$model->matc_unidade."' AND ream_codcolaborador = col_codcolaborador AND col_codusuario = emus_codusuario";
-              
-              $email_solicitacao = Emailusuario::findBySql($sql_email)->all(); 
-              foreach ($email_solicitacao as $email)
-                  {
-                    $email_usuario  = $email["emus_email"];
-
-                                    Yii::$app->mailer->compose()
-                                    ->setFrom(['dep.suporte@am.senac.br' => 'DEP - INFORMA'])
-                                    ->setTo($email_usuario)
-                                    ->setSubject('Solicitação de Cópia - ' . $model->matc_id)
-                                    ->setTextBody('Existe uma solicitação de Cópia de código: '.$model->matc_id.' - Pendente de Autorização pelo Setor')
-                                    ->setHtmlBody('<p>Prezado(a) Senhor(a),</p>
-
-                                    <p>Existe uma Solicita&ccedil;&atilde;o de Cópia de c&oacute;digo: <strong><span style="color:#F7941D">'.$model->matc_id.' </span></strong>- <strong><span style="color:#F7941D">Pendente de Autorização pelo Setor</span></strong></p>
-
-                                    <p><strong>Situação</strong>: '.$model->situacao->sitmat_descricao.'</p>
-
-                                    <p><strong>Total de Despesa</strong>: R$ ' .number_format($model->matc_totalGeral, 2, ',', '.').'</p>
-
-                                    <p>Por favor, n&atilde;o responda esse e-mail. Acesse https://portalsenac.am.senac.br para ANALISAR a solicita&ccedil;&atilde;o de Cópia.</p>
-
-                                    <p>Atenciosamente,</p>
-
-                                    <p>Divisão de Educação Profissional -&nbsp;DEP</p>
-                                    ')
-                                    ->send();
-                                } 
                         return $this->redirect(['view', 'id' => $model->matc_id]);
                     }
                 } catch (Exception $e) {

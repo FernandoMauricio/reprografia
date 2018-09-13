@@ -11,17 +11,11 @@ use yii\widgets\Pjax;
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\solicitacoes\MaterialCopiasAprovadasSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
-
-//Pega as mensagens
-foreach (Yii::$app->session->getAllFlashes() as $key => $message) {
-echo '<div class="alert alert-'.$key.'">'.$message.'</div>';
-}
-
 $this->title = 'Solicitações de Cópias Aprovadas';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="material-copias-aprovadas-index">
 
+<div class="material-copias-aprovadas-index">
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 

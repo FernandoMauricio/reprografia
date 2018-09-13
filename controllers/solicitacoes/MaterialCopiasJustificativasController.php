@@ -41,19 +41,22 @@ class MaterialCopiasJustificativasController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new MaterialCopiasJustificativasSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+      $this->layout = 'main-full';
+      $searchModel = new MaterialCopiasJustificativasSearch();
+      $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+      $dataProvider->sort = ['defaultOrder' => ['matc_id'=>SORT_DESC]];
 
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
+      return $this->render('index', [
+          'searchModel' => $searchModel,
+          'dataProvider' => $dataProvider,
+      ]);
     }
 
     public function actionObservacoes()
     {
         $searchModel = new MaterialCopiasJustificativasSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider->sort = ['defaultOrder' => ['matc_id'=>SORT_DESC]];
 
         return $this->render('observacoes', [
             'searchModel' => $searchModel,

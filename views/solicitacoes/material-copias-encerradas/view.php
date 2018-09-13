@@ -11,15 +11,9 @@ use app\models\solicitacoes\MaterialCopiasItens;
 $this->title = $model->matc_id;
 $this->params['breadcrumbs'][] = ['label' => 'Solicitações de Cópias', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
-
-//Pega as mensagens
-foreach (Yii::$app->session->getAllFlashes() as $key => $message) {
-echo '<div class="alert alert-'.$key.'">'.$message.'</div>';
-}
-
 ?>
-<div class="material-copias-view">
 
+<div class="material-copias-view">
 <div class="panel panel-primary">
   <div class="panel-heading">
     <h3 class="panel-title"><i class="glyphicon glyphicon-book"></i> DETALHES DA SOLICITAÇÃO DE CÓPIA</h3>

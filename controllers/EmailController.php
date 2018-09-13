@@ -61,6 +61,39 @@ class EmailController extends Controller
         }
     }
 
+    public function actionEnviarEmailReprovacaoGerencia($id)
+    {
+        $model = $this->findModel($id);
+        //ENVIANDO EMAIL PARA O USUÁRIO SOLICITANTE INFORMANDO SOBRE A REPROVAÇÃO....
+        $sql_email = "SELECT DISTINCT emus_email FROM `db_base`.emailusuario_emus, `db_base`.colaborador_col WHERE col_codusuario = emus_codusuario AND col_codcolaborador = '".$model->matc_solicitante."'";
+        $email_solicitacao = Emailusuario::findBySql($sql_email)->all(); 
+        foreach ($email_solicitacao as $email) {
+            Yii::$app->mailer->compose()
+            ->setFrom(['dep.suporte@am.senac.br' => 'DEP - INFORMA'])
+            ->setTo($email["emus_email"])
+            ->setSubject('Reprovada! - Solicitação de Cópia '.$model->matc_id.'')
+            ->setTextBody('Por favor, verique a situação da solicitação de cópia de código: '.$model->matc_id.' com status de '.$model->situacao->sitmat_descricao.' ')
+            ->setHtmlBody('<p>Prezado(a), Senhor(a)</p>
+
+            <p>A solicitação de cópia de código <span style="color:rgb(247, 148, 29)"><strong>'.$model->matc_id.'</strong></span> foi atualizada:</p>
+
+            <p><strong>Situação</strong>: '.$model->situacao->sitmat_descricao.'</p>
+
+            <p><strong>Total de Despesa</strong>: R$ ' .number_format($model->matc_totalGeral, 2, ',', '.').'</p>
+
+            <p><strong>Responsável pela Reprovação do Setor</strong>: '.$model->matc_ResponsavelGer.'</p>
+
+            <p><strong>Data/Hora da Reprovação do Setor</strong>: '.date('d/m/Y H:i', strtotime($model->matc_dataGer)).'</p>
+
+            <p>Por favor, não responda esse e-mail. Acesse https://portalsenac.am.senac.br</p>
+
+            <p>Atenciosamente,</p>
+
+            <p>Divisão de Educação Profissional - DEP</p>')
+            ->send();
+        }
+    }
+
     public function actionEnviarEmailGabineteTecnico($id)
     {
         $model = $this->findModel($id);
@@ -95,44 +128,75 @@ class EmailController extends Controller
         }
     }
 
-    public function actionEnviarEmailSuporteFinalizadoPeloTecnico($id)
+    public function actionEnviarEmailAprovacaoGabineteTecnico($id)
+    {
+        $model = $this->findModel($id);
+        //ENVIANDO EMAIL PARA O USUÁRIO SOLICITANTE INFORMANDO SOBRE A APROVAÇÃO....
+        $sql_email = "SELECT DISTINCT emus_email FROM `db_base`.emailusuario_emus, `db_base`.colaborador_col WHERE col_codusuario = emus_codusuario AND col_codcolaborador = '".$model->matc_solicitante."'";
+          
+        $email_solicitacao = Emailusuario::findBySql($sql_email)->all(); 
+        foreach ($email_solicitacao as $email)
+        {
+            Yii::$app->mailer->compose()
+            ->setFrom(['dep.suporte@am.senac.br' => 'DEP - INFORMA'])
+            ->setTo($email["emus_email"])
+            ->setSubject('Aprovada! - Solicitação de Cópia '.$model->matc_id.'')
+            ->setTextBody('Por favor, verique a situação da solicitação de cópia de código: '.$model->matc_id.' com status de '.$model->situacao->sitmat_descricao.' ')
+            ->setHtmlBody('<p>Prezado(a), Senhor(a)</p>
+
+            <p>A solicitação de cópia de código <span style="color:rgb(247, 148, 29)"><strong>'.$model->matc_id.'</strong></span> foi atualizada:</p>
+
+            <p><strong>Situação</strong>: '.$model->situacao->sitmat_descricao.'</p>
+
+            <p><strong>Total de Despesa</strong>: R$ ' .number_format($model->matc_totalGeral, 2, ',', '.').'</p>
+
+            <p><strong>Responsável pela Aprovação</strong>: '.$model->matc_ResponsavelAut.'</p>
+
+            <p><strong>Data/Hora da Autorização</strong>: '.date('d/m/Y H:i', strtotime($model->matc_dataAut)).'</p>
+
+            <p>Por favor, não responda esse e-mail. Acesse https://portalsenac.am.senac.br</p>
+
+            <p>Atenciosamente,</p>
+
+            <p>Divisão de Educação Profissional - DEP</p>')
+            ->send();
+        } 
+    }
+
+    public function actionEnviarEmailReprografia($id)
     {
         $model = $this->findModel($id);
 
-        $emailSolicitante = Email::find()
-        ->select('emus_email')
-        ->joinWith('usuario')
-        ->where(['usu_codusuario' => $model->solic_usuario_solicitante])
-        ->one();
+        //ENVIANDO EMAIL PARA OS RESPONSÁVEIS DA REPROGRAFIA SOBRE A APROVAÇÃO DA REQUISIÇÃO
+        //-- 12 - GERENCIA DE MANUTENÇÃO E TRANSPORTE - GMT // 21 - REPROGRAFIA
+        $sql_emailRepro = "SELECT DISTINCT emus_email FROM emailusuario_emus,colaborador_col,responsavelambiente_ream,responsaveldepartamento_rede WHERE ream_codunidade = '12' AND rede_coddepartamento = '21' AND rede_codcolaborador = col_codcolaborador AND col_codusuario = emus_codusuario";
+        $email_solicitacaoRepro = Emailusuario::findBySql($sql_emailRepro)->all(); 
+        foreach ($email_solicitacaoRepro as $emailRepro)
+        {
+            Yii::$app->mailer->compose()
+            ->setFrom(['dep.suporte@am.senac.br' => 'DEP - INFORMA'])
+            ->setTo($emailRepro["emus_email"])
+            ->setSubject('Solicitação de Cópia - ' . $model->matc_id)
+            ->setTextBody('Existe uma solicitação de Cópia de código: '.$model->matc_id.' - Pendente de Encaminhamento')
+            ->setHtmlBody('<p>Prezado(a), Senhor(a)</p>
+            <p>A solicitação de cópia de código <span style="color:rgb(247, 148, 29)"><strong>'.$model->matc_id.'</strong></span> foi atualizada:</p>
 
-        $header = '
-        <p><b>MENSAGEM AUTOMÁTICA. POR FAVOR, NÃO RESPONDA ESSE E-MAIL.</b><br>
-        Para isso, utilize o módulo de suporte do Portal Senac para responder este e-mail.<br> _<em><i></i></em>__<em>_</em>____________________________________________________________________________________________________</p>
-        ';
-        $titulo = '<h1>Suporte #'.$model->solic_id.': (<b style="color: #d35400"">'.$model->situacao->sit_descricao.'</b>) - '.$model->solic_titulo.'</h1>';
+            <p><strong>Situação</strong>: '.$model->situacao->sitmat_descricao.'</p>
 
-        $alteracoes = '
-            <ul style="line-height:1.4em">
-                <li><b>Situação <span style="color: #d35400">Alterado para: </b></span> '.$model->situacao->sit_descricao.'</li>
-            </ul>
-        ';
+            <p><strong>Total de Despesa</strong>: R$ ' .number_format($model->matc_totalGeral, 2, ',', '.').'</p>
 
-        $footer = '<p style="font-size:0.8em; font-style:italic"><b>ESTA É UMA MENSAGEM AUTOMÁTICA. POR FAVOR, NÃO RESPONDA ESSE E-MAIL.</b><br>
-                Você recebeu este e-mail porque você está inscrito na lista de e-mails do Portal Senac.</p></p>';
+            <p><strong>Responsável pela Aprovação</strong>: '.$model->matc_ResponsavelAut.'</p>
 
-        Yii::$app->mailer->compose()
-        ->setFrom(['sistema.gic@am.senac.br' => 'Suporte GTI'])
-        ->setTo($emailSolicitante->emus_email)
-        ->setSubject('Suporte #'.$model->solic_id.': ('.$model->situacao->sit_descricao.') - '.$model->solic_titulo.'')
-        ->setTextBody('MENSAGEM AUTOMÁTICA. POR FAVOR, NÃO RESPONDA ESSE E-MAIL')
-        ->setHtmlBody('
-            '.$header.'
-            '.$titulo.'
-            '.$alteracoes.'
-            <hr style="width:100%; height:1px; background:#ccc; border:0; margin:1.2em 0">
-            '.$footer.'
-        ')
-        ->send();
+            <p><strong>Data/Hora da Autorização</strong>: '.date('d/m/Y H:i', strtotime($model->matc_dataAut)).'</p>
+
+            <p>Por favor, não responda esse e-mail. Acesse https://portalsenac.am.senac.br</p>
+
+            <p>Atenciosamente,</p>
+
+            <p>Divisão de Educação Profissional - DEP</p>')
+               ->send();
+        } 
+
     }
 
     /**

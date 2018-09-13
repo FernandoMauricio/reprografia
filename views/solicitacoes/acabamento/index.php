@@ -11,17 +11,8 @@ use yii\widgets\Pjax;
 $this->title = 'Tipos de Acabamento';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+
 <div class="acabamento-index">
-
-<?php
-
-//Pega as mensagens
-foreach (Yii::$app->session->getAllFlashes() as $key => $message) {
-echo '<div class="alert alert-'.$key.'">'.$message.'</div>';
-}
-
-?>
-
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 

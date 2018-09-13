@@ -14,12 +14,6 @@ use app\models\cadastros\Segmento;
 /* @var $this yii\web\View */
 /* @var $model app\models\solicitacoes\MaterialCopias */
 /* @var $form yii\widgets\ActiveForm */
-
-//Pega as mensagens
-foreach (Yii::$app->session->getAllFlashes() as $key => $message) {
-echo '<div class="alert alert-'.$key.'">'.$message.'</div>';
-}
-
 ?>
 
 <div class="material-copias-form">

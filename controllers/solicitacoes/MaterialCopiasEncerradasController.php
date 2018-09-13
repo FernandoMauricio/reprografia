@@ -38,8 +38,10 @@ class MaterialCopiasEncerradasController extends Controller
      */
     public function actionIndex()
     {
+        $this->layout = 'main-full';
         $searchModel = new MaterialCopiasEncerradasSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider->sort = ['defaultOrder' => ['matc_id'=>SORT_DESC]];
 
         return $this->render('index', [
             'searchModel' => $searchModel,

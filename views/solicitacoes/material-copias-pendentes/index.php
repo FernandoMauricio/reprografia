@@ -10,16 +10,10 @@ use yii\widgets\Pjax;
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\solicitacoes\MaterialCopiasPendentesSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
-
-//Pega as mensagens
-foreach (Yii::$app->session->getAllFlashes() as $key => $message) {
-echo '<div class="alert alert-'.$key.'">'.$message.'</div>';
-}
-
 $this->title = 'Solicitações de Cópias Pendentes';
 $this->params['breadcrumbs'][] = $this->title;
-
 ?>
+
 <div class="material-copias-pendentes-index">
 
    <h1><?= Html::encode($this->title) ?></h1>
