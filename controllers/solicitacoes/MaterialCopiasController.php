@@ -59,6 +59,43 @@ class MaterialCopiasController extends Controller
         ]);
     }
 
+    public function actionGerarRequisicao()
+    {
+        $model = new MaterialCopias();
+ 
+        if ($model->load(Yii::$app->request->post())) {
+                return $this->redirect(['create', 'matc_tipo' => $model->matc_tipo]);
+            }
+            return $this->renderAjax('gerar-requisicao', [
+                'model' => $model,
+            ]);
+    }
+
+    public function actionEncaminharterceirizada($id)
+    {
+        $session = Yii::$app->session;
+        $model = $this->findModel($id);
+
+        $model->matc_dataRepro = date('Y-m-d H:i:s');
+        $model->matc_ResponsavelRepro = $session['sess_nomeusuario'];
+
+         //-------atualiza a situação pra encaminhado a terceirizada
+         Yii::$app->db->createCommand('UPDATE `materialcopias_matc` SET `situacao_id` = 4, `matc_encaminhadoRepro` = 1, `matc_ResponsavelRepro` = "'.$model->matc_ResponsavelRepro.'" , `matc_dataRepro` = "'.$model->matc_dataRepro.'" WHERE `matc_id` = '.$model->matc_id.'')
+         ->execute();
+
+        $model->matc_totalGeral = $model->matc_totalValorMono + $model->matc_totalValorColor;
+        $model->situacao_id = 4;
+        
+        if($model->situacao_id == 4){
+            //ENVIANDO EMAIL PARA O USUÁRIO INFORMANDO SOBRE O ENCAMINHAMENTO....
+            Yii::$app->runAction('email/enviar-email-encaminhamento-reprografia', ['id' => $model->matc_id]);
+        }
+
+        Yii::$app->session->setFlash('success', '<strong>SUCESSO! </strong> Solicitação de Cópia de código:  <strong> '.$model->matc_id.'</strong> '.$model->situacao->sitmat_descricao.'!');
+     
+        return $this->redirect(['index']);
+    }
+    
     /**
      * Displays a single MaterialCopias model.
      * @param integer $id

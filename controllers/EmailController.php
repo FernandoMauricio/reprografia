@@ -163,6 +163,41 @@ class EmailController extends Controller
         } 
     }
 
+    public function actionEnviarEmailReprovacaoGabineteTecnico($id)
+    {
+        $model = $this->findModel($id);
+        //ENVIANDO EMAIL PARA O USUÁRIO SOLICITANTE INFORMANDO SOBRE A REPROVAÇÃO....
+        $sql_email = "SELECT DISTINCT emus_email FROM `db_base`.emailusuario_emus, `db_base`.colaborador_col WHERE col_codusuario = emus_codusuario AND col_codcolaborador = '".$model->materialcopias->matc_solicitante."'";
+        $email_solicitacao = Emailusuario::findBySql($sql_email)->all(); 
+        foreach ($email_solicitacao as $email)
+        {
+            Yii::$app->mailer->compose()
+            ->setFrom(['dep.suporte@am.senac.br' => 'DEP - INFORMA'])
+            ->setTo($email["emus_email"])
+            ->setSubject('Reprovada! - Solicitação de Cópia '.$model->materialcopias->matc_id.'')
+            ->setTextBody('Por favor, verique a situação da solicitação de cópia de código: '.$model->materialcopias->matc_id.' com status de '.$model->materialcopias->situacao->sitmat_descricao.' ')
+            ->setHtmlBody('<p>Prezado(a), Senhor(a)</p>
+
+            <p>A solicitação de cópia de código <span style="color:rgb(247, 148, 29)"><strong>'.$model->materialcopias->matc_id.'</strong></span> foi atualizada:</p>
+
+            <p><strong>Situação</strong>: '.$model->materialcopias->situacao->sitmat_descricao.'</p>
+
+            <p><strong>Total de Despesa</strong>: R$ ' .number_format($model->materialcopias->matc_totalGeral, 2, ',', '.').'</p>
+
+            <p><strong>Responsável pela Reprovação</strong>: '.$model->materialcopias->matc_ResponsavelAut.'</p>
+
+            <p><strong>Data/Hora da Reprovação</strong>: '.date('d/m/Y H:i', strtotime($model->materialcopias->matc_dataAut)).'</p>
+
+            <p><strong>Motivo da Reprovação</strong>: '.$model->descricao.'</p>
+
+            <p>Por favor, não responda esse e-mail. Acesse https://portalsenac.am.senac.br</p>
+
+            <p>Atenciosamente,</p>
+
+            <p>Divisão de Educação Profissional - DEP</p>')
+            ->send();
+        }
+    }
     public function actionEnviarEmailReprografia($id)
     {
         $model = $this->findModel($id);

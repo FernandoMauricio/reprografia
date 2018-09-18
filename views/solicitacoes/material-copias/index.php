@@ -7,6 +7,8 @@ use app\models\cadastros\Centrocusto;
 use kartik\widgets\Select2;
 use yii\helpers\ArrayHelper;
 use yii\widgets\Pjax;
+use yii\bootstrap\Modal;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\solicitacoes\MaterialCopiasSearch */
@@ -24,8 +26,20 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Nova Solicitação', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::button('Nova Solicitação', ['value'=> Url::to(['gerar-requisicao']), 'class' => 'btn btn-success', 'id'=>'modalButton']) ?>
     </p>
+
+<?php
+    Modal::begin([
+        'options' => ['tabindex' => false ], // important for Select2 to work properly
+        'clientOptions' => ['backdrop' => 'static', 'keyboard' => true],
+        'header' => '<h4>Nova Solicitação de Cópias</h4>',
+        'id' => 'modal',
+        'size' => 'modal-lg',
+        ]);
+    echo "<div id='modalContent'></div>";
+    Modal::end();
+?>
 
 <?php
 
