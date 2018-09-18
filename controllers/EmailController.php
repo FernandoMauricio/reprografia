@@ -196,7 +196,44 @@ class EmailController extends Controller
             <p>Divisão de Educação Profissional - DEP</p>')
                ->send();
         } 
+    }
 
+    public function actionEnviarEmailEncaminhamentoReprografia($id)
+    {
+        $model = $this->findModel($id);
+        //ENVIANDO EMAIL PARA O USUÁRIO INFORMANDO SOBRE O ENCAMINHAMENTO....
+        $sql_email = "SELECT DISTINCT emus_email FROM `db_base`.emailusuario_emus, `db_base`.colaborador_col WHERE col_codusuario = emus_codusuario AND col_codcolaborador = '".$model->matc_solicitante."'";
+        $email_solicitacao = Emailusuario::findBySql($sql_email)->all(); 
+        foreach ($email_solicitacao as $email) 
+        {
+            Yii::$app->mailer->compose()
+            ->setFrom(['reprografia.suporte@am.senac.br' => 'REPROGRAFIA - INFORMA'])
+            ->setTo($email["emus_email"])
+            ->setSubject(''.$model->situacao->sitmat_descricao.'! - Solicitação de Cópia '.$model->matc_id.'')
+            ->setTextBody('Por favor, verique a situação da solicitação de cópia de código: '.$model->matc_id.' com status de '.$model->situacao->sitmat_descricao.' ')
+            ->setHtmlBody('<p>Prezado(a), Senhor(a)</p>
+
+            <p>A solicitação de cópia de código <span style="color:rgb(247, 148, 29)"><strong>'.$model->matc_id.'</strong></span> foi atualizada:</p>
+
+            <p><strong>Situação</strong>: '.$model->situacao->sitmat_descricao.'</p>
+
+            <p><strong>Total de Despesa</strong>: R$ ' .number_format($model->matc_totalGeral, 2, ',', '.').'</p>
+
+            <p><strong>Responsável pela Aprovação</strong>: '.$model->matc_ResponsavelAut.'</p>
+
+            <p><strong>Data/Hora da Autorização</strong>: '.date('d/m/Y H:i', strtotime($model->matc_dataAut)).'</p>
+
+            <p><strong>Responsável pelo Encaminhamento</strong>: '.$model->matc_ResponsavelRepro.'</p>
+
+            <p><strong>Data/Hora do Encaminhamento</strong>: '.date('d/m/Y H:i', strtotime($model->matc_dataRepro)).'</p>
+
+            <p>Por favor, não responda esse e-mail. Acesse https://portalsenac.am.senac.br</p>
+
+            <p>Atenciosamente,</p>
+
+            <p>Reprografia - SENAC AM</p>')
+            ->send();
+        } 
     }
 
     /**

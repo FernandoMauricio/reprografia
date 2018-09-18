@@ -44,7 +44,7 @@ $gridColumns = [
 
     [
         'attribute'=>'matc_centrocusto', 
-        'width'=>'5%',
+        'width'=>'3%',
         'value'=>function ($model, $key, $index, $widget) { 
             return $model->matc_centrocusto;
         },
@@ -59,12 +59,12 @@ $gridColumns = [
     [
       'attribute'=>'matc_unidade',
       'value'=> 'unidade.uni_nomeabreviado',
-      'width'=>'20%'
+      'width'=>'25%'
     ],
 
     [
         'attribute'=>'matc_curso', 
-        'width'=>'30%',
+        'width'=>'25%',
     ],
 
     [
@@ -84,14 +84,14 @@ $gridColumns = [
 
     ['class' => 'yii\grid\ActionColumn',
     'template' => '{encaminharterceirizada} {producaointerna}',
-    'options' => ['width' => '25%'],
+    'options' => ['width' => '15%'],
     'buttons' => [
 
     //ENCAMINHADO À TERCEIRIZADA
     'encaminharterceirizada' => function ($url, $model) {
         return Html::a('<span class="glyphicon glyphicon-share"></span> Terceirizada', $url, [
                     'class' => 'btn btn-warning btn-xs',
-                    'title' => Yii::t('app', 'Encaminhado à Terceirizada'),
+                    'title' => Yii::t('app', 'Encaminhar à Terceirizada'),
                     'data'  => [
                         'confirm' => 'Você tem CERTEZA que deseja ENCAMINHAR À TERCEIRIZADA?',
                         'method' => 'post',

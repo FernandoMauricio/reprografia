@@ -54,64 +54,26 @@ class MaterialCopiasAprovadasController extends Controller
 	public function actionEncaminharterceirizada($id)
 	{
 	    $session = Yii::$app->session;
-
 	    $model = $this->findModel($id);
 
-	    $model->matc_dataRepro     = date('Y-m-d H:i:s');
+	    $model->matc_dataRepro = date('Y-m-d H:i:s');
 	    $model->matc_ResponsavelRepro = $session['sess_nomeusuario'];
 
-	        //-------atualiza a situação pra encaminhado a terceirizada
-	        Yii::$app->db->createCommand('UPDATE `materialcopias_matc` SET `situacao_id` = 4, `matc_encaminhadoRepro` = 1, `matc_ResponsavelRepro` = "'.$model->matc_ResponsavelRepro.'" , `matc_dataRepro` = "'.$model->matc_dataRepro.'" WHERE `matc_id` = '.$model->matc_id.'')
-	        ->execute();
+	   	 //-------atualiza a situação pra encaminhado a terceirizada
+	   	 Yii::$app->db->createCommand('UPDATE `materialcopias_matc` SET `situacao_id` = 4, `matc_encaminhadoRepro` = 1, `matc_ResponsavelRepro` = "'.$model->matc_ResponsavelRepro.'" , `matc_dataRepro` = "'.$model->matc_dataRepro.'" WHERE `matc_id` = '.$model->matc_id.'')
+	   	 ->execute();
 
-	        $model->matc_totalGeral = $model->matc_totalValorMono + $model->matc_totalValorColor;
+	    $model->matc_totalGeral = $model->matc_totalValorMono + $model->matc_totalValorColor;
+	    $model->situacao_id = 4;
+	    
+	    if($model->situacao_id == 4){
+	        //ENVIANDO EMAIL PARA O USUÁRIO INFORMANDO SOBRE O ENCAMINHAMENTO....
+			Yii::$app->runAction('email/enviar-email-encaminhamento-reprografia', ['id' => $model->matc_id]);
+	    }
 
-
-	     $model->situacao_id = 4;
-	     if($model->situacao_id == 4){
-
-	         //ENVIANDO EMAIL PARA O USUÁRIO INFORMANDO SOBRE UMA NOVA MENSAGEM....
-	      $sql_email = "SELECT DISTINCT emus_email FROM `db_base`.emailusuario_emus, `db_base`.colaborador_col WHERE col_codusuario = emus_codusuario AND col_codcolaborador = '".$model->matc_solicitante."'";
-	      
-	      $email_solicitacao = Emailusuario::findBySql($sql_email)->all(); 
-	      foreach ($email_solicitacao as $email)
-	          {
-	            $email_usuario  = $email["emus_email"];
-
-	                            Yii::$app->mailer->compose()
-	                            ->setFrom(['reprografia.suporte@am.senac.br' => 'REPROGRAFIA - INFORMA'])
-	                            ->setTo($email_usuario)
-	                            ->setSubject(''.$model->situacao->sitmat_descricao.'! - Solicitação de Cópia '.$model->matc_id.'')
-	                            ->setTextBody('Por favor, verique a situação da solicitação de cópia de código: '.$model->matc_id.' com status de '.$model->situacao->sitmat_descricao.' ')
-	                            ->setHtmlBody('<p>Prezado(a), Senhor(a)</p>
-
-	                            <p>A solicitação de cópia de código <span style="color:rgb(247, 148, 29)"><strong>'.$model->matc_id.'</strong></span> foi atualizada:</p>
-
-	                            <p><strong>Situação</strong>: '.$model->situacao->sitmat_descricao.'</p>
-
-	                            <p><strong>Total de Despesa</strong>: R$ ' .number_format($model->matc_totalGeral, 2, ',', '.').'</p>
-
-	                            <p><strong>Responsável pela Aprovação</strong>: '.$model->matc_ResponsavelAut.'</p>
-
-	                            <p><strong>Data/Hora da Autorização</strong>: '.date('d/m/Y H:i', strtotime($model->matc_dataAut)).'</p>
-
-	                            <p><strong>Responsável pelo Encaminhamento</strong>: '.$model->matc_ResponsavelRepro.'</p>
-
-	                            <p><strong>Data/Hora do Encaminhamento</strong>: '.date('d/m/Y H:i', strtotime($model->matc_dataRepro)).'</p>
-
-	                            <p>Por favor, não responda esse e-mail. Acesse https://portalsenac.am.senac.br</p>
-
-	                            <p>Atenciosamente,</p>
-
-	                            <p>Reprografia - SENAC AM</p>')
-	                            ->send();
-	               } 
-
-	           }
-
-	        Yii::$app->session->setFlash('success', '<strong>SUCESSO! </strong> Solicitação de Cópia de código:  <strong> '.$model->matc_id.'</strong> '.$model->situacao->sitmat_descricao.'!');
+	    Yii::$app->session->setFlash('success', '<strong>SUCESSO! </strong> Solicitação de Cópia de código:  <strong> '.$model->matc_id.'</strong> '.$model->situacao->sitmat_descricao.'!');
 	 
-	         return $this->redirect(['index']);
+	    return $this->redirect(['index']);
 	}
 
 	public function actionProducaointerna($id)
@@ -132,49 +94,12 @@ class MaterialCopiasAprovadasController extends Controller
 
 	     $model->situacao_id = 5;
 	     if($model->situacao_id == 5){
-
-	         //ENVIANDO EMAIL PARA O USUÁRIO INFORMANDO SOBRE UMA NOVA MENSAGEM....
-	      $sql_email = "SELECT DISTINCT emus_email FROM `db_base`.emailusuario_emus, `db_base`.colaborador_col WHERE col_codusuario = emus_codusuario AND col_codcolaborador = '".$model->matc_solicitante."'";
-	      
-	      $email_solicitacao = Emailusuario::findBySql($sql_email)->all(); 
-	      foreach ($email_solicitacao as $email)
-	          {
-	            $email_usuario  = $email["emus_email"];
-
-	                            Yii::$app->mailer->compose()
-	                            ->setFrom(['reprografia.suporte@am.senac.br' => 'REPROGRAFIA - INFORMA'])
-	                            ->setTo($email_usuario)
-	                            ->setSubject(''.$model->situacao->sitmat_descricao.'! - Solicitação de Cópia '.$model->matc_id.'')
-	                            ->setTextBody('Por favor, verique a situação da solicitação de cópia de código: '.$model->matc_id.' com status de '.$model->situacao->sitmat_descricao.' ')
-	                            ->setHtmlBody('<p>Prezado(a), Senhor(a)</p>
-
-	                            <p>A solicitação de cópia de código <span style="color:rgb(247, 148, 29)"><strong>'.$model->matc_id.'</strong></span> foi atualizada:</p>
-
-	                            <p><strong>Situação</strong>: '.$model->situacao->sitmat_descricao.'</p>
-
-	                            <p><strong>Total de Despesa</strong>: R$ ' .number_format($model->matc_totalGeral, 2, ',', '.').'</p>
-
-	                            <p><strong>Responsável pela Aprovação</strong>: '.$model->matc_ResponsavelAut.'</p>
-
-	                            <p><strong>Data/Hora da Autorização</strong>: '.date('d/m/Y H:i', strtotime($model->matc_dataAut)).'</p>
-	                            
-	                            <p><strong>Responsável pelo Encaminhamento</strong>: '.$model->matc_ResponsavelRepro.'</p>
-
-	                            <p><strong>Data/Hora do Encaminhamento</strong>: '.date('d/m/Y H:i', strtotime($model->matc_dataRepro)).'</p>
-
-	                            <p>Por favor, não responda esse e-mail. Acesse https://portalsenac.am.senac.br</p>
-
-	                            <p>Atenciosamente,</p>
-
-	                            <p>Reprografia - SENAC AM</p>')
-	                            ->send();
-	               } 
-
-	           }
-
-	        Yii::$app->session->setFlash('success', '<strong>SUCESSO! </strong> Solicitação de Cópia de código:  <strong> '.$model->matc_id.'</strong> '.$model->situacao->sitmat_descricao.'!');
+	        	//ENVIANDO EMAIL PARA O USUÁRIO INFORMANDO SOBRE O ENCAMINHAMENTO....
+				Yii::$app->runAction('email/enviar-email-encaminhamento-reprografia', ['id' => $model->matc_id]);
+	        }
+	    Yii::$app->session->setFlash('success', '<strong>SUCESSO! </strong> Solicitação de Cópia de código:  <strong> '.$model->matc_id.'</strong> '.$model->situacao->sitmat_descricao.'!');
 	 
-	         return $this->redirect(['index']);
+	    return $this->redirect(['index']);
 	}
 
 	public function actionFinalizar($id)
@@ -189,59 +114,21 @@ class MaterialCopiasAprovadasController extends Controller
 
 	    return $this->redirect(['index']);
 
-	            }else 
+	    }else 
 	        //-------atualiza a situação pra produção interna
 	        Yii::$app->db->createCommand('UPDATE `materialcopias_matc` SET `situacao_id` = 6 WHERE `matc_id` = '.$model->matc_id.'')
 	        ->execute();
 
-	        $model->matc_totalGeral = $model->matc_totalValorMono + $model->matc_totalValorColor;
+	    $model->matc_totalGeral = $model->matc_totalValorMono + $model->matc_totalValorColor;
 
-
-	     $model->situacao_id = 6;
-	     if($model->situacao_id == 6){
-
-	         //ENVIANDO EMAIL PARA O USUÁRIO INFORMANDO SOBRE UMA NOVA MENSAGEM....
-	      $sql_email = "SELECT DISTINCT emus_email FROM `db_base`.emailusuario_emus, `db_base`.colaborador_col WHERE col_codusuario = emus_codusuario AND col_codcolaborador = '".$model->matc_solicitante."'";
-	      
-	      $email_solicitacao = Emailusuario::findBySql($sql_email)->all(); 
-	      foreach ($email_solicitacao as $email)
-	          {
-	            $email_usuario  = $email["emus_email"];
-
-	                            Yii::$app->mailer->compose()
-	                            ->setFrom(['reprografia.suporte@am.senac.br' => 'REPROGRAFIA - INFORMA'])
-	                            ->setTo($email_usuario)
-	                            ->setSubject(''.$model->situacao->sitmat_descricao.'! - Solicitação de Cópia '.$model->matc_id.'')
-	                            ->setTextBody('Por favor, verique a situação da solicitação de cópia de código: '.$model->matc_id.' com status de '.$model->situacao->sitmat_descricao.' ')
-	                            ->setHtmlBody('<p>Prezado(a), Senhor(a)</p>
-
-	                            <p>A solicitação de cópia de código <span style="color:rgb(247, 148, 29)"><strong>'.$model->matc_id.'</strong></span> foi atualizada:</p>
-
-	                            <p><strong>Situação</strong>: '.$model->situacao->sitmat_descricao.'</p>
-
-	                            <p><strong>Total de Despesa</strong>: R$ ' .number_format($model->matc_totalGeral, 2, ',', '.').'</p>
-
-	                            <p><strong>Responsável pela Aprovação</strong>: '.$model->matc_ResponsavelAut.'</p>
-
-	                            <p><strong>Data/Hora da Autorização</strong>: '.date('d/m/Y H:i', strtotime($model->matc_dataAut)).'</p>
-	                            
-	                            <p><strong>Responsável pelo Encaminhamento</strong>: '.$model->matc_ResponsavelRepro.'</p>
-
-	                            <p><strong>Data/Hora do Encaminhamento</strong>: '.date('d/m/Y H:i', strtotime($model->matc_dataRepro)).'</p>
-
-	                            <p>Por favor, não responda esse e-mail. Acesse https://portalsenac.am.senac.br</p>
-
-	                            <p>Atenciosamente,</p>
-
-	                            <p>Reprografia - SENAC AM</p>')
-	                            ->send();
-	               } 
-
-	           }
-
-	        Yii::$app->session->setFlash('success', '<strong>SUCESSO! </strong> Solicitação de Cópia de código:  <strong> '.$model->matc_id.'</strong> '.$model->situacao->sitmat_descricao.'!');
+	    $model->situacao_id = 6;
+	    if($model->situacao_id == 6){
+	        //ENVIANDO EMAIL PARA O USUÁRIO INFORMANDO SOBRE O ENCAMINHAMENTO....
+			Yii::$app->runAction('email/enviar-email-encaminhamento-reprografia', ['id' => $model->matc_id]);
+	    }
+	    Yii::$app->session->setFlash('success', '<strong>SUCESSO! </strong> Solicitação de Cópia de código:  <strong> '.$model->matc_id.'</strong> '.$model->situacao->sitmat_descricao.'!');
 	 
-	         return $this->redirect(['index']);
+	    return $this->redirect(['index']);
 	}
 
 	/**

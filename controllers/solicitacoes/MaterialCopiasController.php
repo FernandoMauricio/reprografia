@@ -216,9 +216,7 @@ class MaterialCopiasController extends Controller
         $session = Yii::$app->session;
         $session->set('sess_materialcopias', $model->matc_id);
 
-        return $this->redirect(Yii::$app->request->BaseUrl . '/index.php?r=solicitacoes/material-copias-justificativas/observacoes', [
-             'model' => $model,
-         ]);
+        return $this->redirect(['solicitacoes/material-copias-justificativas/observacoes', 'id' => $model->matc_id]);
     }
 
     /**

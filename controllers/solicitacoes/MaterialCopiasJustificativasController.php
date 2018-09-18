@@ -52,16 +52,18 @@ class MaterialCopiasJustificativasController extends Controller
       ]);
     }
 
-    public function actionObservacoes()
+    public function actionObservacoes($id)
     {
-        $searchModel = new MaterialCopiasJustificativasSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        $dataProvider->sort = ['defaultOrder' => ['matc_id'=>SORT_DESC]];
+      $model = MaterialCopias::findOne($id);
+      $searchModel = new MaterialCopiasJustificativasSearch();
+      $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+      $dataProvider->sort = ['defaultOrder' => ['id'=>SORT_DESC]];
 
-        return $this->render('observacoes', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
+      return $this->render('observacoes', [
+          'searchModel' => $searchModel,
+          'dataProvider' => $dataProvider,
+          'model' => $model,
+      ]);
     }
 
     /**
@@ -83,7 +85,6 @@ class MaterialCopiasJustificativasController extends Controller
      */
     public function actionCreate($id)
     {
-      //$model = $this->findModelMateria($id);
       $session = Yii::$app->session;
 
       $model = new MaterialCopiasJustificativas();

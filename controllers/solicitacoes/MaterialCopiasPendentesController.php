@@ -52,7 +52,6 @@ class MaterialCopiasPendentesController extends Controller
         ]);
     }
 
-
     public function actionAprovar($id)
     {
         $session = Yii::$app->session;
@@ -81,7 +80,6 @@ class MaterialCopiasPendentesController extends Controller
 
         return $this->redirect(['index']);
     }
-
 
     public function actionReprovar($id) 
     {
