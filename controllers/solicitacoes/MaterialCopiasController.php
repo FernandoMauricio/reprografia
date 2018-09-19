@@ -6,6 +6,7 @@ use Yii;
 
 use app\models\MultipleModel as Model;
 use app\models\planos\Planodeacao;
+use app\models\cadastros\Segmento;
 use app\models\base\Emailusuario;
 use app\models\cadastros\Centrocusto;
 use app\models\repositorio\Repositorio;
@@ -159,15 +160,12 @@ class MaterialCopiasController extends Controller
     {
         $session = Yii::$app->session;
 
-        //conexão com os bancos
-        // $connection = Yii::$app->db;
-        // $connection = Yii::$app->db_rep;
-
         $model = new MaterialCopias();
         $modelsItens  = [new MaterialCopiasItens];
 
-        $acabamento = Acabamento::find()->all();
-
+        $acabamento  = Acabamento::find()->all();
+        $segmento    = Segmento::find()->all();
+        $centrocusto = Centrocusto::find()->where(['cen_codsituacao' => 1])->orderBy('cen_codano')->all();
         $repositorio = Repositorio::find()->where(['rep_status' => 1])->orderBy('rep_titulo')->all();
 
         $model->matc_data        = date('Y-m-d');
@@ -240,8 +238,10 @@ class MaterialCopiasController extends Controller
         } else {
             return $this->render('create', [
                 'model'       => $model,
+                'segmento'    => $segmento,
                 'repositorio' => $repositorio,
                 'acabamento'  => $acabamento,
+                'centrocusto' => $centrocusto,
                 'modelsItens' => (empty($modelsItens)) ? [new MaterialCopiasItens] : $modelsItens,
             ]);
         }
