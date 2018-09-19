@@ -5,6 +5,7 @@ use yii\helpers\ArrayHelper;
 use kartik\select2\Select2;
 use yii\helpers\Json;
 use yii\helpers\Url;
+use kartik\file\FileInput;
 use wbraganca\dynamicform\DynamicFormWidget;
 
 ?>
@@ -72,9 +73,9 @@ $this->registerJs($js);
               echo Html::activeHiddenInput($modelItens, "[{$i}]id");
           }
       ?>
-
+<div class="row">
       <?php $data_repositorio = ArrayHelper::map($repositorio, 'rep_titulo', 'rep_titulo'); ?>
-      <?= $_GET['matc_tipo'] == 'Apostilas' ? 
+      <?= $model->matc_tipo == 'Apostilas' ? 
          '<div class="col-md-6">'.
             $form->field($modelItens, "[{$i}]item_descricao")->widget(Select2::classname(), [
                'data' =>  $data_repositorio,
@@ -101,7 +102,7 @@ $this->registerJs($js);
          .'</div>';
       ?>
 
-      <div class="col-sm-2"><?= $form->field($modelItens, "[{$i}]item_qtoriginais")->textInput(['readonly'=> $_GET['matc_tipo'] == 'Apostilas' ? true : false]) ?></div>
+      <div class="col-sm-2"><?= $form->field($modelItens, "[{$i}]item_qtoriginais")->textInput(['readonly'=> $model->matc_tipo == 'Apostilas' ? true : false]) ?></div>
 
       <div class="col-sm-2">
          <?= $form->field($modelItens, "[{$i}]item_qtexemplares")->textInput([
@@ -337,7 +338,9 @@ $this->registerJs($js);
       </div>
 
       <div class="col-sm-2"><?= $form->field($modelItens, "[{$i}]item_qteCopias")->textInput(['readonly'=> true]) ?></div>
+   </div>
 
+   <div class="row">
       <div class="col-sm-4"><?= $form->field($modelItens, "[{$i}]item_mono")->textInput() ?></div>
 
       <div class="col-sm-4"><?= $form->field($modelItens, "[{$i}]item_color")->textInput() ?></div>
@@ -345,10 +348,27 @@ $this->registerJs($js);
       <div class="col-sm-4"><?= $form->field($modelItens, "[{$i}]item_qteTotal")->textInput(['readonly'=>true]) ?></div>
 
       <div class="col-sm-12"><?= $form->field($modelItens, "[{$i}]item_observacao")->textInput() ?></div>
+   </div>
 
-      <div class="col-sm-4"><?= $form->field($modelItens, "[{$i}]item_arquivo")->hiddenInput(['readonly'=> true])->label(false) ?></div>
+   <div class="row">
+      <?= $model->matc_tipo == 'Apostilas' ? 
+         '<div class="col-md-12">'.$form->field($modelItens, "[{$i}]item_arquivo")->hiddenInput(['readonly'=> true])->label(false).'</div>'
+         : 
+         '<div class="col-md-12">'.
 
-      <div class="col-sm-4"><?= $form->field($modelItens, "[{$i}]item_codrepositorio")->hiddenInput(['readonly'=> true])->label(false) ?></div>
+            $form->field($modelItens, "[{$i}]file")->widget(FileInput::classname(), [
+                'pluginOptions' => [
+                    'language' => 'pt-BR',
+                    'showRemove'=> false,
+                    'showUpload'=> false,
+                    'dropZoneEnabled' => false,
+                ],
+            ])
+         .'</div>';
+      ?>
+   </div>
+
+      <?= $form->field($modelItens, "[{$i}]item_codrepositorio")->hiddenInput(['readonly'=> true])->label(false) ?>
 
       </div>
    </div>

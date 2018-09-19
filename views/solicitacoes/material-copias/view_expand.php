@@ -50,7 +50,7 @@ $attributes = [
           [
             'attribute'=>'matc_segmento', 
             'displayOnly'=>true,
-            'value'=> $model->segmento->seg_descricao,
+            'value'=> !empty($model->segmento->seg_descricao) ? $model->segmento->seg_descricao : '',
             'valueColOptions'=>['style'=>'width:30%'],
             'labelColOptions'=>['style'=>'width:12%'],
           ],
@@ -58,7 +58,7 @@ $attributes = [
           [
             'attribute'=>'matc_tipoacao', 
             'displayOnly'=>true,
-            'value'=> $model->tipo->tip_descricao,
+            'value'=> !empty($model->tipo->tip_descricao) ? $model->tipo->tip_descricao : '',
             'labelColOptions'=>['style'=>'width:12%'],
           ],
       ],

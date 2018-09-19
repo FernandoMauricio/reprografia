@@ -10,7 +10,6 @@ use yii\helpers\Url;
 use yii\helpers\Json;
 use kartik\depdrop\DepDrop;
 
-
 /* @var $this yii\web\View */
 /* @var $model app\models\solicitacoes\MaterialCopias */
 /* @var $form yii\widgets\ActiveForm */
@@ -18,11 +17,12 @@ use kartik\depdrop\DepDrop;
 
 <div class="material-copias-form">
 
-<?php $form = ActiveForm::begin(['id' => 'dynamic-form']); ?>
+<?php $form = ActiveForm::begin(['id' => 'dynamic-form', 'options'=>['enctype'=>'multipart/form-data']]); ?>
+<?= $form->errorSummary($model); ?>
 
 <div class="row">
    <?php $segmentoList=ArrayHelper::map($segmento, 'seg_codsegmento', 'seg_descricao' );?>
-   <?= $_GET['matc_tipo'] == 'Apostilas' ? 
+   <?= $model->matc_tipo == 'Apostilas' ? 
       '<div class="col-md-3">'.
          $form->field($model, 'matc_segmento')->widget(Select2::classname(), [
             'data' =>  $segmentoList,
@@ -35,7 +35,7 @@ use kartik\depdrop\DepDrop;
       : '';
    ?>
 
-   <?= $_GET['matc_tipo'] == 'Apostilas' ? 
+   <?= $model->matc_tipo == 'Apostilas' ? 
       '<div class="col-md-3">'.
          // Child # 1
          $form->field($model, 'matc_tipoacao')->widget(DepDrop::classname(), [
@@ -52,7 +52,7 @@ use kartik\depdrop\DepDrop;
       : '';
    ?>
 
-   <?= $_GET['matc_tipo'] == 'Apostilas' ? 
+   <?= $model->matc_tipo == 'Apostilas' ? 
       '<div class="col-md-4">'.
          // Child # 2
          $form->field($model, 'matc_curso')->widget(DepDrop::classname(), [
@@ -72,7 +72,7 @@ use kartik\depdrop\DepDrop;
    ?>
 
    <?php $options = ArrayHelper::map($centrocusto, 'cen_centrocustoreduzido', 'cen_centrocustoreduzido');?>
-   <?= $_GET['matc_tipo'] == 'Apostilas' ? 
+   <?= $model->matc_tipo == 'Apostilas' ? 
       '<div class="col-md-2">'.
          $form->field($model, 'matc_centrocusto')->widget(DepDrop::classname(), [
             'type'=>DepDrop::TYPE_SELECT2,
@@ -88,7 +88,7 @@ use kartik\depdrop\DepDrop;
       '<div class="col-md-2">'.
          $form->field($model, 'matc_centrocusto')->widget(Select2::classname(), [
             'data' =>  $options,
-            'options' => ['id' => 'cat-id','placeholder' => 'Selecione o Segmento...'],
+            'options' => ['id' => 'cat-id','placeholder' => 'Selecione o Centro de Custo...'],
             'pluginOptions' => [
                'allowClear' => true
             ],
@@ -99,6 +99,7 @@ use kartik\depdrop\DepDrop;
 
     <?= $this->render('_form-itens', [
         'form' => $form,
+        'model' => $model,
         'repositorio' => $repositorio,
         'acabamento'  => $acabamento,
         'modelsItens' => $modelsItens,
@@ -117,10 +118,6 @@ use kartik\depdrop\DepDrop;
                   'clientOptions' => [
                      'alias' => 'numeric',
                      'digits' => 2,
-                     'digitsOptional' => false,
-                     'radixPoint' => '.',
-                     'groupSeparator' => ',',
-                     'autoGroup' => true,
                   ],
                ])
             ?>
@@ -129,12 +126,8 @@ use kartik\depdrop\DepDrop;
             <?= $form->field($model, 'matc_totalValorColor')->widget(MaskedInput::className(),[
                'options' => ['readonly' => true, 'class' => 'form-control'],
                'clientOptions' => [
-                    'alias' => 'numeric',
-                    'digits' => 2,
-                    'digitsOptional' => false,
-                    'radixPoint' => '.',
-                    'groupSeparator' => ',',
-                    'autoGroup' => true,
+                     'alias' => 'numeric',
+                     'digits' => 2,
                   ],
                ])
             ?>
@@ -145,10 +138,6 @@ use kartik\depdrop\DepDrop;
                   'clientOptions' => [
                      'alias' => 'numeric',
                      'digits' => 2,
-                     'digitsOptional' => false,
-                     'radixPoint' => '.',
-                     'groupSeparator' => ',',
-                     'autoGroup' => true,
                   ],
                ])
             ?>
@@ -172,6 +161,8 @@ use kartik\depdrop\DepDrop;
       </div> 
     </div>
  </div>
+
+<?= $form->field($model, 'matc_tipo')->hiddenInput(['readonly'=> true])->label(false) ?>
 
 <div class="form-group">
    <?= Html::submitButton($model->isNewRecord ? 'Criar Solicitação' : 'Atualizar Solicitação', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

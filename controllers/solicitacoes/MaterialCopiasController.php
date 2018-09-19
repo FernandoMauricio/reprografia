@@ -159,9 +159,13 @@ class MaterialCopiasController extends Controller
     public function actionCreate()
     {
         $session = Yii::$app->session;
-
         $model = new MaterialCopias();
         $modelsItens  = [new MaterialCopiasItens];
+
+        $model->matc_tipo = $_GET['matc_tipo']; //tipo de requisição de cópias
+        if($model->matc_tipo != 'Apostilas' && $model->matc_tipo != 'Impressoes') {
+            throw new NotFoundHttpException('A página solicitada não existe.');
+        }
 
         $acabamento  = Acabamento::find()->all();
         $segmento    = Segmento::find()->all();

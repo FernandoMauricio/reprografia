@@ -22,6 +22,8 @@ use Yii;
  */
 class MaterialCopiasItens extends \yii\db\ActiveRecord
 {
+    public $file;
+    
     /**
      * @inheritdoc
      */
@@ -47,6 +49,7 @@ class MaterialCopiasItens extends \yii\db\ActiveRecord
             [['item_descricao', 'item_qtoriginais', 'item_qtexemplares', 'item_qteCopias', 'item_mono', 'item_color', 'item_qteTotal'], 'required'],
             [['id', 'item_qtoriginais', 'item_qtexemplares', 'item_qteCopias', 'item_mono', 'item_color', 'item_qteTotal', 'materialcopias_id', 'item_codrepositorio'], 'integer'],
             [['item_descricao', 'item_observacao', 'item_arquivo'], 'string', 'max' => 255],
+            [['file'], 'safe'],
             //[['item_color'], 'compare','compareAttribute'=>'item_mono'],
             [['materialcopias_id'], 'exist', 'skipOnError' => true, 'targetClass' => MaterialCopias::className(), 'targetAttribute' => ['materialcopias_id' => 'matc_id']],
         ];
@@ -69,6 +72,7 @@ class MaterialCopiasItens extends \yii\db\ActiveRecord
             'item_qteTotal' => 'Qte Total',
             'item_observacao' => 'Observação',
             'materialcopias_id' => 'Materialcopias ID',
+            'file' => 'Arquivo',
         ];
     }
 
