@@ -17,7 +17,7 @@ use kartik\depdrop\DepDrop;
 
 <div class="material-copias-form">
 
-<?php $form = ActiveForm::begin(['id' => 'dynamic-form', 'options'=>['enctype'=>'multipart/form-data']]); ?>
+<?php $form = ActiveForm::begin(['options'=>['id' => 'dynamic-form', 'enctype'=>'multipart/form-data']]); ?>
 <?= $form->errorSummary($model); ?>
 
 <div class="row">

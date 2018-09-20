@@ -20,6 +20,7 @@ use yii\filters\VerbFilter;
 use yii\helpers\FileHelper;
 use yii\helpers\Json;
 use yii\helpers\ArrayHelper;
+use yii\web\UploadedFile;
 
 /**
  * MaterialCopiasController implements the CRUD actions for MaterialCopias model.
@@ -193,8 +194,25 @@ class MaterialCopiasController extends Controller
                 $transaction = \Yii::$app->db->beginTransaction();
                 try {
                     if ($flag = $model->save(false)) {
-                        foreach ($modelsItens as $modelItens) {
+                        foreach ($modelsItens as $i => $modelItens) {
                             $modelItens->materialcopias_id = $model->matc_id;
+                            //UPLOAD DE ARQUIVOS SE FOR ESCOLHIDO O TIPO DE SERVIÇO -> IMPRESSÕES
+                            if($model->matc_tipo == 'Impressao') {
+                                $modelItens->file = UploadedFile::getInstance($modelItens, "[{$i}]file");
+                                if (!is_null($modelItens->file)) {
+                                   //criação da pasta que constará o arquivo 
+                                    $path = Yii::$app->basePath . '/web/uploads/impressoes/' . $modelItens->materialcopias_id;
+                                    if (!file_exists($path)) {
+                                        mkdir($path, 0777);
+                                    }
+                                   $modelItens->item_codrepositorio = $modelItens->materialcopias_id;
+                                   //salva o arquivo no caminho da criação da pasta
+                                   Yii::$app->params['uploadPath'] = Yii::$app->basePath . '/web/uploads/impressoes/' . $modelItens->materialcopias_id .'/';
+                                   $path = Yii::$app->params['uploadPath'] . $_FILES['MaterialCopiasItens']['name'][$i]['file'];
+                                   $modelItens->file->saveAs($path);
+                               }
+                            }
+
                             if (! ($flag = $modelItens->save(false))) {
                                 $transaction->rollBack();
                                 break;

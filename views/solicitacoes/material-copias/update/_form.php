@@ -55,6 +55,7 @@ use app\models\cadastros\Segmento;
 
     <?= $this->render('_form-itens', [
         'form' => $form,
+        'model' => $model,
         'repositorio' => $repositorio,
         'acabamento'  => $acabamento,
         'modelsItens' => $modelsItens,

@@ -346,10 +346,12 @@ $this->registerJs($js);
       <div class="col-sm-4"><?= $form->field($modelItens, "[{$i}]item_color")->textInput() ?></div>
       
       <div class="col-sm-4"><?= $form->field($modelItens, "[{$i}]item_qteTotal")->textInput(['readonly'=>true]) ?></div>
-
-      <div class="col-sm-12"><?= $form->field($modelItens, "[{$i}]item_observacao")->textInput() ?></div>
    </div>
 
+   <div class="row">
+      <div class="col-sm-12"><?= $form->field($modelItens, "[{$i}]item_observacao")->textInput() ?></div>
+   </div>
+   
    <div class="row">
       <?= $model->matc_tipo == 'Apostilas' ? 
          '<div class="col-md-12">'.$form->field($modelItens, "[{$i}]item_arquivo")->hiddenInput(['readonly'=> true])->label(false).'</div>'

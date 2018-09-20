@@ -73,7 +73,7 @@ $this->registerJs($js);
               echo Html::activeHiddenInput($modelItens, "[{$i}]id");
           }
       ?>
-
+   <div class="row">
       <div class="col-sm-6">
          <?php
             $data_repositorio = ArrayHelper::map($repositorio, 'rep_titulo', 'rep_titulo');
@@ -330,23 +330,44 @@ $this->registerJs($js);
                      if(item_totalValorColor3 >= 0){
                       $('#materialcopias-matc_totalgeral').val(item_totalGeral3)
                      }
-               };
-           });
-         "
-         ]);
-      ?> 
+                  };
+              });
+            "
+            ]);
+         ?> 
+         </div>
+
+         <div class="col-sm-2"><?= $form->field($modelItens, "[{$i}]item_qteCopias")->textInput(['readonly'=> true]) ?></div>
       </div>
 
-      <div class="col-sm-2"><?= $form->field($modelItens, "[{$i}]item_qteCopias")->textInput(['readonly'=> true]) ?></div>
-
-      <div class="col-sm-4"><?= $form->field($modelItens, "[{$i}]item_mono")->textInput() ?></div>
-          
-      <div class="col-sm-4"><?= $form->field($modelItens, "[{$i}]item_color")->textInput() ?></div>
+      <div class="row">
+         <div class="col-sm-4"><?= $form->field($modelItens, "[{$i}]item_mono")->textInput() ?></div>
              
-      <div class="col-sm-4"><?= $form->field($modelItens, "[{$i}]item_qteTotal")->textInput(['readonly'=>true]) ?></div>
+         <div class="col-sm-4"><?= $form->field($modelItens, "[{$i}]item_color")->textInput() ?></div>
+                
+         <div class="col-sm-4"><?= $form->field($modelItens, "[{$i}]item_qteTotal")->textInput(['readonly'=>true]) ?></div>
+      </div>
 
-      <div class="col-sm-12"><?= $form->field($modelItens, "[{$i}]item_observacao")->textInput() ?></div>
-      
+
+      <div class="row">
+         <?= $model->matc_tipo == 'Apostilas' ? 
+            '<div class="col-md-12">'.$form->field($modelItens, "[{$i}]item_arquivo")->hiddenInput(['readonly'=> true])->label(false).'</div>'
+            : 
+            '<div class="col-md-12">'.
+               $form->field($modelItens, "[{$i}]file")->widget(FileInput::classname(), [
+                   'pluginOptions' => [
+                       'language' => 'pt-BR',
+                       'showRemove'=> false,
+                       'showUpload'=> false,
+                       'dropZoneEnabled' => false,
+                   ],
+               ])
+            .'</div>';
+         ?>
+      </div>
+
+      <?= $form->field($modelItens, "[{$i}]item_codrepositorio")->hiddenInput(['readonly'=> true])->label(false) ?>
+
       </div>
       </div>
       <?php endforeach; ?>

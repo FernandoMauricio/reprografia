@@ -164,32 +164,25 @@ $gridColumns = [
     'filterModel'=>$searchModel,
     'columns'=>$gridColumns,
     'rowOptions' =>function($model){
-                    if($model->situacao_id == 3 ){
-
-                            return['class'=>'danger'];                        
-                    } 
-                    if($model->situacao_id == 8 ){
-
-                            return['class'=>'danger'];                        
-                    } 
-                    if($model->situacao_id == 2 ){
-
-                            return['class'=>'success'];                        
-                    }
-                    if($model->situacao_id == 7 ){
-
-                            return['class'=>'success'];                        
-                    }
-                    if($model->situacao_id == 4 ){
-
-                            return['class'=>'warning'];                        
-                    }
-                    if($model->situacao_id == 5 ){
-
-                            return['class'=>'info'];                        
-                    }
-
-        },
+        if($model->situacao_id == 3 ){
+            return['class'=>'danger'];                        
+        } 
+        if($model->situacao_id == 8 ){
+            return['class'=>'danger'];                        
+        } 
+        if($model->situacao_id == 2 ){
+            return['class'=>'success'];                        
+        }
+        if($model->situacao_id == 7 ){
+            return['class'=>'success'];                        
+        }
+        if($model->situacao_id == 4 ){
+            return['class'=>'warning'];                        
+        }
+        if($model->situacao_id == 5 ){
+            return['class'=>'info'];                        
+        }
+    },
     'containerOptions'=>['style'=>'overflow: auto'], // only set when $responsive = false
     'headerRowOptions'=>['class'=>'kartik-sheet-style'],
     'filterRowOptions'=>['class'=>'kartik-sheet-style'],
@@ -199,12 +192,11 @@ $gridColumns = [
     'beforeHeader'=>[
         [
             'columns'=>[
-                ['content'=>'Detalhes das Solicitações de Cópias', 'options'=>['colspan'=>5, 'class'=>'text-center warning']], 
+                ['content'=>'Detalhes das Solicitações de Cópias', 'options'=>['colspan'=>6, 'class'=>'text-center warning']], 
                 ['content'=>'Ações', 'options'=>['colspan'=>1, 'class'=>'text-center warning']], 
             ],
         ]
     ],
-
         'panel' => [
         'type'=>GridView::TYPE_PRIMARY,
         'heading'=> '<h3 class="panel-title"><i class="glyphicon glyphicon-book"></i> Listagem - '.utf8_encode($unidade).'</h3>',
