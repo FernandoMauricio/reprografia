@@ -61,11 +61,11 @@ $attributes = [
 
   [
       'columns' => [
-
           [
             'attribute'=>'matc_segmento', 
             'displayOnly'=>true,
             'value'=> !empty($model->segmento->seg_descricao) ? $model->segmento->seg_descricao : '',
+            'visible' => (!empty($model->matc_segmento)),
             'valueColOptions'=>['style'=>'width:30%'],
             'labelColOptions'=>['style'=>'width:12%'],
           ],
@@ -74,10 +74,11 @@ $attributes = [
             'attribute'=>'matc_tipoacao', 
             'displayOnly'=>true,
             'value'=> !empty($model->tipo->tip_descricao) ? $model->tipo->tip_descricao : '',
+            'visible' => (!empty($model->matc_tipoacao)),
             'labelColOptions'=>['style'=>'width:12%'],
           ],
       ],
-  ],
+   ],
 
   [
       'columns' => [

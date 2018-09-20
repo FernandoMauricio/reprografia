@@ -18,7 +18,7 @@ use yii\helpers\Url;
 <div class="panel-body">
 	<div class="row">
 		<div class="col-md-12">
-			<?= $form->field($model, 'matc_tipo')->radioList(['Apostilas' => 'Apostilas', 'Impressao' => 'Impressao' ]) ?>
+			<?= $form->field($model, 'matc_tipo')->radioList(['Apostilas' => 'Apostilas', 'Impressao' => 'Impressão' ]) ?>
 		</div>
 	</div>
 </div>

@@ -64,6 +64,11 @@ $gridColumns = [
     ],
 
     [
+      'attribute'=>'matc_tipo',
+      'width'=>'3%'
+    ],
+
+    [
         'attribute'=>'matc_centrocusto', 
         'width'=>'5%',
         'value'=>function ($model, $key, $index, $widget) { 

@@ -21,32 +21,37 @@ use app\models\cadastros\Segmento;
     <?php $form = ActiveForm::begin(['id' => 'dynamic-form']); ?>
 
 <div class="row">
+    <?= $model->matc_tipo == 'Apostilas' ? 
+        '<div class="col-md-3">'.$form->field($model, 'segmentoLabel')->textInput(['value'=> $model->segmento->seg_descricao,'readonly'=>true]).'</div>' : '';
+    ?>
 
-    <div class="col-md-3">
+    <?= $model->matc_tipo == 'Apostilas' ? 
+        '<div class="col-md-3">'.$form->field($model, 'tipoLabel')->textInput(['value'=> $model->tipo->tip_descricao,'readonly'=>true]).'</div>' : '';
+    ?>
 
-    <?= $form->field($model, 'segmentoLabel')->textInput(['value'=> $model->segmento->seg_descricao,'readonly'=>true]) ?>
+    <?= $model->matc_tipo == 'Apostilas' ? 
+      '<div class="col-md-4">'.$form->field($model, 'matc_curso')->textInput(['value'=> $model->matc_curso,'readonly'=>true]).'</div>'
+      : 
+      '<div class="col-md-10">'.
+         $form->field($model, 'matc_curso')->textInput()->label('Descrição')
+      .'</div>';
+    ?>
 
-    </div>
-
-    <div class="col-md-3">
-
-    <?= $form->field($model, 'tipoLabel')->textInput(['value'=> $model->tipo->tip_descricao,'readonly'=>true]) ?>
-          
-    </div>
-
-    <div class="col-md-4">
-
-    <?= $form->field($model, 'matc_curso')->textInput(['value'=> $model->matc_curso,'readonly'=>true]) ?>
-
-    </div>
-
-    <div class="col-md-2">
-
-    <?= $form->field($model, 'matc_centrocusto')->textInput(['value'=> $model->matc_centrocusto,'readonly'=>true]) ?>
-
-    </div>
-
- </div>
+    <?php $options = ArrayHelper::map($centrocusto, 'cen_centrocustoreduzido', 'cen_centrocustoreduzido');?>
+    <?= $model->matc_tipo == 'Apostilas' ? 
+      '<div class="col-md-2">'.$form->field($model, 'matc_centrocusto')->textInput(['value'=> $model->matc_centrocusto,'readonly'=>true]).'</div>'
+        : 
+        '<div class="col-md-2">'.
+        $form->field($model, 'matc_centrocusto')->widget(Select2::classname(), [
+            'data' =>  $options,
+            'options' => ['id' => 'cat-id','placeholder' => 'Selecione o Centro de Custo...'],
+            'pluginOptions' => [
+               'allowClear' => true
+            ],
+         ])
+        .'</div>';
+    ?>
+</div>
 
     <?= $this->render('_form-itens', [
         'form' => $form,
@@ -54,84 +59,78 @@ use app\models\cadastros\Segmento;
         'acabamento'  => $acabamento,
         'modelsItens' => $modelsItens,
     ]) ?>
-    
 
- </div>
-
-    <div class="panel panel-primary">
-      <div class="panel-heading">
+<div class="panel panel-primary">
+    <div class="panel-heading">
         <h3 class="panel-title"><i class="glyphicon glyphicon-book"></i> DADOS FINANCEIROS</h3>
-      </div>
-        <div class="panel-body">
-        <p>** Valores definidos em Reais (R$)</p>
-            <div class="row">
-                <div class="col-md-3">
+    </div>
+    <div class="panel-body">
+    <p>** Valores definidos em Reais (R$)</p>
+        <div class="row">
+            <div class="col-md-3">
                 <?= $form->field($model, 'matc_totalValorMono')->widget(MaskedInput::className(),[
-                                'options' => ['readonly' => true, 'class' => 'form-control'],
-                                'clientOptions' => [
-                                     'alias' => 'numeric',
-                                     'digits' => 2,
-                                     'digitsOptional' => false,
-                                     'radixPoint' => '.',
-                                     'groupSeparator' => ',',
-                                     'autoGroup' => true,
-                                ],
+                    'options' => ['readonly' => true, 'class' => 'form-control'],
+                    'clientOptions' => [
+                        'alias' => 'numeric',
+                        'digits' => 2,
+                        'digitsOptional' => false,
+                        'radixPoint' => '.',
+                        'groupSeparator' => ',',
+                        'autoGroup' => true,
+                    ],
                   ])
                 ?>
-                </div>
-                <div class="col-md-3">
+            </div>
+            <div class="col-md-3">
                 <?= $form->field($model, 'matc_totalValorColor')->widget(MaskedInput::className(),[
-                                'options' => ['readonly' => true, 'class' => 'form-control'],
-                                'clientOptions' => [
-                                     'alias' => 'numeric',
-                                     'digits' => 2,
-                                     'digitsOptional' => false,
-                                     'radixPoint' => '.',
-                                     'groupSeparator' => ',',
-                                     'autoGroup' => true,
-                                ],
+                    'options' => ['readonly' => true, 'class' => 'form-control'],
+                    'clientOptions' => [
+                        'alias' => 'numeric',
+                        'digits' => 2,
+                        'digitsOptional' => false,
+                        'radixPoint' => '.',
+                        'groupSeparator' => ',',
+                        'autoGroup' => true,
+                    ],
                   ])
                 ?>
-                </div>
-                <div class="col-md-3">
+            </div>
+            <div class="col-md-3">
                 <?= $form->field($model, 'matc_totalGeral')->widget(MaskedInput::className(),[
-                                'options' => ['readonly' => true, 'class' => 'form-control'],
-                                'clientOptions' => [
-                                     'alias' => 'numeric',
-                                     'digits' => 2,
-                                     'digitsOptional' => false,
-                                     'radixPoint' => '.',
-                                     'groupSeparator' => ',',
-                                     'autoGroup' => true,
-                                ],
+                    'options' => ['readonly' => true, 'class' => 'form-control'],
+                    'clientOptions' => [
+                        'alias' => 'numeric',
+                        'digits' => 2,
+                        'digitsOptional' => false,
+                        'radixPoint' => '.',
+                        'groupSeparator' => ',',
+                        'autoGroup' => true,
+                    ],
                   ])
                 ?>
-                </div>
-            </div> 
-        </div>
-     </div>
+            </div>
+        </div> 
+    </div>
+</div>
 
-    <div class="panel panel-primary">
-      <div class="panel-heading">
+<div class="panel panel-primary">
+    <div class="panel-heading">
         <h3 class="panel-title"><i class="glyphicon glyphicon-book"></i> SERVIÇOS DE ACABAMENTO</h3>
-      </div>
-        <div class="panel-body">
-            <div class="row">
-                <div class="col-md-12">
-
-                        <?php 
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-12">
+                    <?php 
                         $options = ArrayHelper::map($acabamento, 'id', 'acab_descricao');
                         echo $form->field($model, 'listAcabamento')->checkboxList($options, ['unselect'=>NULL])->label(false);
-                        ?>
-                </div>
-            </div> 
-        </div>
-     </div>
+                    ?>
+            </div>
+        </div> 
+    </div>
+</div>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Criar Solicitação' : 'Atualizar Solicitação', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
-
     <?php ActiveForm::end(); ?>
-
 </div>

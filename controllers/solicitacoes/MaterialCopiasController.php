@@ -163,7 +163,7 @@ class MaterialCopiasController extends Controller
         $modelsItens  = [new MaterialCopiasItens];
 
         $model->matc_tipo = $_GET['matc_tipo']; //tipo de requisição de cópias
-        if($model->matc_tipo != 'Apostilas' && $model->matc_tipo != 'Impressoes') {
+        if($model->matc_tipo != 'Apostilas' && $model->matc_tipo != 'Impressao') {
             throw new NotFoundHttpException('A página solicitada não existe.');
         }
 
@@ -273,9 +273,8 @@ class MaterialCopiasController extends Controller
         $model = $this->findModel($id);
         $modelsItens = $model->materialCopiasItens;
 
+        $centrocusto = Centrocusto::find()->where(['cen_codsituacao' => 1])->orderBy('cen_codano')->all();
         $repositorio = Repositorio::find()->where(['rep_status' => 1])->orderBy('rep_titulo')->all();
-
-        //ACABAMENTOS
         $acabamento = Acabamento::find()->where(['acab_status' => 1])->all();
         //Retrieve the stored checkboxes
         $model->listAcabamento = \yii\helpers\ArrayHelper::getColumn(
@@ -343,6 +342,7 @@ class MaterialCopiasController extends Controller
                 'model'       => $model,
                 'repositorio' => $repositorio,
                 'acabamento'  => $acabamento,
+                'centrocusto' => $centrocusto,
                 'modelsItens' => (empty($modelsItens)) ? [new MaterialCopiasItens] : $modelsItens,
             ]);
         }
