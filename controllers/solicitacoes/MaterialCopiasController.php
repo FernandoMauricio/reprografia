@@ -311,7 +311,7 @@ class MaterialCopiasController extends Controller
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
          
-           $model->matc_totalGeral = $model->matc_totalValorMono + $model->matc_totalValorColor;
+        $model->matc_totalGeral = $model->matc_totalValorMono + $model->matc_totalValorColor;
 
         //--------Materiais Didáticos--------------
         $oldIDsItens = ArrayHelper::map($modelsItens, 'id', 'id');

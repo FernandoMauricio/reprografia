@@ -70,13 +70,18 @@ class MaterialCopias extends \yii\db\ActiveRecord
             [['matc_curso'], 'string', 'max' => 255],
             [['matc_tipo'], 'string', 'max' => 45],
             //[['matc_centrocusto'], 'string',  'min' => 6, 'max' => 6,'tooShort' => '"{attribute}" deve conter 5 números'], // exemplo: 25.555
-            //[['matc_qteTotal'], 'compare','compareAttribute'=>'matc_qteCopias'], // total copias == quantidade total (mono+color)
             [['matc_unidade', 'matc_solicitante', 'matc_ResponsavelAut','matc_ResponsavelRepro'], 'string', 'max' => 100],
             [['situacao_id'], 'exist', 'skipOnError' => true, 'targetClass' => Situacao::className(), 'targetAttribute' => ['situacao_id' => 'sitmat_id']],
             [['matc_segmento', 'matc_tipoacao'], 'required', 'when' => function ($model) { 
                 return $model->matc_tipo=='Apostilas';
             }, 'whenClient' => "function (attribute, value) { 
                     return $('#materialcopias-matc_tipo').val() == 'Apostilas';
+                }"
+            ],
+            [['matc_totalGeral'], 'compare', 'compareValue' => 'matc_totalValorMono', 'operator' => '==', 'when' => function ($model) { 
+                return $model->matc_totalGeral != $model->matc_totalValorMono;
+            }, 'whenClient' => "function (attribute, value) { 
+                    return $('#materialcopias-matc_totalgeral').val() != $('#materialcopias-matc_totalvalormono').val();
                 }"
             ],
         ];

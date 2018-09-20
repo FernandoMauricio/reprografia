@@ -52,6 +52,15 @@ class MaterialCopiasItens extends \yii\db\ActiveRecord
             [['file'], 'safe'],
             //[['item_color'], 'compare','compareAttribute'=>'item_mono'],
             [['materialcopias_id'], 'exist', 'skipOnError' => true, 'targetClass' => MaterialCopias::className(), 'targetAttribute' => ['materialcopias_id' => 'matc_id']],
+            // [['item_qteTotal'], 'compare', 'compareValue' => 'item_qteCopias', 'operator' => '==', 'when' => function ($models) {
+            //     foreach ($models as $i => $model) {
+            //         return $model->item_qteTotal != $model->item_qteCopias;
+            //     }
+            // }, 'whenClient' => "function (attribute, value) {
+            //     console.log(attribute);
+            //         return $('#materialcopiasitens-0-item_qtetotal').val() != $('#materialcopiasitens-0-item_qtecopias').val();
+            //     }"
+            // ],
         ];
     }
 

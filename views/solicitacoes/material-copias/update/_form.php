@@ -72,12 +72,8 @@ use app\models\cadastros\Segmento;
                 <?= $form->field($model, 'matc_totalValorMono')->widget(MaskedInput::className(),[
                     'options' => ['readonly' => true, 'class' => 'form-control'],
                     'clientOptions' => [
-                        'alias' => 'numeric',
-                        'digits' => 2,
-                        'digitsOptional' => false,
-                        'radixPoint' => '.',
-                        'groupSeparator' => ',',
-                        'autoGroup' => true,
+                     'alias' => 'numeric',
+                     'digits' => 2,
                     ],
                   ])
                 ?>
@@ -86,12 +82,8 @@ use app\models\cadastros\Segmento;
                 <?= $form->field($model, 'matc_totalValorColor')->widget(MaskedInput::className(),[
                     'options' => ['readonly' => true, 'class' => 'form-control'],
                     'clientOptions' => [
-                        'alias' => 'numeric',
-                        'digits' => 2,
-                        'digitsOptional' => false,
-                        'radixPoint' => '.',
-                        'groupSeparator' => ',',
-                        'autoGroup' => true,
+                     'alias' => 'numeric',
+                     'digits' => 2,
                     ],
                   ])
                 ?>
@@ -100,12 +92,8 @@ use app\models\cadastros\Segmento;
                 <?= $form->field($model, 'matc_totalGeral')->widget(MaskedInput::className(),[
                     'options' => ['readonly' => true, 'class' => 'form-control'],
                     'clientOptions' => [
-                        'alias' => 'numeric',
-                        'digits' => 2,
-                        'digitsOptional' => false,
-                        'radixPoint' => '.',
-                        'groupSeparator' => ',',
-                        'autoGroup' => true,
+                     'alias' => 'numeric',
+                     'digits' => 2,
                     ],
                   ])
                 ?>
