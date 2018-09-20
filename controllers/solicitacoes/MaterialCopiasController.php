@@ -164,7 +164,7 @@ class MaterialCopiasController extends Controller
         $modelsItens  = [new MaterialCopiasItens];
 
         $model->matc_tipo = $_GET['matc_tipo']; //tipo de requisição de cópias
-        if($model->matc_tipo != 'Apostilas' && $model->matc_tipo != 'Impressao') {
+        if($model->matc_tipo != 1 && $model->matc_tipo != 2) {
             throw new NotFoundHttpException('A página solicitada não existe.');
         }
 
@@ -196,8 +196,8 @@ class MaterialCopiasController extends Controller
                     if ($flag = $model->save(false)) {
                         foreach ($modelsItens as $i => $modelItens) {
                             $modelItens->materialcopias_id = $model->matc_id;
-                            //UPLOAD DE ARQUIVOS SE FOR ESCOLHIDO O TIPO DE SERVIÇO -> IMPRESSÕES
-                            if($model->matc_tipo == 'Impressao') {
+                            //UPLOAD DE ARQUIVOS SE FOR ESCOLHIDO O TIPO DE SERVIÇO -> 2 - IMPRESSÕES
+                            if($model->matc_tipo == 2) {
                                 $modelItens->file = UploadedFile::getInstance($modelItens, "[{$i}]file");
                                 if (!is_null($modelItens->file)) {
                                    //criação da pasta que constará o arquivo 

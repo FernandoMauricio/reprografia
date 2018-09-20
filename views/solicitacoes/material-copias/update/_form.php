@@ -21,15 +21,15 @@ use app\models\cadastros\Segmento;
     <?php $form = ActiveForm::begin(['id' => 'dynamic-form']); ?>
 
 <div class="row">
-    <?= $model->matc_tipo == 'Apostilas' ? 
+    <?= $model->matc_tipo == 1 ? 
         '<div class="col-md-3">'.$form->field($model, 'segmentoLabel')->textInput(['value'=> $model->segmento->seg_descricao,'readonly'=>true]).'</div>' : '';
     ?>
 
-    <?= $model->matc_tipo == 'Apostilas' ? 
+    <?= $model->matc_tipo == 1 ? 
         '<div class="col-md-3">'.$form->field($model, 'tipoLabel')->textInput(['value'=> $model->tipo->tip_descricao,'readonly'=>true]).'</div>' : '';
     ?>
 
-    <?= $model->matc_tipo == 'Apostilas' ? 
+    <?= $model->matc_tipo == 1 ? 
       '<div class="col-md-4">'.$form->field($model, 'matc_curso')->textInput(['value'=> $model->matc_curso,'readonly'=>true]).'</div>'
       : 
       '<div class="col-md-10">'.
@@ -38,7 +38,7 @@ use app\models\cadastros\Segmento;
     ?>
 
     <?php $options = ArrayHelper::map($centrocusto, 'cen_centrocustoreduzido', 'cen_centrocustoreduzido');?>
-    <?= $model->matc_tipo == 'Apostilas' ? 
+    <?= $model->matc_tipo == 1 ? 
       '<div class="col-md-2">'.$form->field($model, 'matc_centrocusto')->textInput(['value'=> $model->matc_centrocusto,'readonly'=>true]).'</div>'
         : 
         '<div class="col-md-2">'.

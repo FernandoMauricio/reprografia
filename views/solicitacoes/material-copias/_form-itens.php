@@ -75,7 +75,7 @@ $this->registerJs($js);
       ?>
 <div class="row">
       <?php $data_repositorio = ArrayHelper::map($repositorio, 'rep_titulo', 'rep_titulo'); ?>
-      <?= $model->matc_tipo == 'Apostilas' ? 
+      <?= $model->matc_tipo == 1 ? 
          '<div class="col-md-6">'.
             $form->field($modelItens, "[{$i}]item_descricao")->widget(Select2::classname(), [
                'data' =>  $data_repositorio,
@@ -102,7 +102,7 @@ $this->registerJs($js);
          .'</div>';
       ?>
 
-      <div class="col-sm-2"><?= $form->field($modelItens, "[{$i}]item_qtoriginais")->textInput(['readonly'=> $model->matc_tipo == 'Apostilas' ? true : false]) ?></div>
+      <div class="col-sm-2"><?= $form->field($modelItens, "[{$i}]item_qtoriginais")->textInput(['readonly'=> $model->matc_tipo == 1 ? true : false]) ?></div>
 
       <div class="col-sm-2">
          <?= $form->field($modelItens, "[{$i}]item_qtexemplares")->textInput([
@@ -353,7 +353,7 @@ $this->registerJs($js);
    </div>
    
    <div class="row">
-      <?= $model->matc_tipo == 'Apostilas' ? 
+      <?= $model->matc_tipo == 1 ? 
          '<div class="col-md-12">'.$form->field($modelItens, "[{$i}]item_arquivo")->hiddenInput(['readonly'=> true])->label(false).'</div>'
          : 
          '<div class="col-md-12">'.

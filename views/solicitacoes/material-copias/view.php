@@ -140,7 +140,7 @@ $this->params['breadcrumbs'][] = $this->title;
                <td><?= $itens["item_qteTotal"]; ?></td>
                <td><?= $itens["item_observacao"]; ?></td>
                <td valign="middle">
-                  <?php if($model->matc_tipo == 'Apostilas') { ?>
+                  <?php if($model->matc_tipo == 1) { ?>
                      <a target="_blank" href="http://localhost/aux_planejamento/web/uploads/repositorio/<?= $itens["item_codrepositorio"]; ?>/<?= $itens["item_arquivo"]; ?>" "><?= $itens["item_arquivo"]; ?></a>
                   <?php }else{ ?>
                      <a target="_blank" href="http://localhost/reprografia/web/uploads/impressoes/<?= $itens["materialcopias_id"]; ?>/<?= $itens["item_arquivo"]; ?>" "><?= $itens["item_arquivo"]; ?></a>

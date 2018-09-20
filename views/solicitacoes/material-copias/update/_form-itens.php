@@ -350,7 +350,7 @@ $this->registerJs($js);
 
 
       <div class="row">
-         <?= $model->matc_tipo == 'Apostilas' ? 
+         <?= $model->matc_tipo == 1 ? 
             '<div class="col-md-12">'.$form->field($modelItens, "[{$i}]item_arquivo")->hiddenInput(['readonly'=> true])->label(false).'</div>'
             : 
             '<div class="col-md-12">'.

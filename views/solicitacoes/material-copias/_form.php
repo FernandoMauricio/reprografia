@@ -22,7 +22,7 @@ use kartik\depdrop\DepDrop;
 
 <div class="row">
    <?php $segmentoList=ArrayHelper::map($segmento, 'seg_codsegmento', 'seg_descricao' );?>
-   <?= $model->matc_tipo == 'Apostilas' ? 
+   <?= $model->matc_tipo == 1 ? 
       '<div class="col-md-3">'.
          $form->field($model, 'matc_segmento')->widget(Select2::classname(), [
             'data' =>  $segmentoList,
@@ -35,7 +35,7 @@ use kartik\depdrop\DepDrop;
       : '';
    ?>
 
-   <?= $model->matc_tipo == 'Apostilas' ? 
+   <?= $model->matc_tipo == 1 ? 
       '<div class="col-md-3">'.
          // Child # 1
          $form->field($model, 'matc_tipoacao')->widget(DepDrop::classname(), [
@@ -52,7 +52,7 @@ use kartik\depdrop\DepDrop;
       : '';
    ?>
 
-   <?= $model->matc_tipo == 'Apostilas' ? 
+   <?= $model->matc_tipo == 1 ? 
       '<div class="col-md-4">'.
          // Child # 2
          $form->field($model, 'matc_curso')->widget(DepDrop::classname(), [
@@ -72,7 +72,7 @@ use kartik\depdrop\DepDrop;
    ?>
 
    <?php $options = ArrayHelper::map($centrocusto, 'cen_centrocustoreduzido', 'cen_centrocustoreduzido');?>
-   <?= $model->matc_tipo == 'Apostilas' ? 
+   <?= $model->matc_tipo == 1 ? 
       '<div class="col-md-2">'.
          $form->field($model, 'matc_centrocusto')->widget(DepDrop::classname(), [
             'type'=>DepDrop::TYPE_SELECT2,
