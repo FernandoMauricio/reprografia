@@ -19,7 +19,7 @@ class MaterialCopiasSearch extends MaterialCopias
     {
         return [
             [['matc_id', 'situacao_id', 'matc_totalValorMono', 'matc_totalValorColor'], 'integer'],
-            [['matc_curso', 'matc_centrocusto', 'matc_unidade', 'matc_solicitante', 'matc_data'], 'safe'],
+            [['matc_curso', 'matc_centrocusto', 'matc_unidade', 'matc_solicitante', 'matc_data', 'matc_tipo'], 'safe'],
         ];
     }
 
@@ -68,6 +68,7 @@ class MaterialCopiasSearch extends MaterialCopias
             'matc_totalValorMono' => $this->matc_totalValorMono,
             'matc_totalValorColor' => $this->matc_totalValorColor,
             'matc_unidade' => $session['sess_codunidade'],
+            'matc_tipo' => $this->matc_tipo,
         ]);
 
 

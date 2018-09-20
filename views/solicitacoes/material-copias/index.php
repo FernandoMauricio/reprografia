@@ -64,8 +64,15 @@ $gridColumns = [
     ],
 
     [
-      'attribute'=>'matc_tipo',
-      'width'=>'3%'
+        'attribute'=>'matc_tipo',
+        'width'=>'3%',
+        'value' => function ($data) { return $data->matc_tipo == 1 ? 'Apostilas' : 'Impressões'; },
+        'filterType'=>GridView::FILTER_SELECT2,
+        'filter'=> [1=>'Apostilas',2=>'Impressões'],
+        'filterWidgetOptions'=>[
+            'pluginOptions'=>['allowClear'=>true],
+        ],
+            'filterInputOptions'=>['placeholder'=>'Tipo de Serviço'],
     ],
 
     [
