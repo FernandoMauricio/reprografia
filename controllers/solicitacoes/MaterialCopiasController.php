@@ -219,6 +219,13 @@ class MaterialCopiasController extends Controller
                             }
                         }
                     }
+
+                   // -------atualiza os valores em reais
+                    $sql = 'SELECT SUM((item_qtexemplares* item_mono) * 0.12) AS matc_totalValorMono FROM materialcopias_item INNER JOIN `materialcopias_matc` ON `materialcopias_item`.`materialcopias_id` = `materialcopias_matc`.`matc_id` WHERE `materialcopias_id` ='.$model->matc_id.'';
+                    $totalMono = MaterialCopias::findBySql($sql)->one();
+                    Yii::$app->db->createCommand('UPDATE `materialcopias_matc` SET `matc_totalValorMono` = '.$totalMono->matc_totalValorMono.' WHERE `matc_id` = '.$model->matc_id.'')
+                    ->execute();
+
                     if ($flag && $session['sess_responsavelsetor'] == 0) {
                         $transaction->commit();
                         //ENVIANDO EMAIL PARA O GERENTE DO SETOR INFORMANDO SOBRE A SOLICITAÇÃO PENDENTE DE AUTORIZAÇÃO

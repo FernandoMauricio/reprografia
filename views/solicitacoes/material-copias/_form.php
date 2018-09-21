@@ -105,7 +105,7 @@ use kartik\depdrop\DepDrop;
         'modelsItens' => $modelsItens,
     ]) ?>
 
-<div class="panel panel-primary">
+<!-- <div class="panel panel-primary">
    <div class="panel-heading">
      <h3 class="panel-title"><i class="glyphicon glyphicon-book"></i> DADOS FINANCEIROS</h3>
    </div>
@@ -144,7 +144,7 @@ use kartik\depdrop\DepDrop;
          </div>
       </div> 
    </div>
-</div>
+</div> -->
 
 <div class="panel panel-primary">
    <div class="panel-heading">

@@ -63,7 +63,7 @@ class MaterialCopias extends \yii\db\ActiveRecord
     {
         return [
             [['matc_centrocusto'], 'validarTipo', 'skipOnError' => false],
-            [['listAcabamento', 'matc_curso', 'situacao_id', 'matc_totalValorMono', 'matc_totalValorColor', 'matc_totalGeral', 'matc_centrocusto', 'matc_tipo'], 'required'],
+            [['listAcabamento', 'matc_curso', 'situacao_id', 'matc_centrocusto', 'matc_tipo'], 'required'],
             [['situacao_id','matc_autorizado', 'matc_encaminhadoRepro', 'matc_segmento', 'matc_tipoacao'], 'integer'],
             [['matc_data', 'matc_dataAut','matc_dataRepro', 'segmentoLabel', 'tipoLabel'], 'safe'],
             [['matc_totalValorMono', 'matc_totalValorColor', 'matc_totalGeral'], 'number'],
