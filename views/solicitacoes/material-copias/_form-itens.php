@@ -102,11 +102,10 @@ $this->registerJs($js);
          .'</div>';
       ?>
 
-      <div class="col-sm-2"><?= $form->field($modelItens, "[{$i}]item_qtoriginais")->textInput(['onkeyup' => 'totais($(this))', 'readonly'=> true]) ?></div>
+      <div class="col-sm-2"><?= $form->field($modelItens, "[{$i}]item_qtoriginais")->textInput(['onkeyup' => 'totais($(this))', 'readonly'=> $model->matc_tipo == 1 ? true : false]) ?></div>
 
       <div class="col-sm-2">
-         <?= $form->field($modelItens, "[{$i}]item_qtexemplares")->textInput(['onkeyup' => 'totais($(this))']);
-         ?> 
+         <?= $form->field($modelItens, "[{$i}]item_qtexemplares")->textInput(['onkeyup' => 'totais($(this))']); ?> 
       </div>
 
       <div class="col-sm-2"><?= $form->field($modelItens, "[{$i}]item_qteCopias")->textInput(['readonly'=> true]) ?></div>
@@ -150,7 +149,6 @@ $this->registerJs($js);
    <?php endforeach; ?>
    </div>
 </div>
-
 <script type="text/javascript">
    function totais(item){
       var mono = 0.10; //Valor padrão mono
@@ -168,7 +166,6 @@ $this->registerJs($js);
 
       $('#materialcopiasitens-' + i + '-item_qtecopias').val(item_qtoriginais * item_qtexemplares);
       $('#materialcopiasitens-' + i + '-item_qtetotal').val((item_mono + item_color) * item_qtexemplares);
-
       $('#materialcopiasitens-' + i + '-totalmono').val((item_qtexemplares  * item_mono) * mono);
    }
 </script>

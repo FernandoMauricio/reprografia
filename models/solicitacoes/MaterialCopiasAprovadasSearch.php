@@ -67,7 +67,7 @@ class MaterialCopiasAprovadasSearch extends MaterialCopiasAprovadas
             'matc_totalValorColor' => $this->matc_totalValorColor,
             'matc_dataAut' => $this->matc_dataAut,
             'matc_dataRepro' => $this->matc_dataRepro,
-            'situacao_id' => [2,4,5], //APROVADAS, ENCAMINHADO À TERCEIRIZADA, PRODUÇÃO INTERNA
+            'situacao_id' => 4, //ENCAMINHADO À TERCEIRIZADA
 
         ]);
 

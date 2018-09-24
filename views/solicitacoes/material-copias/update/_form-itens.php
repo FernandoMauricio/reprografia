@@ -97,7 +97,7 @@ $this->registerJs($js);
          ?> 
       </div>
 
-      <div class="col-sm-2"><?= $form->field($modelItens, "[{$i}]item_qtoriginais")->textInput(['onkeyup' => 'totais($(this))','readonly'=> true]) ?> </div>
+      <div class="col-sm-2"><?= $form->field($modelItens, "[{$i}]item_qtoriginais")->textInput(['onkeyup' => 'totais($(this))', 'readonly'=> $model->matc_tipo == 1 ? true : false]) ?></div>
 
       <div class="col-sm-2"><?= $form->field($modelItens, "[{$i}]item_qtexemplares")->textInput(['onkeyup' => 'totais($(this))']);?></div>
         
@@ -147,12 +147,14 @@ $this->registerJs($js);
       var item_qtoriginais = parseFloat($('#materialcopiasitens-' + i + '-item_qtoriginais').val());
       var item_mono = parseFloat($('#materialcopiasitens-' + i + '-item_mono').val());
       var item_color = parseFloat($('#materialcopiasitens-' + i + '-item_color').val());
+
       // horas = horas == "" ? 0 : Number(horas.split(",").join(""));
       // var valorhora = $('#modelOptionValue-' + i + '-valorhora').val();
       // valorhora = valorhora == "" ? 0 : Number(valorhora.split(",").join(""));
 
       $('#materialcopiasitens-' + i + '-item_qtecopias').val(item_qtoriginais * item_qtexemplares);
       $('#materialcopiasitens-' + i + '-item_qtetotal').val((item_mono + item_color) * item_qtexemplares);
+      $('#materialcopiasitens-' + i + '-totalmono').val((item_qtexemplares  * item_mono) * mono);
    }
 </script>
 

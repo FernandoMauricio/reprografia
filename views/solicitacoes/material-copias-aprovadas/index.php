@@ -82,36 +82,36 @@ $gridColumns = [
     ],
 
 
-    ['class' => 'yii\grid\ActionColumn',
-    'template' => '{encaminharterceirizada} {producaointerna}',
-    'options' => ['width' => '15%'],
-    'buttons' => [
+    // ['class' => 'yii\grid\ActionColumn',
+    // 'template' => '{encaminharterceirizada} {producaointerna}',
+    // 'options' => ['width' => '15%'],
+    // 'buttons' => [
 
-    //ENCAMINHADO À TERCEIRIZADA
-    'encaminharterceirizada' => function ($url, $model) {
-        return Html::a('<span class="glyphicon glyphicon-share"></span> Terceirizada', $url, [
-                    'class' => 'btn btn-warning btn-xs',
-                    'title' => Yii::t('app', 'Encaminhar à Terceirizada'),
-                    'data'  => [
-                        'confirm' => 'Você tem CERTEZA que deseja ENCAMINHAR À TERCEIRIZADA?',
-                        'method' => 'post',
-                         ],
-                    ]);
-                },
+    // //ENCAMINHADO À TERCEIRIZADA
+    // 'encaminharterceirizada' => function ($url, $model) {
+    //     return Html::a('<span class="glyphicon glyphicon-share"></span> Terceirizada', $url, [
+    //                 'class' => 'btn btn-warning btn-xs',
+    //                 'title' => Yii::t('app', 'Encaminhar à Terceirizada'),
+    //                 'data'  => [
+    //                     'confirm' => 'Você tem CERTEZA que deseja ENCAMINHAR À TERCEIRIZADA?',
+    //                     'method' => 'post',
+    //                      ],
+    //                 ]);
+    //             },
 
-    //PRODUÇÃO INTERNA
-    'producaointerna' => function ($url, $model) {
-        return Html::a('<span class="glyphicon glyphicon-book"></span> Produção Interna', $url, [
-                    'class' => 'btn btn-info btn-xs',
-                    'title' => Yii::t('app', 'Reprovar Solicitação'),
-                    'data'  => [
-                        'confirm' => 'Você tem CERTEZA que deseja ENCAMINHAR PARA PRODUÇÃO INTERNA?',
-                        'method' => 'post',
-                         ],
-                    ]);
-                },
-    ],
-    ],
+    // //PRODUÇÃO INTERNA
+    // 'producaointerna' => function ($url, $model) {
+    //     return Html::a('<span class="glyphicon glyphicon-book"></span> Produção Interna', $url, [
+    //                 'class' => 'btn btn-info btn-xs',
+    //                 'title' => Yii::t('app', 'Reprovar Solicitação'),
+    //                 'data'  => [
+    //                     'confirm' => 'Você tem CERTEZA que deseja ENCAMINHAR PARA PRODUÇÃO INTERNA?',
+    //                     'method' => 'post',
+    //                      ],
+    //                 ]);
+    //             },
+    // ],
+    // ],
 
     ['class' => 'yii\grid\ActionColumn',
     'template' => '{finalizar}',
@@ -170,7 +170,7 @@ $gridColumns = [
         [
             'columns'=>[
                 ['content'=>'Detalhes das Solicitações de Cópias', 'options'=>['colspan'=>6, 'class'=>'text-center warning']], 
-                ['content'=>'Encaminhamentos', 'options'=>['colspan'=>1, 'class'=>'text-center warning']], 
+                //['content'=>'Encaminhamentos', 'options'=>['colspan'=>1, 'class'=>'text-center warning']], 
                 ['content'=>'Ações', 'options'=>['colspan'=>2, 'class'=>'text-center warning']], 
             ],
         ]

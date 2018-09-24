@@ -41,6 +41,16 @@ $this->params['breadcrumbs'][] = $this->title;
     Modal::end();
 ?>
 
+<?php Modal::begin([
+    'id' => 'activity-modal',
+    'header' => '<h4>Recebimento da Requisição</h4>',
+    'clientOptions' => ['backdrop' => 'static', 'keyboard' => true],
+]);
+?>
+<div class="well"></div>
+
+<?php Modal::end(); ?>
+
 <?php
 
 $gridColumns = [
@@ -109,7 +119,7 @@ $gridColumns = [
     ],
 
     ['class' => 'yii\grid\ActionColumn',
-    'template' => '{view} {update} {observacoes} {encaminharterceirizada}',
+    'template' => '{view} {update} {observacoes} {encaminharterceirizada} {receber-requisicao}',
     'options' => ['width' => '10%'],
     'buttons' => [
 
@@ -157,6 +167,20 @@ $gridColumns = [
             'title' => Yii::t('app', 'Observações'),
             ]): '';
         },
+
+    //RECEBIDO
+    'receber-requisicao' => function ($url, $model, $key) {
+        return  $model->situacao_id == 6 ? Html::a('<span class="glyphicon glyphicon-ok"></span> Pedido Recebido', $url, [
+            //'class' => 'btn btn-success btn-xs',
+            'title' => Yii::t('app', 'Recebido Pelo Solicitante'),
+            'class' => 'receber-requisicao',
+            'data-toggle' => 'modal',
+            'data-target' => '#activity-modal',
+            'data-id' => $key,
+            'data-pjax' => '0',
+            ]): '';
+        },
+
     ],
 ],
 ]; 
@@ -212,5 +236,21 @@ $gridColumns = [
     ?>
     <?php Pjax::end(); ?>
 
-</div>
+<?php $this->registerJs(
+"$('.receber-requisicao').click(function() {
+    $.get(
+    'index.php?r=solicitacoes/material-copias/receber-requisicao',
+        {
+            id: $(this).closest('tr').data('key')
+        },
 
+        function (data) {
+            $('.modal-body').html(data);
+            $('#activity-modal').modal();
+        }  
+    );
+});
+"
+); ?>
+
+</div>

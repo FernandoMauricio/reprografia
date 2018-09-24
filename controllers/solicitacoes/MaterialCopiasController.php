@@ -66,11 +66,23 @@ class MaterialCopiasController extends Controller
         $model = new MaterialCopias();
  
         if ($model->load(Yii::$app->request->post())) {
-                return $this->redirect(['create', 'matc_tipo' => $model->matc_tipo]);
-            }
-            return $this->renderAjax('gerar-requisicao', [
-                'model' => $model,
-            ]);
+            return $this->redirect(['create', 'matc_tipo' => $model->matc_tipo]);
+        }
+        return $this->renderAjax('gerar-requisicao', [
+            'model' => $model,
+        ]);
+    }
+
+    public function actionReceberRequisicao($id) 
+    {
+        $model = $this->findModel($id);
+
+        if ($model->load(Yii::$app->request->post())) {
+            return $this->redirect(['index']);
+        }
+        return $this->renderAjax('receber-requisicao', [
+            'model' => $model,
+        ]);
     }
 
     public function actionEncaminharterceirizada($id)

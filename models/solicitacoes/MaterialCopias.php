@@ -54,7 +54,7 @@ class MaterialCopias extends \yii\db\ActiveRecord
     {
         return Yii::$app->get('db');
     }
-
+ 
     /**
      * @inheritdoc
      */
@@ -64,12 +64,12 @@ class MaterialCopias extends \yii\db\ActiveRecord
             [['matc_centrocusto'], 'validarTipo', 'skipOnError' => false],
             [['listAcabamento', 'matc_curso', 'situacao_id', 'matc_centrocusto', 'matc_tipo'], 'required'],
             [['situacao_id','matc_autorizado', 'matc_encaminhadoRepro', 'matc_segmento', 'matc_tipoacao'], 'integer'],
-            [['matc_data', 'matc_dataAut','matc_dataRepro', 'segmentoLabel', 'tipoLabel'], 'safe'],
+            [['matc_data', 'matc_dataAut','matc_dataRepro', 'segmentoLabel', 'tipoLabel', 'matc_dataReceb'], 'safe'],
             [['matc_totalValorMono', 'matc_totalValorColor', 'matc_totalGeral'], 'number'],
-            [['matc_curso'], 'string', 'max' => 255],
+            [['matc_curso', 'matc_descricaoReceb'], 'string', 'max' => 255],
             [['matc_tipo'], 'string', 'max' => 45],
             //[['matc_centrocusto'], 'string',  'min' => 6, 'max' => 6,'tooShort' => '"{attribute}" deve conter 5 números'], // exemplo: 25.555
-            [['matc_unidade', 'matc_solicitante', 'matc_ResponsavelAut','matc_ResponsavelRepro'], 'string', 'max' => 100],
+            [['matc_unidade', 'matc_solicitante', 'matc_ResponsavelAut', 'matc_ResponsavelRepro', 'matc_responsavelReceb'], 'string', 'max' => 100],
             [['situacao_id'], 'exist', 'skipOnError' => true, 'targetClass' => Situacao::className(), 'targetAttribute' => ['situacao_id' => 'sitmat_id']],
             [['matc_segmento', 'matc_tipoacao'], 'required', 'when' => function ($model) { 
                 return $model->matc_tipo=='Apostilas';
@@ -111,7 +111,9 @@ class MaterialCopias extends \yii\db\ActiveRecord
             'matc_totalValorColor' => 'Total em cópias coloridas',
             'matc_totalGeral' => 'Total Geral',
             'matc_tipo' => 'Tipo de Serviço',
-
+            'matc_responsavelReceb' => 'Recebido por',
+            'matc_dataReceb' => 'Data Recebimento', 
+            'matc_descricaoReceb' => 'Observação do Recebimento',
             'listAcabamento' => 'Serviços de Acabamento',
             'segmentoLabel' => 'Segmento',
             'tipoLabel' => 'Tipo de Ação',
