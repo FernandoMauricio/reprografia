@@ -176,11 +176,11 @@ $this->params['breadcrumbs'][] = $this->title;
       </thead>
       <tbody>
          <tr class="warning" style="border-top: #dedede">
-            <td>Subtotal Mono<i> (Qte Exemplares * Mono) * R$ 0,12</i></td>
+            <td>Subtotal Mono<i> (Qte Exemplares * Mono) * R$ 0,10</i></td>
             <td style="color:red"><?= 'R$ ' . number_format($model->matc_totalValorMono, 2, ',', '.') ?></td>
          </tr>
          <tr class="warning" style="border-top: #dedede">
-            <td>Subtotal Color<i> (Qte Exemplares * Color) * R$ 0,6</i></td>
+            <td>Subtotal Color<i> (Qte Exemplares * Color) * R$ 0,95</i></td>
             <td style="color:red"><?= 'R$ ' . number_format($model->matc_totalValorColor, 2, ',', '.') ?></td>
          </tr>
          <?php

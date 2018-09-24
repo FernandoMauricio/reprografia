@@ -200,7 +200,7 @@ $attributes = [
             </tr>
 
                <tr class="warning" style="border-top: #dedede">
-               <td>Subtotal Color<i> (Qte Exemplares * Color) * R$ 0,6</i></td>
+               <td>Subtotal Color<i> (Qte Exemplares * Color) * R$ 0,95</i></td>
                <td style="color:red"><?php echo 'R$ ' . number_format($model->matc_totalValorColor, 2, ',', '.') ?></td>
         </tr>
 

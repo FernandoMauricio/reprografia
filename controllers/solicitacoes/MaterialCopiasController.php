@@ -218,7 +218,7 @@ class MaterialCopiasController extends Controller
                         }
                     }
                    // -------atualiza os valores em reais de mono e color
-                    $sql = 'SELECT SUM((item_qtexemplares*item_mono) * 0.12) AS matc_totalValorMono, SUM((item_qtexemplares*item_color) * 0.60) AS matc_totalValorColor, SUM(((item_qtexemplares*item_mono) * 0.12) + ((item_qtexemplares*item_color) * 0.60)) AS matc_totalGeral FROM materialcopias_item INNER JOIN `materialcopias_matc` ON `materialcopias_item`.`materialcopias_id` = `materialcopias_matc`.`matc_id` WHERE `materialcopias_id` ='.$model->matc_id.'';
+                    $sql = 'SELECT SUM((item_qtexemplares*item_mono) * 0.10) AS matc_totalValorMono, SUM((item_qtexemplares*item_color) * 0.95) AS matc_totalValorColor, SUM(((item_qtexemplares*item_mono) * 0.10) + ((item_qtexemplares*item_color) * 0.95)) AS matc_totalGeral FROM materialcopias_item INNER JOIN `materialcopias_matc` ON `materialcopias_item`.`materialcopias_id` = `materialcopias_matc`.`matc_id` WHERE `materialcopias_id` ='.$model->matc_id.'';
                     $total = MaterialCopias::findBySql($sql)->one();
                     Yii::$app->db->createCommand('UPDATE `materialcopias_matc` SET `matc_totalValorMono` = '.$total->matc_totalValorMono.', `matc_totalValorColor` = '.$total->matc_totalValorColor.',`matc_totalGeral` = '.$total->matc_totalGeral.' WHERE `matc_id` = '.$model->matc_id.'')
                     ->execute();
@@ -342,7 +342,7 @@ class MaterialCopiasController extends Controller
                     if ($flag) {
                         $transaction->commit();
                         // -------atualiza os valores em reais de mono e color
-                        $sql = 'SELECT SUM((item_qtexemplares*item_mono) * 0.12) AS matc_totalValorMono, SUM((item_qtexemplares*item_color) * 0.60) AS matc_totalValorColor, SUM(((item_qtexemplares*item_mono) * 0.12) + ((item_qtexemplares*item_color) * 0.60)) AS matc_totalGeral FROM materialcopias_item INNER JOIN `materialcopias_matc` ON `materialcopias_item`.`materialcopias_id` = `materialcopias_matc`.`matc_id` WHERE `materialcopias_id` ='.$model->matc_id.'';
+                        $sql = 'SELECT SUM((item_qtexemplares*item_mono) * 0.10) AS matc_totalValorMono, SUM((item_qtexemplares*item_color) * 0.95) AS matc_totalValorColor, SUM(((item_qtexemplares*item_mono) * 0.10) + ((item_qtexemplares*item_color) * 0.95)) AS matc_totalGeral FROM materialcopias_item INNER JOIN `materialcopias_matc` ON `materialcopias_item`.`materialcopias_id` = `materialcopias_matc`.`matc_id` WHERE `materialcopias_id` ='.$model->matc_id.'';
                         $total = MaterialCopias::findBySql($sql)->one();
                         Yii::$app->db->createCommand('UPDATE `materialcopias_matc` SET `matc_totalValorMono` = '.$total->matc_totalValorMono.', `matc_totalValorColor` = '.$total->matc_totalValorColor.',`matc_totalGeral` = '.$total->matc_totalGeral.' WHERE `matc_id` = '.$model->matc_id.'')
                         ->execute();

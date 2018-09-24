@@ -153,8 +153,8 @@ $this->registerJs($js);
 
 <script type="text/javascript">
    function totais(item){
-      var mono = 0.12; //Valor padrão mono
-      var color = 0.6; //Valor padrão color
+      var mono = 0.10; //Valor padrão mono
+      var color = 0.95; //Valor padrão color
       var total = 0;
       var i = item.attr("id").replace(/[^0-9.]/g, "");   
       var item_qtexemplares = parseFloat($('#materialcopiasitens-' + i + '-item_qtexemplares').val());
