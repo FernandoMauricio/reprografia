@@ -140,14 +140,14 @@ class MaterialCopias extends \yii\db\ActiveRecord
         return $data;
     }
 
-    public function getCopiasAcabamento() {//Relation between Cargos & Processo table
+    public function getCopiasAcabamento() {//Relation between Acabamento & Material Copias table
     
         return $this->hasMany(CopiasAcabamento::className(), ['materialcopias_id' => 'matc_id']);
     }
 
 
     public function afterSave($insert, $changedAttributes){
-        //Cargos
+        //Acabamento
         \Yii::$app->db->createCommand()->delete('copiasacabamento_copac', 'materialcopias_id = '.(int) $this->matc_id)->execute(); //Delete existing value
         foreach ($this->listAcabamento as $id) { //Write new values
             $tc = new CopiasAcabamento();

@@ -19,7 +19,7 @@ use yii\widgets\ActiveForm;
 </div>
 
     <div class="form-group">
-        <?= Html::submitButton('Criar', ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton('Confirmar Recebimento', ['class' => 'btn btn-success']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

@@ -75,9 +75,14 @@ class MaterialCopiasController extends Controller
 
     public function actionReceberRequisicao($id) 
     {
+        $session = Yii::$app->session;
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post())) {
+
+        Yii::$app->db->createCommand('UPDATE `materialcopias_matc` SET `matc_responsavelReceb` = "'.$session['sess_nomeusuario'].'", `matc_dataReceb` = "'.date('Y-m-d H:i:s').'", `situacao_id` = 9 WHERE `matc_id` = '.$model->matc_id.'')
+         ->execute();
+        Yii::$app->session->setFlash('success', '<strong>SUCESSO! </strong> Solicitação de Cópia de código:  <strong> '.$model->matc_id.'</strong> Recebido!');
             return $this->redirect(['index']);
         }
         return $this->renderAjax('receber-requisicao', [
