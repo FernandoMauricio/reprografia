@@ -22,6 +22,14 @@ $this->params['breadcrumbs'][] = $this->title;
       <span class="pull-right"><b>Situação: </b><small><span class="label label-warning" style="font-size: 100%;font-weight:normal"><?= $model->situacao->sitmat_descricao; ?></span></small></span>
    </p><br /><br />
 
+<!-- Mensagem informando o recebimento  -->
+<?php if($model->matc_dataReceb != NULL): ?> 
+    <div class='alert alert-success' align='center' role='alert'>
+        <span class='glyphicon glyphicon-alert' aria-hidden='true'></span> Requisição <b>recebida</b> por: <b><?= ucwords(mb_strtolower($model->matc_responsavelReceb)) ?></b> em <?= date('d/m/Y à\s H:i', strtotime($model->matc_dataReceb)) ?> <br />
+        Observação: <?= $model->matc_descricaoReceb ?>
+        </div>
+<?php endif; ?>
+
 <div class="panel panel-primary">
    <div class="panel-heading">
       <h3 class="panel-title"><i class="glyphicon glyphicon-book"></i> DETALHES DA SOLICITAÇÃO DE CÓPIA</h3>

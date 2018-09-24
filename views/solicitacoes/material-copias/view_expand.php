@@ -20,6 +20,14 @@ use app\models\solicitacoes\MaterialCopiasItens;
          </div>
    </div>
 
+<!-- Mensagem informando o recebimento  -->
+<?php if($model->matc_dataReceb != NULL): ?> 
+    <div class='alert alert-success' align='center' role='alert'>
+        <span class='glyphicon glyphicon-alert' aria-hidden='true'></span> Requisição <b>recebida</b> por: <b><?= ucwords(mb_strtolower($model->matc_responsavelReceb)) ?></b> em <?= date('d/m/Y à\s H:i', strtotime($model->matc_dataReceb)) ?> <br />
+        Observação: <?= $model->matc_descricaoReceb ?>
+        </div>
+<?php endif; ?>
+
 <div class="panel panel-info">
    <div class="panel-heading">
       <h3 class="panel-title"><i class="glyphicon glyphicon-book"></i> DETALHES DA SOLICITAÇÃO DE CÓPIA</h3>
