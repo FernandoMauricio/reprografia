@@ -180,8 +180,6 @@ class MaterialCopiasController extends Controller
   
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
 
-            $model->matc_totalGeral = $model->matc_totalValorMono + $model->matc_totalValorColor;
-
             //Inserir vários itens na solicitação
             $modelsItens = Model::createMultiple(MaterialCopiasItens::classname());
             Model::loadMultiple($modelsItens, Yii::$app->request->post());
@@ -219,11 +217,10 @@ class MaterialCopiasController extends Controller
                             }
                         }
                     }
-
-                   // -------atualiza os valores em reais
-                    $sql = 'SELECT SUM((item_qtexemplares* item_mono) * 0.12) AS matc_totalValorMono FROM materialcopias_item INNER JOIN `materialcopias_matc` ON `materialcopias_item`.`materialcopias_id` = `materialcopias_matc`.`matc_id` WHERE `materialcopias_id` ='.$model->matc_id.'';
-                    $totalMono = MaterialCopias::findBySql($sql)->one();
-                    Yii::$app->db->createCommand('UPDATE `materialcopias_matc` SET `matc_totalValorMono` = '.$totalMono->matc_totalValorMono.' WHERE `matc_id` = '.$model->matc_id.'')
+                   // -------atualiza os valores em reais de mono e color
+                    $sql = 'SELECT SUM((item_qtexemplares*item_mono) * 0.12) AS matc_totalValorMono, SUM((item_qtexemplares*item_color) * 0.60) AS matc_totalValorColor, SUM(((item_qtexemplares*item_mono) * 0.12) + ((item_qtexemplares*item_color) * 0.60)) AS matc_totalGeral FROM materialcopias_item INNER JOIN `materialcopias_matc` ON `materialcopias_item`.`materialcopias_id` = `materialcopias_matc`.`matc_id` WHERE `materialcopias_id` ='.$model->matc_id.'';
+                    $total = MaterialCopias::findBySql($sql)->one();
+                    Yii::$app->db->createCommand('UPDATE `materialcopias_matc` SET `matc_totalValorMono` = '.$total->matc_totalValorMono.', `matc_totalValorColor` = '.$total->matc_totalValorColor.',`matc_totalGeral` = '.$total->matc_totalGeral.' WHERE `matc_id` = '.$model->matc_id.'')
                     ->execute();
 
                     if ($flag && $session['sess_responsavelsetor'] == 0) {
@@ -246,8 +243,6 @@ class MaterialCopiasController extends Controller
                 Yii::$app->db->createCommand('UPDATE `materialcopias_matc` SET `situacao_id` = 7 , `matc_autorizadoGer` = 1, `matc_ResponsavelGer` = "'.$model->matc_ResponsavelGer.'" , `matc_dataGer` = "'.$model->matc_dataGer.'" WHERE `matc_id` = '.$model->matc_id.'')
                 ->execute();
 
-                $model->matc_totalGeral = $model->matc_totalValorMono + $model->matc_totalValorColor;
-
                 $model->situacao_id = 7;
                 if($model->situacao_id == 7){
                     //ENVIANDO EMAIL PARA OS RESPONSÁVEIS DO GABINETE TÉCNICO INFORMANDO SOBRE O RECEBIMENTO DE UMA NOVA SOLICITAÇÃO DE CÓPIA 
@@ -259,6 +254,7 @@ class MaterialCopiasController extends Controller
                 $transaction->rollBack();
             }
         }
+
         if($model->save()){
             Yii::$app->session->setFlash('success', '<strong>SUCESSO! </strong> Solicitação de Cópia cadastrada!</strong>');
         }
@@ -318,8 +314,6 @@ class MaterialCopiasController extends Controller
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
          
-        $model->matc_totalGeral = $model->matc_totalValorMono + $model->matc_totalValorColor;
-
         //--------Materiais Didáticos--------------
         $oldIDsItens = ArrayHelper::map($modelsItens, 'id', 'id');
         $modelsItens = Model::createMultiple(MaterialCopiasItens::classname(), $modelsItens);
@@ -347,10 +341,17 @@ class MaterialCopiasController extends Controller
                     }
                     if ($flag) {
                         $transaction->commit();
-                        //-------atualiza a situação pra aprovado pela gerência do setor
+                        // -------atualiza os valores em reais de mono e color
+                        $sql = 'SELECT SUM((item_qtexemplares*item_mono) * 0.12) AS matc_totalValorMono, SUM((item_qtexemplares*item_color) * 0.60) AS matc_totalValorColor, SUM(((item_qtexemplares*item_mono) * 0.12) + ((item_qtexemplares*item_color) * 0.60)) AS matc_totalGeral FROM materialcopias_item INNER JOIN `materialcopias_matc` ON `materialcopias_item`.`materialcopias_id` = `materialcopias_matc`.`matc_id` WHERE `materialcopias_id` ='.$model->matc_id.'';
+                        $total = MaterialCopias::findBySql($sql)->one();
+                        Yii::$app->db->createCommand('UPDATE `materialcopias_matc` SET `matc_totalValorMono` = '.$total->matc_totalValorMono.', `matc_totalValorColor` = '.$total->matc_totalValorColor.',`matc_totalGeral` = '.$total->matc_totalGeral.' WHERE `matc_id` = '.$model->matc_id.'')
+                        ->execute();
+
+                        //-------atualiza a situação para enviado para autorização
                         Yii::$app->db->createCommand('UPDATE `materialcopias_matc` SET `situacao_id` = 1, `matc_autorizadoGer` = NULL, `matc_ResponsavelGer` = NULL, `matc_dataGer` = NULL, `matc_autorizado` = NULL, `matc_ResponsavelAut` = NULL, `matc_dataAut` = NULL WHERE `matc_id` = '.$model->matc_id.'')->execute();
                         //ENVIANDO EMAIL PARA O GERENTE DO SETOR INFORMANDO SOBRE A SOLICITAÇÃO PENDENTE DE AUTORIZAÇÃO
                         Yii::$app->runAction('email/enviar-email-autorizacao-gerencia', ['id' => $model->matc_id]);
+
                         Yii::$app->session->setFlash('success', '<strong>SUCESSO! </strong> Solicitação de Cópia atualizada!</strong>');
                         return $this->redirect(['view', 'id' => $model->matc_id]);
                     }

@@ -8,12 +8,12 @@ use app\models\solicitacoes\MaterialCopiasItens;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\solicitacoes\MaterialCopias */
-
+$this->title = 'Solicitação de Cópia: ' . $model->matc_id;
 $this->params['breadcrumbs'][] = ['label' => 'Solicitações de Cópias', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="material-copias-view">
-   <h2><?= 'Solicitação de Cópia: '. Html::encode($this->title) ?> <small><span class="label-material-copias-view"><?= $model->matc_tipo == 1 ? 'Requisição de Apostilas' : 'Requisição de Impressão'; ?></span></small></h2>
+   <h2><?= Html::encode($this->title) ?> <small><span class="label-material-copias-view"><?= $model->matc_tipo == 1 ? 'Requisição de Apostilas' : 'Requisição de Impressão'; ?></span></small></h2>
 
    <p><?= Html::a('<span class="glyphicon glyphicon-arrow-left"></span> Retornar', ['index'], ['class' => 'btn btn-default']) ?></p>
 

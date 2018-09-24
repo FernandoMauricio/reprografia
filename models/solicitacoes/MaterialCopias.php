@@ -36,7 +36,6 @@ use app\models\cadastros\Tipo;
 class MaterialCopias extends \yii\db\ActiveRecord
 {
     public $listAcabamento;
-    public $matc_totalGeral;
     public $segmentoLabel;
     public $tipoLabel;
 
@@ -78,12 +77,12 @@ class MaterialCopias extends \yii\db\ActiveRecord
                     return $('#materialcopias-matc_tipo').val() == 'Apostilas';
                 }"
             ],
-            [['matc_totalGeral'], 'compare', 'compareValue' => 'matc_totalValorMono', 'operator' => '==', 'when' => function ($model) { 
-                return $model->matc_totalGeral != $model->matc_totalValorMono;
-            }, 'whenClient' => "function (attribute, value) { 
-                    return $('#materialcopias-matc_totalgeral').val() != $('#materialcopias-matc_totalvalormono').val();
-                }"
-            ],
+            // [['matc_totalGeral'], 'compare', 'compareValue' => 'matc_totalValorMono', 'operator' => '==', 'when' => function ($model) { 
+            //     return $model->matc_totalGeral != $model->matc_totalValorMono;
+            // }, 'whenClient' => "function (attribute, value) { 
+            //         return $('#materialcopias-matc_totalgeral').val() != $('#materialcopias-matc_totalvalormono').val();
+            //     }"
+            // ],
         ];
     }
 
