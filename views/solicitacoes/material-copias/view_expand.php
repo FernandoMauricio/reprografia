@@ -181,7 +181,7 @@ use app\models\solicitacoes\MaterialCopiasItens;
       </thead>
       <tbody>
          <tr class="warning" style="border-top: #dedede">
-            <td><strong>Subtotal Mono</strong><i> (Qte Exemplares * Mono) * R$ 0,10</i></td>
+            <td><strong>Subtotal Mono</strong><i> (Qte Exemplares * Mono) * R$ 0,12</i></td>
             <td style="color:#c0392b"><?= 'R$ ' . number_format($model->matc_totalValorMono, 2, ',', '.') ?></td>
          </tr>
          <tr class="warning" style="border-top: #dedede">
