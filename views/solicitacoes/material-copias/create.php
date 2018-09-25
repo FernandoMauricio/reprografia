@@ -20,7 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'repositorio' => $repositorio,
         'acabamento'  => $acabamento,
         'centrocusto' => $centrocusto,
-        'modelsItens' => $modelsItens,
+        'modelsItens' => (empty($modelsItens)) ? [new MaterialCopiasItens] : $modelsItens,
     ]) ?>
 
 </div>

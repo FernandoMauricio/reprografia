@@ -18,7 +18,7 @@ use app\models\cadastros\Segmento;
 
 <div class="material-copias-form">
 
-    <?php $form = ActiveForm::begin(['id' => 'dynamic-form']); ?>
+    <?php $form = ActiveForm::begin(['options'=>['id' => 'dynamic-form', 'enctype'=>'multipart/form-data']]); ?>
 
 <div class="row">
     <?= $model->matc_tipo == 1 ? 

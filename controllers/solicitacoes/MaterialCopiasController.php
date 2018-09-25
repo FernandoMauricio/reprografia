@@ -195,7 +195,7 @@ class MaterialCopiasController extends Controller
         $model->matc_unidade     = $session['sess_codunidade'];
         $model->situacao_id      = 1;
   
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post())) {
 
             //Inserir vários itens na solicitação
             $modelsItens = Model::createMultiple(MaterialCopiasItens::classname());
@@ -265,28 +265,23 @@ class MaterialCopiasController extends Controller
                     //ENVIANDO EMAIL PARA OS RESPONSÁVEIS DO GABINETE TÉCNICO INFORMANDO SOBRE O RECEBIMENTO DE UMA NOVA SOLICITAÇÃO DE CÓPIA 
                     Yii::$app->runAction('email/enviar-email-gabinete-tecnico', ['id' => $model->matc_id]);
                 }
-                return $this->redirect(['view', 'id' => $model->matc_id]);
+                    Yii::$app->session->setFlash('success', '<strong>SUCESSO! </strong> Solicitação de Cópia cadastrada!</strong>');
+                    return $this->redirect(['view', 'id' => $model->matc_id]);
                 }
-            } catch (Exception $e) {
-                $transaction->rollBack();
+                } catch (Exception $e) {
+                    $transaction->rollBack();
+                }
             }
         }
-
-        if($model->save()){
-            Yii::$app->session->setFlash('success', '<strong>SUCESSO! </strong> Solicitação de Cópia cadastrada!</strong>');
-        }
-    
-            return $this->redirect(['view', 'id' => $model->matc_id]);
-        } else {
-            return $this->render('create', [
-                'model'       => $model,
-                'segmento'    => $segmento,
-                'repositorio' => $repositorio,
-                'acabamento'  => $acabamento,
-                'centrocusto' => $centrocusto,
-                'modelsItens' => (empty($modelsItens)) ? [new MaterialCopiasItens] : $modelsItens,
-            ]);
-        }
+        
+        return $this->render('create', [
+            'model'       => $model,
+            'segmento'    => $segmento,
+            'repositorio' => $repositorio,
+            'acabamento'  => $acabamento,
+            'centrocusto' => $centrocusto,
+            'modelsItens' => (empty($modelsItens)) ? [new MaterialCopiasItens] : $modelsItens,
+        ]);
     }
 
     public function actionObservacoes($id) 

@@ -50,18 +50,15 @@ class MaterialCopiasItens extends \yii\db\ActiveRecord
             [['id', 'item_qtoriginais', 'item_qtexemplares', 'item_qteCopias', 'item_mono', 'item_color', 'item_qteTotal', 'materialcopias_id', 'item_codrepositorio'], 'integer'],
             [['item_descricao', 'item_observacao', 'item_arquivo'], 'string', 'max' => 255],
             [['file'], 'safe'],
-            //[['item_color'], 'compare','compareAttribute'=>'item_mono'],
+            [['item_qteTotal'], 'validarCampo'],
             [['materialcopias_id'], 'exist', 'skipOnError' => true, 'targetClass' => MaterialCopias::className(), 'targetAttribute' => ['materialcopias_id' => 'matc_id']],
-            // [['item_qteTotal'], 'compare', 'compareValue' => 'item_qteCopias', 'operator' => '==', 'when' => function ($models) {
-            //     foreach ($models as $i => $model) {
-            //         return $model->item_qteTotal != $model->item_qteCopias;
-            //     }
-            // }, 'whenClient' => "function (attribute, value) {
-            //     console.log(attribute);
-            //         return $('#materialcopiasitens-0-item_qtetotal').val() != $('#materialcopiasitens-0-item_qtecopias').val();
-            //     }"
-            // ],
         ];
+    }
+
+    public function validarCampo($attribute, $params){
+        if($this->item_qteCopias != $this->item_qteTotal ) {
+            $this->addError($attribute, '"Qte Total" deve ser igual a "Qte Cópias"!');        
+        }
     }
 
     /**
