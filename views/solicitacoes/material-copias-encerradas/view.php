@@ -196,12 +196,12 @@ $attributes = [
 
                <tr class="warning" style="border-top: #dedede">
                <td>Subtotal Mono<i> (Qte Exemplares * Mono) * R$ 0,1</i></td>
-               <td style="color:red"><?php echo 'R$ ' . number_format($model->matc_totalValorMono, 2, ',', '.') ?></td>
+               <td style="color:#c0392b"><?php echo 'R$ ' . number_format($model->matc_totalValorMono, 2, ',', '.') ?></td>
             </tr>
 
                <tr class="warning" style="border-top: #dedede">
                <td>Subtotal Color<i> (Qte Exemplares * Color) * R$ 0,95</i></td>
-               <td style="color:red"><?php echo 'R$ ' . number_format($model->matc_totalValorColor, 2, ',', '.') ?></td>
+               <td style="color:#c0392b"><?php echo 'R$ ' . number_format($model->matc_totalValorColor, 2, ',', '.') ?></td>
         </tr>
 
    
@@ -212,7 +212,7 @@ $attributes = [
                ?>
                <tr class="warning" style="border-top: #dedede">
                <td>TOTAL GERAL<i> (Total Mono + Total Color)</i></td>
-               <td style="color:red"><strong><?php echo 'R$ ' . number_format($sum, 2, ',', '.') ?></strong></td>
+               <td style="color:#c0392b"><strong><?php echo 'R$ ' . number_format($sum, 2, ',', '.') ?></strong></td>
         </tr>
     </tbody>                            
   </table>

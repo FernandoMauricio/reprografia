@@ -166,11 +166,9 @@ use app\models\solicitacoes\MaterialCopiasItens;
          <tr>
             <td colspan="3"><strong>Acabamentos: </strong>
                <?php
-                  $query_acabamento = "SELECT acab_descricao FROM acabamento_acab, copiasacabamento_copac WHERE materialcopias_id = '".$model->matc_id."' AND acabamento_id = acabamento_acab.id";
-                  $acabamento = Acabamento::findBySql($query_acabamento)->all(); 
-                  foreach ($acabamento as $acabamentos) {
-                     echo $acabamentos["acab_descricao"] . " / ";
-                  }
+                  $query_acabamento = "SELECT GROUP_CONCAT(acab_descricao) as acab_descricao FROM acabamento_acab, copiasacabamento_copac WHERE materialcopias_id = '".$model->matc_id."' AND acabamento_id = acabamento_acab.id";
+                  $acabamento = Acabamento::findBySql($query_acabamento)->one();
+                  echo str_replace(",", " / ", $acabamento['acab_descricao']);
                ?>
             </td>
          </tr> 
@@ -183,21 +181,32 @@ use app\models\solicitacoes\MaterialCopiasItens;
       </thead>
       <tbody>
          <tr class="warning" style="border-top: #dedede">
-            <td>Subtotal Mono<i> (Qte Exemplares * Mono) * R$ 0,10</i></td>
-            <td style="color:red"><?= 'R$ ' . number_format($model->matc_totalValorMono, 2, ',', '.') ?></td>
+            <td><strong>Subtotal Mono</strong><i> (Qte Exemplares * Mono) * R$ 0,10</i></td>
+            <td style="color:#c0392b"><?= 'R$ ' . number_format($model->matc_totalValorMono, 2, ',', '.') ?></td>
          </tr>
          <tr class="warning" style="border-top: #dedede">
-            <td>Subtotal Color<i> (Qte Exemplares * Color) * R$ 0,95</i></td>
-            <td style="color:red"><?= 'R$ ' . number_format($model->matc_totalValorColor, 2, ',', '.') ?></td>
+            <td><strong>Subtotal Color</strong><i> (Qte Exemplares * Color) * R$ 0,95</i></td>
+            <td style="color:#c0392b"><?= 'R$ ' . number_format($model->matc_totalValorColor, 2, ',', '.') ?></td>
          </tr>
+         <?php
+            //somatória de Quantidade de Exemplares * 4,00 da Encadernação
+            $query = (new \yii\db\Query())->from('materialcopias_item')->where(['materialcopias_id' => $model->matc_id]);
+            $sumEncadernacao = $query->sum('item_qtexemplares*4');
+         ?>
+         <?php  if(strpos($acabamento["acab_descricao"], 'Encadernação')) { ?>
+         <tr class="warning" style="border-top: #dedede">
+            <td><strong>Encadernação</strong><i> (Qte Exemplares * R$ 4,00)</i></td>
+            <td style="color:#c0392b"><strong><?= 'R$ ' . number_format($sumEncadernacao , 2, ',', '.') ?></strong></td>
+         </tr>
+         <?php } ?>
          <?php
             //somatória de Quantidade * Valor de todas as linhas
             $query = (new \yii\db\Query())->from('materialcopias_matc')->where(['matc_id' => $model->matc_id]);
             $sum = $query->sum('matc_totalValorMono+matc_totalValorColor');
          ?>
          <tr class="warning" style="border-top: #dedede">
-            <td>TOTAL GERAL<i> (Total Mono + Total Color)</i></td>
-            <td style="color:red"><strong><?= 'R$ ' . number_format($sum, 2, ',', '.') ?></strong></td>
+            <td><strong>TOTAL GERAL</strong><i> (Total Mono + Total Color)</i></td>
+            <td style="color:#c0392b"><strong><?= 'R$ ' . number_format(strpos($acabamento["acab_descricao"], 'Encadernação') ? $sum + $sumEncadernacao : $sum, 2, ',', '.') ?></strong></td>
          </tr>
       </tbody>
    </table>
