@@ -123,7 +123,7 @@ $attributes = [
       <tr>
         <th>Material</th>
         <th>Qte Originais</th>
-        <th>Qte Exempalres</th>
+        <th>Qte Exemplares</th>
         <th>Qte Cópias</th>
         <th>Mono</th>
         <th>Color</th>

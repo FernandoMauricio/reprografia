@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use kartik\grid\GridView;
 use app\models\solicitacoes\Situacao;
 use app\models\cadastros\Centrocusto;
+use app\models\solicitacoes\Acabamento;
 use kartik\widgets\Select2;
 use yii\helpers\ArrayHelper;
 use yii\widgets\Pjax;
@@ -102,6 +103,14 @@ $gridColumns = [
     [
         'attribute'=>'matc_curso', 
         'width'=>'30%',
+    ],
+
+    [
+        'attribute'=>'matc_totalGeral',
+        'width'=>'5%',
+        'value' => function ($model) {
+            return 'R$ ' . number_format($model->matc_totalGeral,2, ',', '.');
+        },
     ],
 
     [

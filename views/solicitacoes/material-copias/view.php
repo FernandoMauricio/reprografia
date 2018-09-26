@@ -120,7 +120,7 @@ $this->params['breadcrumbs'][] = $this->title;
          <tr>
             <th>Material</th>
             <th>Qte Originais</th>
-            <th>Qte Exempalres</th>
+            <th>Qte Exemplares</th>
             <th>Qte Cópias</th>
             <th>Mono</th>
             <th>Color</th>
@@ -202,14 +202,9 @@ $this->params['breadcrumbs'][] = $this->title;
             <td style="color:#c0392b"><strong><?= 'R$ ' . number_format($sumEncadernacao , 2, ',', '.') ?></strong></td>
          </tr>
          <?php } ?>
-         <?php
-            //somatória de Quantidade * Valor de todas as linhas
-            $query = (new \yii\db\Query())->from('materialcopias_matc')->where(['matc_id' => $model->matc_id]);
-            $sum = $query->sum('matc_totalValorMono+matc_totalValorColor');
-         ?>
          <tr class="warning" style="border-top: #dedede">
             <td><strong>TOTAL GERAL</strong><i> (Total Mono + Total Color)</i></td>
-            <td style="color:#c0392b"><strong><?= 'R$ ' . number_format($acabamentos["acab_descricao"] == 'Encadernação' ? $sum + $sumEncadernacao : $sum, 2, ',', '.') ?></strong></td>
+            <td style="color:#c0392b"><strong><?= 'R$ ' . number_format($model->matc_totalGeral, 2, ',', '.') ?></strong></td>
          </tr>
       </tbody>
    </table>
