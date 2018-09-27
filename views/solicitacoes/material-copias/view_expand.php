@@ -200,7 +200,7 @@ use app\models\solicitacoes\MaterialCopiasItens;
          </tr>
          <?php } ?>
          <tr class="warning" style="border-top: #dedede">
-            <td><strong>TOTAL GERAL</strong><i> (Total Mono + Total Color)</i></td>
+            <td><strong>TOTAL GERAL</strong></td>
             <td style="color:#c0392b"><strong><?= 'R$ ' . number_format($model->matc_totalGeral, 2, ',', '.') ?></strong></td>
          </tr>
       </tbody>

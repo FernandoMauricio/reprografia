@@ -69,7 +69,7 @@ class MaterialCopiasEncerradasSearch extends MaterialCopiasEncerradas
             'matc_autorizado' => $this->matc_autorizado,
             'matc_dataRepro' => $this->matc_dataRepro,
             'matc_encaminhadoRepro' => $this->matc_encaminhadoRepro,
-            'situacao_id' => 6, //ENCERRADAS
+            'situacao_id' => [6,9], //ENCERRADAS E RECEBIDAS
         ]);
 
         $query->andFilterWhere(['like', 'matc_curso', $this->matc_curso])

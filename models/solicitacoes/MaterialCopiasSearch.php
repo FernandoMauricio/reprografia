@@ -19,7 +19,7 @@ class MaterialCopiasSearch extends MaterialCopias
     {
         return [
             [['matc_id', 'situacao_id', 'matc_totalValorMono', 'matc_totalValorColor'], 'integer'],
-            [['matc_curso', 'matc_centrocusto', 'matc_unidade', 'matc_solicitante', 'matc_data', 'matc_tipo'], 'safe'],
+            [['matc_curso', 'matc_centrocusto', 'matc_unidade', 'matc_solicitante', 'matc_data', 'matc_tipo', 'matc_totalGeral'], 'safe'],
         ];
     }
 
@@ -74,7 +74,8 @@ class MaterialCopiasSearch extends MaterialCopias
 
         $query->andFilterWhere(['like', 'matc_curso', $this->matc_curso])
             ->andFilterWhere(['like', 'matc_centrocusto', $this->matc_centrocusto])
-            ->andFilterWhere(['like', 'matc_solicitante', $this->matc_solicitante]);
+            ->andFilterWhere(['like', 'matc_solicitante', $this->matc_solicitante])
+            ->andFilterWhere(['like', 'matc_totalGeral', $this->matc_totalGeral]);
 
         return $dataProvider;
     }

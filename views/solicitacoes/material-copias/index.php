@@ -232,7 +232,7 @@ $gridColumns = [
     'beforeHeader'=>[
         [
             'columns'=>[
-                ['content'=>'Detalhes das Solicitações de Cópias', 'options'=>['colspan'=>6, 'class'=>'text-center warning']], 
+                ['content'=>'Detalhes das Solicitações de Cópias', 'options'=>['colspan'=>7, 'class'=>'text-center warning']], 
                 ['content'=>'Ações', 'options'=>['colspan'=>1, 'class'=>'text-center warning']], 
             ],
         ]

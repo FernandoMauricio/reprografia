@@ -271,6 +271,38 @@ class EmailController extends Controller
         } 
     }
 
+    public function actionEnviarEmailEncaminhamentoTerceirizada($id)
+    {
+        $model = $this->findModel($id);
+            Yii::$app->mailer->compose()
+            ->setFrom(['reprografia.suporte@am.senac.br' => 'REPROGRAFIA - INFORMA'])
+            ->setTo('atendimento@poliprintam.com.br')
+            ->setSubject(''.$model->situacao->sitmat_descricao.'! - Solicitação de Cópia '.$model->matc_id.'')
+            ->setTextBody('Por favor, verique a situação da solicitação de cópia de código: '.$model->matc_id.' com status de '.$model->situacao->sitmat_descricao.' ')
+            ->setHtmlBody('<p>Prezado(a), Senhor(a)</p>
+
+            <p>A solicitação de cópia de código <span style="color:rgb(247, 148, 29)"><strong>'.$model->matc_id.'</strong></span> foi atualizada:</p>
+
+            <p><strong>Situação</strong>: '.$model->situacao->sitmat_descricao.'</p>
+
+            <p><strong>Total de Despesa</strong>: R$ ' .number_format($model->matc_totalGeral, 2, ',', '.').'</p>
+
+            <p><strong>Responsável pela Aprovação</strong>: '.$model->matc_ResponsavelAut.'</p>
+
+            <p><strong>Data/Hora da Autorização</strong>: '.date('d/m/Y H:i', strtotime($model->matc_dataAut)).'</p>
+
+            <p><strong>Responsável pelo Encaminhamento</strong>: '.$model->matc_ResponsavelRepro.'</p>
+
+            <p><strong>Data/Hora do Encaminhamento</strong>: '.date('d/m/Y H:i', strtotime($model->matc_dataRepro)).'</p>
+
+            <p>Por favor, não responda esse e-mail. Acesse https://portalsenac.am.senac.br</p>
+
+            <p>Atenciosamente,</p>
+
+            <p>Reprografia - SENAC AM</p>')
+            ->send();
+    }
+
     /**
      * Finds the MaterialCopias model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.

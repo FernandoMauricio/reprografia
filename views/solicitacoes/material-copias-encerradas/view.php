@@ -211,7 +211,7 @@ $attributes = [
                $sum = $query->sum('matc_totalValorMono+matc_totalValorColor');
                ?>
                <tr class="warning" style="border-top: #dedede">
-               <td>TOTAL GERAL<i> (Total Mono + Total Color)</i></td>
+               <td>TOTAL GERAL</td>
                <td style="color:#c0392b"><strong><?php echo 'R$ ' . number_format($sum, 2, ',', '.') ?></strong></td>
         </tr>
     </tbody>                            
