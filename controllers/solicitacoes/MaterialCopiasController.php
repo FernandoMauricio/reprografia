@@ -229,7 +229,6 @@ class MaterialCopiasController extends Controller
                                    $modelItens->file->saveAs($path);
                                }
                             }
-
                             if (! ($flag = $modelItens->save(false))) {
                                 $transaction->rollBack();
                                 break;
@@ -354,8 +353,24 @@ class MaterialCopiasController extends Controller
                         if (! empty($deletedIDsItens)) {
                             PlanoMaterial::deleteAll(['id' => $deletedIDsItens]);
                         }
-                        foreach ($modelsItens as $modelItens) {
+                        foreach ($modelsItens as $i => $modelItens) {
                             $modelItens->materialcopias_id = $model->matc_id;
+                            //UPLOAD DE ARQUIVOS SE FOR ESCOLHIDO O TIPO DE SERVIÇO -> 2 - IMPRESSÕES
+                            if($model->matc_tipo == 2) {
+                                $modelItens->file = UploadedFile::getInstance($modelItens, "[{$i}]file");
+                                if (!is_null($modelItens->file)) {
+                                   //criação da pasta que constará o arquivo 
+                                    $path = Yii::$app->basePath . '/web/uploads/impressoes/' . $modelItens->materialcopias_id;
+                                    if (!file_exists($path)) {
+                                        mkdir($path, 0777);
+                                    }
+                                   //salva o arquivo no caminho da criação da pasta
+                                   Yii::$app->params['uploadPath'] = Yii::$app->basePath . '/web/uploads/impressoes/' . $modelItens->materialcopias_id .'/';
+                                   $path = Yii::$app->params['uploadPath'] . $_FILES['MaterialCopiasItens']['name'][$i]['file'];
+                                   $modelItens->item_arquivo = $_FILES['MaterialCopiasItens']['name'][$i]['file'];
+                                   $modelItens->file->saveAs($path);
+                               }
+                            }
                             if (! ($flag = $modelItens->save(false))) {
                                 $transaction->rollBack();
                                 break;

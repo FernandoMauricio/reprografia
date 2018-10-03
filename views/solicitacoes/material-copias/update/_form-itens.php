@@ -5,7 +5,7 @@ use yii\helpers\ArrayHelper;
 use kartik\select2\Select2;
 use yii\helpers\Json;
 use yii\helpers\Url;
-
+use kartik\file\FileInput;
 use wbraganca\dynamicform\DynamicFormWidget;
 
 ?>
@@ -74,28 +74,33 @@ $this->registerJs($js);
           }
       ?>
    <div class="row">
-      <div class="col-sm-6">
-         <?php
-            $data_repositorio = ArrayHelper::map($repositorio, 'rep_titulo', 'rep_titulo');
-            echo $form->field($modelItens, "[{$i}]item_descricao")->widget(Select2::classname(), [
-               'data' =>  $data_repositorio,
-               'options' => ['placeholder' => 'Selecione o Material...',
-               'onchange'=>'
-                       var select = this;
-                       $.getJSON( "'.Url::toRoute('/solicitacoes/material-copias/get-repositorio').'", { repId: $(this).val() } )
-                       .done(function( data ) {
+         <?php $data_repositorio = ArrayHelper::map($repositorio, 'rep_titulo', 'rep_titulo'); ?>
+         <?= $model->matc_tipo == 1 ? 
+            '<div class="col-md-6">'.
+               $form->field($modelItens, "[{$i}]item_descricao")->widget(Select2::classname(), [
+                  'data' =>  $data_repositorio,
+                  'options' => ['placeholder' => 'Selecione o Material...',
+                  'onchange'=>'
+                     var select = this;
+                     $.getJSON( "'.Url::toRoute('/solicitacoes/material-copias/get-repositorio').'", { repId: $(this).val() } )
+                     .done(function( data ) {
+                        var $divPanelBody =  $(select).parent().parent().parent();
+                        var $inputTitulo = $divPanelBody.find("input:eq(0)");
+                        var $inputArquivo = $divPanelBody.find("input:eq(7)");
+                        var $inputRepositorio = $divPanelBody.find("input:eq(8)");
 
-                              var $divPanelBody =  $(select).parent().parent().parent();
-
-                              var $inputTitulo = $divPanelBody.find("input:eq(0)");
-
-                              $inputTitulo.val(data.rep_qtdoriginais) ;
-                              
-                           });
-                       '
-               ]]);
-         ?> 
-      </div>
+                        $inputTitulo.val(data.rep_qtdoriginais);
+                        $inputArquivo.val(data.rep_arquivo);
+                        $inputRepositorio.val(data.rep_codrepositorio);
+                     });
+                  '
+                  ]])
+            .'</div>'
+            : 
+            '<div class="col-md-6">'.
+               $form->field($modelItens, "[{$i}]item_descricao")->textInput()->label('Descrição do Material')
+            .'</div>';
+         ?>
 
       <div class="col-sm-2"><?= $form->field($modelItens, "[{$i}]item_qtoriginais")->textInput(['onkeyup' => 'totais($(this))', 'readonly'=> $model->matc_tipo == 1 ? true : false]) ?></div>
 

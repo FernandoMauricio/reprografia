@@ -14,8 +14,7 @@ NavBar::begin([
     ],
 ]);
 
-
-if($session['sess_codunidade'] != 12 && $session['sess_reponsavelsetor'] == 1) { //ÁREA DO GERENTE
+if($session['sess_codunidade'] != 12 && $session['sess_responsavelsetor'] == 1) { //ÁREA DO GERENTE
 
     echo Navx::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
@@ -72,7 +71,7 @@ if($session['sess_codunidade'] != 12 && $session['sess_reponsavelsetor'] == 1) {
         ],
     ]);
 
-}else if($session['sess_codunidade'] == 12 && $session['sess_reponsavelsetor'] == 0) { //ÁREA DA REPROGRAFIA - GMT
+}else if($session['sess_codunidade'] == 12 && $session['sess_responsavelsetor'] == 0) { //ÁREA DA REPROGRAFIA - GMT
 
     echo NavX::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
@@ -102,7 +101,7 @@ if($session['sess_codunidade'] != 12 && $session['sess_reponsavelsetor'] == 1) {
         ],
     ]);
 
-}else if($session['sess_codunidade'] != 12 && $session['sess_reponsavelsetor'] == 0) { //ÁREA DO USUÁRIO
+}else if($session['sess_codunidade'] != 12 && $session['sess_responsavelsetor'] == 0) { //ÁREA DO USUÁRIO
 
     echo Navx::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],

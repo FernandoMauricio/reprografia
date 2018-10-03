@@ -147,9 +147,9 @@ use app\models\solicitacoes\MaterialCopiasItens;
                <td><?= $itens["item_observacao"]; ?></td>
                <td valign="middle">
                   <?php if($model->matc_tipo == 1) { ?>
-                     <a target="_blank" data-pjax="0" href="http://localhost/aux_planejamento/web/uploads/repositorio/<?= $itens["item_codrepositorio"]; ?>/<?= $itens["item_arquivo"]; ?>" "><?= $itens["item_arquivo"]; ?></a>
+                     <a target="_blank" data-pjax="0" href="http://portalsenac.am.senac.br/aux_planejamento/web/uploads/repositorio/<?= $itens["item_codrepositorio"]; ?>/<?= $itens["item_arquivo"]; ?>" "><?= $itens["item_arquivo"]; ?></a>
                   <?php }else{ ?>
-                     <a target="_blank" data-pjax="0" href="http://localhost/reprografia/web/uploads/impressoes/<?= $itens["materialcopias_id"]; ?>/<?= $itens["item_arquivo"]; ?>" "><?= $itens["item_arquivo"]; ?></a>
+                     <a target="_blank" data-pjax="0" href="http://portalsenac.am.senac.br/reprografia/web/uploads/impressoes/<?= $itens["materialcopias_id"]; ?>/<?= $itens["item_arquivo"]; ?>" "><?= $itens["item_arquivo"]; ?></a>
                   <?php } ?>
             </td>
             </tr>
