@@ -50,7 +50,7 @@ class MaterialCopiasItens extends \yii\db\ActiveRecord
             [['id', 'item_qtoriginais', 'item_qtexemplares', 'item_qteCopias', 'item_mono', 'item_color', 'item_qteTotal', 'materialcopias_id', 'item_codrepositorio'], 'integer'],
             [['item_descricao', 'item_observacao', 'item_arquivo'], 'string', 'max' => 255],
             [['file'], 'safe'],
-            [['item_qteTotal'], 'validarCampo'],
+            [['item_qteTotal'], 'validarCampo', 'skipOnError' => false],
             [['materialcopias_id'], 'exist', 'skipOnError' => true, 'targetClass' => MaterialCopias::className(), 'targetAttribute' => ['materialcopias_id' => 'matc_id']],
         ];
     }
