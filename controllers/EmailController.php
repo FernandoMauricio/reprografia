@@ -276,7 +276,7 @@ class EmailController extends Controller
         $model = $this->findModel($id);
             Yii::$app->mailer->compose()
             ->setFrom(['reprografia.suporte@am.senac.br' => 'REPROGRAFIA - INFORMA'])
-            ->setTo('atendimento@poliprintam.com.br')
+            ->setTo('producao@poliprintam.com.br')
             ->setSubject(''.$model->situacao->sitmat_descricao.'! - Solicitação de Cópia '.$model->matc_id.'')
             ->setTextBody('Por favor, verique a situação da solicitação de cópia de código: '.$model->matc_id.' com status de '.$model->situacao->sitmat_descricao.' ')
             ->setHtmlBody('<p>Prezado(a), Senhor(a)</p>
