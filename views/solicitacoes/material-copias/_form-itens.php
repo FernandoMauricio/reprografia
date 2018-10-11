@@ -73,7 +73,7 @@ $this->registerJs($js);
               echo Html::activeHiddenInput($modelItens, "[{$i}]id");
           }
       ?>
-   <div class="row">
+
       <?php $data_repositorio = ArrayHelper::map($repositorio, 'rep_titulo', 'rep_titulo'); ?>
       <?= $model->matc_tipo == 1 ? 
          '<div class="col-md-6">'.
@@ -92,6 +92,9 @@ $this->registerJs($js);
                      $inputTitulo.val(data.rep_qtdoriginais);
                      $inputArquivo.val(data.rep_arquivo);
                      $inputRepositorio.val(data.rep_codrepositorio);
+
+                     console.log(data.rep_arquivo);
+                     console.log(data.rep_codrepositorio);
                   });
                '
                ]])
@@ -110,21 +113,14 @@ $this->registerJs($js);
 
       <div class="col-sm-2"><?= $form->field($modelItens, "[{$i}]item_qteCopias")->textInput(['readonly'=> true]) ?></div>
          
-   </div>
-
-   <div class="row">
       <div class="col-sm-4"><?= $form->field($modelItens, "[{$i}]item_mono")->textInput(['onkeyup' => 'totais($(this))']) ?></div>
 
       <div class="col-sm-4"><?= $form->field($modelItens, "[{$i}]item_color")->textInput(['onkeyup' => 'totais($(this))']) ?></div>
       
       <div class="col-sm-4"><?= $form->field($modelItens, "[{$i}]item_qteTotal")->textInput(['readonly'=>true]) ?></div>
-   </div>
 
-   <div class="row">
       <div class="col-sm-12"><?= $form->field($modelItens, "[{$i}]item_observacao")->textInput() ?></div>
-   </div>
 
-   <div class="row">
       <?= $model->matc_tipo == 1 ? 
          '<div class="col-md-12">'.$form->field($modelItens, "[{$i}]item_arquivo")->hiddenInput(['readonly'=> true])->label(false).'</div>'
          : 
@@ -140,7 +136,6 @@ $this->registerJs($js);
             ])
          .'</div>';
       ?>
-   </div>
 
       <?= $form->field($modelItens, "[{$i}]item_codrepositorio")->hiddenInput(['readonly'=> true])->label(false) ?>
 

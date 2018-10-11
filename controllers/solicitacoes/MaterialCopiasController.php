@@ -238,9 +238,9 @@ class MaterialCopiasController extends Controller
                     //-------Atualiza os valores em reais de mono, color e total geral
                     //-------Se houver serviços de acabamento somará 4 reais em cada exemplar
                     $sql = 'SELECT 
-                        SUM((item_qtexemplares*item_mono) * 0.12) AS matc_totalValorMono,
-                        SUM((item_qtexemplares*item_color) * 0.95) AS matc_totalValorColor, 
-                        IF (GROUP_CONCAT(acab_descricao) LIKE "%Encadernação%",(item_qtexemplares*4) + SUM(((item_qtexemplares*item_mono) * 0.12) + ((item_qtexemplares*item_color) * 0.95)),SUM(((item_qtexemplares*item_mono) * 0.12) + ((item_qtexemplares*item_color) * 0.95))) AS matc_totalGeral
+                        ((item_qtexemplares*item_mono) * 0.12) AS matc_totalValorMono,
+                        ((item_qtexemplares*item_color) * 0.95) AS matc_totalValorColor, 
+                        IF (GROUP_CONCAT(acab_descricao) LIKE "%Encadernação%",(item_qtexemplares*4) + (((item_qtexemplares*item_mono) * 0.12) + ((item_qtexemplares*item_color) * 0.95)),(((item_qtexemplares*item_mono) * 0.12) + ((item_qtexemplares*item_color) * 0.95))) AS matc_totalGeral
                         FROM materialcopias_item 
                         INNER JOIN `materialcopias_matc` ON `materialcopias_item`.`materialcopias_id` = `materialcopias_matc`.`matc_id`
                         INNER JOIN `copiasacabamento_copac` ON `copiasacabamento_copac`.`materialcopias_id` = `materialcopias_matc`.`matc_id`
@@ -380,9 +380,9 @@ class MaterialCopiasController extends Controller
                     //-------Atualiza os valores em reais de mono, color e total geral
                     //-------Se houver serviços de acabamento somará 4 reais em cada exemplar
                     $sql = 'SELECT 
-                        SUM((item_qtexemplares*item_mono) * 0.12) AS matc_totalValorMono,
-                        SUM((item_qtexemplares*item_color) * 0.95) AS matc_totalValorColor, 
-                        IF (GROUP_CONCAT(acab_descricao) LIKE "%Encadernação%",(item_qtexemplares*4) + SUM(((item_qtexemplares*item_mono) * 0.12) + ((item_qtexemplares*item_color) * 0.95)),SUM(((item_qtexemplares*item_mono) * 0.12) + ((item_qtexemplares*item_color) * 0.95))) AS matc_totalGeral
+                        ((item_qtexemplares*item_mono) * 0.12) AS matc_totalValorMono,
+                        ((item_qtexemplares*item_color) * 0.95) AS matc_totalValorColor, 
+                        IF (GROUP_CONCAT(acab_descricao) LIKE "%Encadernação%",(item_qtexemplares*4) + (((item_qtexemplares*item_mono) * 0.12) + ((item_qtexemplares*item_color) * 0.95)),(((item_qtexemplares*item_mono) * 0.12) + ((item_qtexemplares*item_color) * 0.95))) AS matc_totalGeral
                         FROM materialcopias_item 
                         INNER JOIN `materialcopias_matc` ON `materialcopias_item`.`materialcopias_id` = `materialcopias_matc`.`matc_id`
                         INNER JOIN `copiasacabamento_copac` ON `copiasacabamento_copac`.`materialcopias_id` = `materialcopias_matc`.`matc_id`

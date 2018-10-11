@@ -47,6 +47,7 @@ class MaterialCopiasItens extends \yii\db\ActiveRecord
     {
         return [
             [['item_descricao', 'item_qtoriginais', 'item_qtexemplares', 'item_qteCopias', 'item_mono', 'item_color', 'item_qteTotal'], 'required'],
+            [['item_arquivo'], 'required', 'message' => 'Material sem arquivo da apostila cadastrado. Por favor, verifique com a DEP!' ],
             [['id', 'item_qtoriginais', 'item_qtexemplares', 'item_qteCopias', 'item_mono', 'item_color', 'item_qteTotal', 'materialcopias_id', 'item_codrepositorio'], 'integer'],
             [['item_descricao', 'item_observacao', 'item_arquivo'], 'string', 'max' => 255],
             [['file'], 'safe'],
