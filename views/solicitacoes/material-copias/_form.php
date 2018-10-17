@@ -19,6 +19,7 @@ use kartik\depdrop\DepDrop;
 
 <?php $form = ActiveForm::begin(['options'=>['id' => 'dynamic-form', 'enctype'=>'multipart/form-data']]); ?>
 <?= $form->errorSummary($model); ?>
+<?= $form->errorSummary($modelsItens); ?>
 
 <div class="row">
    <?php $segmentoList=ArrayHelper::map($segmento, 'seg_codsegmento', 'seg_descricao' );?>

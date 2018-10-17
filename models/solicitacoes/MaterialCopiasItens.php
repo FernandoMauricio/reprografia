@@ -47,13 +47,23 @@ class MaterialCopiasItens extends \yii\db\ActiveRecord
     {
         return [
             [['item_descricao', 'item_qtoriginais', 'item_qtexemplares', 'item_qteCopias', 'item_mono', 'item_color', 'item_qteTotal'], 'required'],
-            [['item_arquivo'], 'required', 'message' => 'Material sem arquivo da apostila cadastrado. Por favor, verifique com a DEP!' ],
+            [['item_arquivo'], 'validarApostilas', 'skipOnError' => false],
             [['id', 'item_qtoriginais', 'item_qtexemplares', 'item_qteCopias', 'item_mono', 'item_color', 'item_qteTotal', 'materialcopias_id', 'item_codrepositorio'], 'integer'],
             [['item_descricao', 'item_observacao', 'item_arquivo'], 'string', 'max' => 255],
             [['file'], 'safe'],
             [['item_qteTotal'], 'validarCampo', 'skipOnError' => false],
             [['materialcopias_id'], 'exist', 'skipOnError' => true, 'targetClass' => MaterialCopias::className(), 'targetAttribute' => ['materialcopias_id' => 'matc_id']],
         ];
+    }
+
+    public function validarApostilas($attribute, $params){
+        if($_POST['MaterialCopias']['matc_tipo'] == 1 ) {
+            foreach ($_POST['MaterialCopiasItens'] as $modelItens) {
+                if($modelItens['item_arquivo'] == NULL) {
+                    $this->addError($attribute, 'Material sem arquivo da apostila cadastrado. Por favor, verifique com a DEP!!');        
+                }
+            }
+        }
     }
 
     public function validarCampo($attribute, $params){
@@ -88,6 +98,6 @@ class MaterialCopiasItens extends \yii\db\ActiveRecord
      */
     public function getMaterialcopias()
     {
-        return $this->hasOne(MaterialcopiasMatc::className(), ['matc_id' => 'materialcopias_id']);
+        return $this->hasOne(Materialcopias::className(), ['matc_id' => 'materialcopias_id']);
     }
 }
