@@ -210,7 +210,7 @@ class EmailController extends Controller
         {
             Yii::$app->mailer->compose()
             ->setFrom(['dep.suporte@am.senac.br' => 'DEP - INFORMA'])
-            ->setTo($emailRepro["emus_email"])
+            ->setTo([$emailRepro["emus_email"], 'maria.lourdes@am.senac.br'])
             ->setSubject('Solicitação de Cópia - ' . $model->matc_id)
             ->setTextBody('Existe uma solicitação de Cópia de código: '.$model->matc_id.' - Pendente de Encaminhamento')
             ->setHtmlBody('<p>Prezado(a), Senhor(a)</p>

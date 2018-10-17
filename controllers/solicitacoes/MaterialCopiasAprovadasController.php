@@ -125,6 +125,7 @@ class MaterialCopiasAprovadasController extends Controller
 	    if($model->situacao_id == 6){
 	        //ENVIANDO EMAIL PARA O USUÁRIO INFORMANDO SOBRE O ENCAMINHAMENTO....
 			Yii::$app->runAction('email/enviar-email-encaminhamento-reprografia', ['id' => $model->matc_id]);
+			Yii::$app->runAction('email/enviar-email-reprografia', ['id' => $model->matc_id]);
 	    }
 	    Yii::$app->session->setFlash('success', '<strong>SUCESSO! </strong> Solicitação de Cópia de código:  <strong> '.$model->matc_id.'</strong> '.$model->situacao->sitmat_descricao.'!');
 	 
