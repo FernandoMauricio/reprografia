@@ -242,7 +242,7 @@ class EmailController extends Controller
         foreach ($email_solicitacao as $email) 
         {
             Yii::$app->mailer->compose()
-            ->setFrom(['reprografia.suporte@am.senac.br' => 'REPROGRAFIA - INFORMA'])
+            ->setFrom(['dep.suporte@am.senac.br' => 'REPROGRAFIA - INFORMA'])
             ->setTo($email["emus_email"])
             ->setSubject(''.$model->situacao->sitmat_descricao.'! - Solicitação de Cópia '.$model->matc_id.'')
             ->setTextBody('Por favor, verique a situação da solicitação de cópia de código: '.$model->matc_id.' com status de '.$model->situacao->sitmat_descricao.' ')
@@ -275,7 +275,7 @@ class EmailController extends Controller
     {
         $model = $this->findModel($id);
             Yii::$app->mailer->compose()
-            ->setFrom(['reprografia.suporte@am.senac.br' => 'REPROGRAFIA - INFORMA'])
+            ->setFrom(['dep.suporte@am.senac.br' => 'REPROGRAFIA - INFORMA'])
             ->setTo('producao@poliprintam.com.br')
             ->setSubject(''.$model->situacao->sitmat_descricao.'! - Solicitação de Cópia '.$model->matc_id.'')
             ->setTextBody('Por favor, verique a situação da solicitação de cópia de código: '.$model->matc_id.' com status de '.$model->situacao->sitmat_descricao.' ')
