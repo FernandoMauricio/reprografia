@@ -14,8 +14,13 @@ use app\models\solicitacoes\MaterialCopiasItens;
             <h4>Solicitação de Cópia: <?= $model->matc_id ?><small><span class="label-material-copias-view"><?= $model->matc_tipo == 1 ? 'Requisição de Apostilas' : 'Requisição de Impressão' ?></span></small>
             </h4><br />
             <h5>
-               <span class="pull-left"><b>Data da Solicitação: </b><small><span class="label label-primary" style="font-size: 100%;font-weight:normal"><?= date('d/m/Y', strtotime($model->matc_data)); ?></span></small></span>
-               <span class="pull-right"><b>Situação: </b><small><span class="label label-warning" style="font-size: 100%;font-weight:normal"><?= $model->situacao->sitmat_descricao; ?></span></small></span>
+            <span class="pull-left">
+               <b>Data da Solicitação: </b><small><span class="label label-primary" style="font-size: 100%;font-weight:normal"><?= date('d/m/Y', strtotime($model->matc_data)); ?></span></small><br /><br />
+               <b>Previsão de Entrega: </b><small><span class="label label-success" style="font-size: 100%;font-weight:normal"><?= isset($model->matc_dataPrevisao) ?  date('d/m/Y', strtotime($model->matc_dataPrevisao)) : ''; ?></span></small>
+            </span>
+            <span class="pull-right">
+               <b>Situação: </b><small><span class="label label-warning" style="font-size: 100%;font-weight:normal"><?= $model->situacao->sitmat_descricao; ?></span></small>
+            </span>
             </h5><br />
          </div>
    </div>

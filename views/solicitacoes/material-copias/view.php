@@ -18,9 +18,14 @@ $this->params['breadcrumbs'][] = $this->title;
    <p><?= Html::a('<span class="glyphicon glyphicon-arrow-left"></span> Retornar', ['index'], ['class' => 'btn btn-default']) ?></p>
 
    <p>
-      <span class="pull-left"><b>Data da Solicitação: </b><small><span class="label label-primary" style="font-size: 100%;font-weight:normal"><?= date('d/m/Y', strtotime($model->matc_data)); ?></span></small></span>
-      <span class="pull-right"><b>Situação: </b><small><span class="label label-warning" style="font-size: 100%;font-weight:normal"><?= $model->situacao->sitmat_descricao; ?></span></small></span>
-   </p><br /><br />
+      <span class="pull-left">
+         <b>Data da Solicitação: </b><small><span class="label label-primary" style="font-size: 100%;font-weight:normal"><?= date('d/m/Y', strtotime($model->matc_data)); ?></span></small><br /><br />
+         <b>Previsão de Entrega: </b><small><span class="label label-success" style="font-size: 100%;font-weight:normal"><?= date('d/m/Y', strtotime($model->matc_dataPrevisao)); ?></span></small>
+      </span>
+      <span class="pull-right">
+         <b>Situação: </b><small><span class="label label-warning" style="font-size: 100%;font-weight:normal"><?= $model->situacao->sitmat_descricao; ?></span></small>
+      </span>
+   </p><br /><br /><br /><br />
 
 <!-- Mensagem informando o recebimento  -->
 <?php if($model->matc_dataReceb != NULL): ?> 

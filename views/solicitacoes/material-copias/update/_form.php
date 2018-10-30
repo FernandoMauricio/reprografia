@@ -10,6 +10,7 @@ use yii\helpers\Url;
 use yii\helpers\Json;
 use kartik\depdrop\DepDrop;
 use app\models\cadastros\Segmento;
+use kartik\datecontrol\DateControl;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\solicitacoes\MaterialCopias */
@@ -22,17 +23,17 @@ use app\models\cadastros\Segmento;
 
 <div class="row">
     <?= $model->matc_tipo == 1 ? 
-        '<div class="col-md-3">'.$form->field($model, 'segmentoLabel')->textInput(['value'=> $model->segmento->seg_descricao,'readonly'=>true]).'</div>' : '';
+        '<div class="col-md-2">'.$form->field($model, 'segmentoLabel')->textInput(['value'=> $model->segmento->seg_descricao,'readonly'=>true]).'</div>' : '';
     ?>
 
     <?= $model->matc_tipo == 1 ? 
-        '<div class="col-md-3">'.$form->field($model, 'tipoLabel')->textInput(['value'=> $model->tipo->tip_descricao,'readonly'=>true]).'</div>' : '';
+        '<div class="col-md-2">'.$form->field($model, 'tipoLabel')->textInput(['value'=> $model->tipo->tip_descricao,'readonly'=>true]).'</div>' : '';
     ?>
 
     <?= $model->matc_tipo == 1 ? 
       '<div class="col-md-4">'.$form->field($model, 'matc_curso')->textInput(['value'=> $model->matc_curso,'readonly'=>true]).'</div>'
       : 
-      '<div class="col-md-10">'.
+      '<div class="col-md-8">'.
          $form->field($model, 'matc_curso')->textInput()->label('Descrição')
       .'</div>';
     ?>
@@ -51,7 +52,21 @@ use app\models\cadastros\Segmento;
          ])
         .'</div>';
     ?>
+   <div class="col-md-2">
+      <?= $form->field($model, 'matc_dataPrevisao')->widget(DateControl::classname(), [
+            'type'=>DateControl::FORMAT_DATE,
+            'ajaxConversion'=>false,
+            'widgetOptions' => [
+               'removeButton' => false,
+               'pluginOptions' => [
+                  'autoclose' => true
+               ]
+            ]
+         ]);
+      ?>
+   </div>
 </div>
+
 
     <?= $this->render('_form-itens', [
         'form' => $form,
@@ -117,6 +132,8 @@ use app\models\cadastros\Segmento;
         </div> 
     </div>
 </div>
+
+<?= $form->field($model, 'matc_tipo')->hiddenInput(['readonly'=> true])->label(false) ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Criar Solicitação' : 'Atualizar Solicitação', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

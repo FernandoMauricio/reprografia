@@ -9,6 +9,7 @@ use kartik\select2\Select2;
 use yii\helpers\Url;
 use yii\helpers\Json;
 use kartik\depdrop\DepDrop;
+use kartik\datecontrol\DateControl;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\solicitacoes\MaterialCopias */
@@ -24,7 +25,7 @@ use kartik\depdrop\DepDrop;
 <div class="row">
    <?php $segmentoList=ArrayHelper::map($segmento, 'seg_codsegmento', 'seg_descricao' );?>
    <?= $model->matc_tipo == 1 ? 
-      '<div class="col-md-3">'.
+      '<div class="col-md-2">'.
          $form->field($model, 'matc_segmento')->widget(Select2::classname(), [
             'data' =>  $segmentoList,
             'options' => ['id' => 'cat-id','placeholder' => 'Selecione o Segmento...'],
@@ -37,7 +38,7 @@ use kartik\depdrop\DepDrop;
    ?>
 
    <?= $model->matc_tipo == 1 ? 
-      '<div class="col-md-3">'.
+      '<div class="col-md-2">'.
          // Child # 1
          $form->field($model, 'matc_tipoacao')->widget(DepDrop::classname(), [
             'type'=>DepDrop::TYPE_SELECT2,
@@ -67,7 +68,7 @@ use kartik\depdrop\DepDrop;
          ])
       .'</div>'
       : 
-      '<div class="col-md-10">'.
+      '<div class="col-md-8">'.
          $form->field($model, 'matc_curso')->textInput()->label('Descrição')
       .'</div>';
    ?>
@@ -96,6 +97,21 @@ use kartik\depdrop\DepDrop;
          ])
       .'</div>';
    ?>
+
+   <div class="col-md-2">
+      <?= $form->field($model, 'matc_dataPrevisao')->widget(DateControl::classname(), [
+            'type'=>DateControl::FORMAT_DATE,
+            'ajaxConversion'=>false,
+            'widgetOptions' => [
+               'removeButton' => false,
+               'pluginOptions' => [
+                  'autoclose' => true
+               ]
+            ]
+         ]);
+      ?>
+   </div>
+   
 </div>
 
     <?= $this->render('_form-itens', [

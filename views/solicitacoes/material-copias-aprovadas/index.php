@@ -55,7 +55,12 @@ $gridColumns = [
         ],
         'filterInputOptions'=>['placeholder'=>'Centro de Custo...'],
     ],
-    
+
+    [
+        'attribute'=>'matc_dataPrevisao', 
+        'width'=>'3%',
+    ],
+
     [
       'attribute'=>'matc_unidade',
       'value'=> 'unidade.uni_nomeabreviado',
