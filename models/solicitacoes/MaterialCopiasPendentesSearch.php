@@ -19,7 +19,7 @@ class MaterialCopiasPendentesSearch extends MaterialCopiasPendentes
     {
         return [
             [['matc_id', 'matc_totalValorMono', 'matc_totalValorColor'], 'integer'],
-            [['matc_curso', 'matc_centrocusto', 'matc_unidade', 'matc_solicitante', 'matc_data', 'matc_ResponsavelAut', 'matc_dataAut', 'situacao_id'], 'safe'],
+            [['matc_curso', 'matc_centrocusto', 'matc_unidade', 'matc_solicitante', 'matc_data', 'matc_ResponsavelAut', 'matc_dataAut', 'situacao_id', 'matc_dataPrevisao'], 'safe'],
         ];
     }
 
@@ -75,7 +75,8 @@ class MaterialCopiasPendentesSearch extends MaterialCopiasPendentes
             ->andFilterWhere(['like', 'matc_unidade', $this->matc_unidade])
             ->andFilterWhere(['like', 'matc_solicitante', $this->matc_solicitante])
             ->andFilterWhere(['like', 'matc_ResponsavelAut', $this->matc_ResponsavelAut])
-            ->andFilterWhere(['=', 'situacaomatcopias_sitmat.sitmat_descricao', $this->situacao_id]);
+            ->andFilterWhere(['=', 'situacaomatcopias_sitmat.sitmat_descricao', $this->situacao_id])
+            ->andFilterWhere(['like', 'matc_dataPrevisao', $this->matc_dataPrevisao]);
 
         return $dataProvider;
     }

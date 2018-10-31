@@ -75,7 +75,8 @@ class MaterialCopiasSearch extends MaterialCopias
         $query->andFilterWhere(['like', 'matc_curso', $this->matc_curso])
             ->andFilterWhere(['like', 'matc_centrocusto', $this->matc_centrocusto])
             ->andFilterWhere(['like', 'matc_solicitante', $this->matc_solicitante])
-            ->andFilterWhere(['like', 'matc_totalGeral', $this->matc_totalGeral]);
+            ->andFilterWhere(['like', 'matc_totalGeral', $this->matc_totalGeral])
+            ->andFilterWhere(['like', 'matc_dataPrevisao', $this->matc_dataPrevisao]);
 
         return $dataProvider;
     }

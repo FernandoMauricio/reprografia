@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use kartik\grid\GridView;
+use kartik\date\DatePicker;
 use app\models\solicitacoes\Situacao;
 use app\models\cadastros\Centrocusto;
 use kartik\widgets\Select2;
@@ -55,6 +56,20 @@ $gridColumns = [
         'filterInputOptions'=>['placeholder'=>'Centro de Custo...'],
     ],
 
+    [
+        'attribute' => 'matc_dataPrevisao',
+        'format' => ['date', 'php:d/m/Y'],
+        'width' => '8%',
+        'hAlign' => 'center',
+        'filter'=> DatePicker::widget([
+        'model' => $searchModel, 
+        'attribute' => 'matc_dataPrevisao',
+        'pluginOptions' => [
+             'autoclose'=>true,
+             'format' => 'yyyy-mm-dd',
+            ]
+        ])
+    ],
 
     [
       'attribute'=>'matc_unidade',

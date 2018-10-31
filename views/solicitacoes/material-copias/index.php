@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use kartik\grid\GridView;
+use kartik\date\DatePicker;
 use app\models\solicitacoes\Situacao;
 use app\models\cadastros\Centrocusto;
 use app\models\solicitacoes\Acabamento;
@@ -101,8 +102,23 @@ $gridColumns = [
     ],
 
     [
+        'attribute' => 'matc_dataPrevisao',
+        'format' => ['date', 'php:d/m/Y'],
+        'width' => '8%',
+        'hAlign' => 'center',
+        'filter'=> DatePicker::widget([
+        'model' => $searchModel, 
+        'attribute' => 'matc_dataPrevisao',
+        'pluginOptions' => [
+             'autoclose'=>true,
+             'format' => 'yyyy-mm-dd',
+            ]
+        ])
+    ],
+
+    [
         'attribute'=>'matc_curso', 
-        'width'=>'30%',
+        'width'=>'28%',
     ],
 
     [
@@ -232,7 +248,7 @@ $gridColumns = [
     'beforeHeader'=>[
         [
             'columns'=>[
-                ['content'=>'Detalhes das Solicitações de Cópias', 'options'=>['colspan'=>7, 'class'=>'text-center warning']], 
+                ['content'=>'Detalhes das Solicitações de Cópias', 'options'=>['colspan'=>8, 'class'=>'text-center warning']], 
                 ['content'=>'Ações', 'options'=>['colspan'=>1, 'class'=>'text-center warning']], 
             ],
         ]

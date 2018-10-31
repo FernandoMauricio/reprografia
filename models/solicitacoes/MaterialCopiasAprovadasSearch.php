@@ -19,7 +19,7 @@ class MaterialCopiasAprovadasSearch extends MaterialCopiasAprovadas
     {
         return [
             [['matc_id','matc_totalValorMono', 'matc_totalValorColor'], 'integer'],
-            [['matc_curso', 'matc_centrocusto', 'matc_unidade', 'matc_solicitante', 'matc_data', 'matc_ResponsavelAut', 'matc_dataAut', 'matc_ResponsavelRepro', 'matc_dataRepro', 'situacao_id'], 'safe'],
+            [['matc_curso', 'matc_centrocusto', 'matc_unidade', 'matc_solicitante', 'matc_data', 'matc_ResponsavelAut', 'matc_dataAut', 'matc_ResponsavelRepro', 'matc_dataRepro', 'situacao_id','matc_tipo', 'matc_dataPrevisao', 'matc_dataPrevisao'], 'safe'],
         ];
     }
 
@@ -68,6 +68,7 @@ class MaterialCopiasAprovadasSearch extends MaterialCopiasAprovadas
             'matc_dataAut' => $this->matc_dataAut,
             'matc_dataRepro' => $this->matc_dataRepro,
             'situacao_id' => 4, //ENCAMINHADO À TERCEIRIZADA
+            'matc_tipo' => $this->matc_tipo,
 
         ]);
 
@@ -77,7 +78,8 @@ class MaterialCopiasAprovadasSearch extends MaterialCopiasAprovadas
             ->andFilterWhere(['like', 'matc_solicitante', $this->matc_solicitante])
             ->andFilterWhere(['like', 'matc_ResponsavelAut', $this->matc_ResponsavelAut])
             ->andFilterWhere(['like', 'matc_ResponsavelRepro', $this->matc_ResponsavelRepro])
-            ->andFilterWhere(['=', 'situacaomatcopias_sitmat.sitmat_descricao', $this->situacao_id]);
+            ->andFilterWhere(['=', 'situacaomatcopias_sitmat.sitmat_descricao', $this->situacao_id])
+            ->andFilterWhere(['like', 'matc_dataPrevisao', $this->matc_dataPrevisao]);
 
         return $dataProvider;
     }

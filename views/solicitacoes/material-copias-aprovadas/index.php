@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use kartik\grid\GridView;
+use kartik\date\DatePicker;
 use app\models\solicitacoes\Situacao;
 use app\models\cadastros\Centrocusto;
 use kartik\widgets\Select2;
@@ -43,6 +44,18 @@ $gridColumns = [
     ],
 
     [
+        'attribute'=>'matc_tipo',
+        'width'=>'3%',
+        'value' => function ($data) { return $data->matc_tipo == 1 ? 'Apostilas' : 'Impressão Avulsa'; },
+        'filterType'=>GridView::FILTER_SELECT2,
+        'filter'=> [1=>'Apostilas',2=>'Impressão Avulsa'],
+        'filterWidgetOptions'=>[
+            'pluginOptions'=>['allowClear'=>true],
+        ],
+            'filterInputOptions'=>['placeholder'=>'Tipo de Serviço'],
+    ],
+
+    [
         'attribute'=>'matc_centrocusto', 
         'width'=>'3%',
         'value'=>function ($model, $key, $index, $widget) { 
@@ -57,8 +70,18 @@ $gridColumns = [
     ],
 
     [
-        'attribute'=>'matc_dataPrevisao', 
-        'width'=>'3%',
+        'attribute' => 'matc_dataPrevisao',
+        'format' => ['date', 'php:d/m/Y'],
+        'width' => '8%',
+        'hAlign' => 'center',
+        'filter'=> DatePicker::widget([
+        'model' => $searchModel, 
+        'attribute' => 'matc_dataPrevisao',
+        'pluginOptions' => [
+             'autoclose'=>true,
+             'format' => 'yyyy-mm-dd',
+            ]
+        ])
     ],
 
     [
@@ -174,7 +197,7 @@ $gridColumns = [
     'beforeHeader'=>[
         [
             'columns'=>[
-                ['content'=>'Detalhes das Solicitações de Cópias', 'options'=>['colspan'=>6, 'class'=>'text-center warning']], 
+                ['content'=>'Detalhes das Solicitações de Cópias', 'options'=>['colspan'=>8, 'class'=>'text-center warning']], 
                 //['content'=>'Encaminhamentos', 'options'=>['colspan'=>1, 'class'=>'text-center warning']], 
                 ['content'=>'Ações', 'options'=>['colspan'=>2, 'class'=>'text-center warning']], 
             ],

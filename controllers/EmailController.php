@@ -35,6 +35,13 @@ class EmailController extends Controller
     public function actionEnviarEmailAutorizacaoGerencia($id)
     {
         $model = $this->findModel($id);
+        
+        if(!empty($model->matc_dataPrevisao)) { 
+            $model->matc_dataPrevisao = date('d/m/Y', strtotime($model->matc_dataPrevisao));
+        }else{
+            $model->matc_dataPrevisao = '<span style="color: red;"><u>Data não definida!</span>';
+        }
+
         $sql_email = "SELECT emus_email FROM emailusuario_emus, colaborador_col, responsavelambiente_ream WHERE ream_codunidade = '".$model->matc_unidade."' AND ream_codcolaborador = col_codcolaborador AND col_codusuario = emus_codusuario";      
         $email_solicitacao = Emailusuario::findBySql($sql_email)->all(); 
         foreach ($email_solicitacao as $email) {
@@ -48,6 +55,8 @@ class EmailController extends Controller
             <p>Existe uma Solicita&ccedil;&atilde;o de Cópia de c&oacute;digo: <strong><span style="color:#F7941D">'.$model->matc_id.' </span></strong>- <strong><span style="color:#F7941D">Pendente de Autorização pelo Setor</span></strong></p>
 
             <p><strong>Situação</strong>: '.$model->situacao->sitmat_descricao.'</p>
+
+            <p><strong>Previsão de Entrega</strong>: '.$model->matc_dataPrevisao.'</p>
 
             <p><strong>Total de Despesa</strong>: R$ ' .number_format($model->matc_totalGeral, 2, ',', '.').'</p>
 
@@ -64,6 +73,13 @@ class EmailController extends Controller
     public function actionEnviarEmailReprovacaoGerencia($id)
     {
         $model = $this->findModel($id);
+        
+        if(!empty($model->matc_dataPrevisao)) { 
+            $model->matc_dataPrevisao = date('d/m/Y', strtotime($model->matc_dataPrevisao));
+        }else{
+            $model->matc_dataPrevisao = '<span style="color: red;"><u>Data não definida!</span>';
+        }
+
         //ENVIANDO EMAIL PARA O USUÁRIO SOLICITANTE INFORMANDO SOBRE A REPROVAÇÃO....
         $sql_email = "SELECT DISTINCT emus_email FROM `db_base`.emailusuario_emus, `db_base`.colaborador_col WHERE col_codusuario = emus_codusuario AND col_codcolaborador = '".$model->matc_solicitante."'";
         $email_solicitacao = Emailusuario::findBySql($sql_email)->all(); 
@@ -78,6 +94,8 @@ class EmailController extends Controller
             <p>A solicitação de cópia de código <span style="color:rgb(247, 148, 29)"><strong>'.$model->matc_id.'</strong></span> foi atualizada:</p>
 
             <p><strong>Situação</strong>: '.$model->situacao->sitmat_descricao.'</p>
+
+            <p><strong>Previsão de Entrega</strong>: '.$model->matc_dataPrevisao.'</p>
 
             <p><strong>Total de Despesa</strong>: R$ ' .number_format($model->matc_totalGeral, 2, ',', '.').'</p>
 
@@ -97,6 +115,13 @@ class EmailController extends Controller
     public function actionEnviarEmailGabineteTecnico($id)
     {
         $model = $this->findModel($id);
+        
+        if(!empty($model->matc_dataPrevisao)) { 
+            $model->matc_dataPrevisao = date('d/m/Y', strtotime($model->matc_dataPrevisao));
+        }else{
+            $model->matc_dataPrevisao = '<span style="color: red;"><u>Data não definida!</span>';
+        }
+
         //ENVIANDO EMAIL PARA OS RESPONSÁVEIS DO GABINETE TÉCNICO INFORMANDO SOBRE O RECEBIMENTO DE UMA NOVA SOLICITAÇÃO DE CÓPIA 
         //-- 15 - DIVISÃO DE EDUCAÇÃO PROFISSIONAL // 87 - GABINETE TÉCNICO
         $sql_email = "SELECT DISTINCT emus_email FROM emailusuario_emus,colaborador_col,responsavelambiente_ream,responsaveldepartamento_rede WHERE ream_codunidade = '15' AND rede_coddepartamento = '87' AND rede_codcolaborador = col_codcolaborador AND col_codusuario = emus_codusuario";
@@ -112,6 +137,8 @@ class EmailController extends Controller
             <p>A solicitação de cópia de código <span style="color:rgb(247, 148, 29)"><strong>'.$model->matc_id.'</strong></span> foi atualizada:</p>
 
             <p><strong>Situação</strong>: '.$model->situacao->sitmat_descricao.'</p>
+
+            <p><strong>Previsão de Entrega</strong>: '.$model->matc_dataPrevisao.'</p>
 
             <p><strong>Total de Despesa</strong>: R$ ' .number_format($model->matc_totalGeral, 2, ',', '.').'</p>
 
@@ -131,6 +158,13 @@ class EmailController extends Controller
     public function actionEnviarEmailAprovacaoGabineteTecnico($id)
     {
         $model = $this->findModel($id);
+        
+        if(!empty($model->matc_dataPrevisao)) { 
+            $model->matc_dataPrevisao = date('d/m/Y', strtotime($model->matc_dataPrevisao));
+        }else{
+            $model->matc_dataPrevisao = '<span style="color: red;"><u>Data não definida!</span>';
+        }
+
         //ENVIANDO EMAIL PARA O USUÁRIO SOLICITANTE INFORMANDO SOBRE A APROVAÇÃO....
         $sql_email = "SELECT DISTINCT emus_email FROM `db_base`.emailusuario_emus, `db_base`.colaborador_col WHERE col_codusuario = emus_codusuario AND col_codcolaborador = '".$model->matc_solicitante."'";
           
@@ -147,6 +181,8 @@ class EmailController extends Controller
             <p>A solicitação de cópia de código <span style="color:rgb(247, 148, 29)"><strong>'.$model->matc_id.'</strong></span> foi atualizada:</p>
 
             <p><strong>Situação</strong>: '.$model->situacao->sitmat_descricao.'</p>
+
+            <p><strong>Previsão de Entrega</strong>: '.$model->matc_dataPrevisao.'</p>
 
             <p><strong>Total de Despesa</strong>: R$ ' .number_format($model->matc_totalGeral, 2, ',', '.').'</p>
 
@@ -166,6 +202,13 @@ class EmailController extends Controller
     public function actionEnviarEmailReprovacaoGabineteTecnico($id)
     {
         $model = $this->findModel($id);
+        
+        if(!empty($model->matc_dataPrevisao)) { 
+            $model->matc_dataPrevisao = date('d/m/Y', strtotime($model->matc_dataPrevisao));
+        }else{
+            $model->matc_dataPrevisao = '<span style="color: red;"><u>Data não definida!</span>';
+        }
+
         //ENVIANDO EMAIL PARA O USUÁRIO SOLICITANTE INFORMANDO SOBRE A REPROVAÇÃO....
         $sql_email = "SELECT DISTINCT emus_email FROM `db_base`.emailusuario_emus, `db_base`.colaborador_col WHERE col_codusuario = emus_codusuario AND col_codcolaborador = '".$model->materialcopias->matc_solicitante."'";
         $email_solicitacao = Emailusuario::findBySql($sql_email)->all(); 
@@ -181,6 +224,8 @@ class EmailController extends Controller
             <p>A solicitação de cópia de código <span style="color:rgb(247, 148, 29)"><strong>'.$model->materialcopias->matc_id.'</strong></span> foi atualizada:</p>
 
             <p><strong>Situação</strong>: '.$model->materialcopias->situacao->sitmat_descricao.'</p>
+
+            <p><strong>Previsão de Entrega</strong>: '.$model->matc_dataPrevisao.'</p>
 
             <p><strong>Total de Despesa</strong>: R$ ' .number_format($model->materialcopias->matc_totalGeral, 2, ',', '.').'</p>
 
@@ -201,6 +246,13 @@ class EmailController extends Controller
     public function actionEnviarEmailReprografia($id)
     {
         $model = $this->findModel($id);
+        
+        if(!empty($model->matc_dataPrevisao)) { 
+            $model->matc_dataPrevisao = date('d/m/Y', strtotime($model->matc_dataPrevisao));
+        }else{
+            $model->matc_dataPrevisao = '<span style="color: red;"><u>Data não definida!</span>';
+        }
+
 
         //ENVIANDO EMAIL PARA OS RESPONSÁVEIS DA REPROGRAFIA SOBRE A APROVAÇÃO DA REQUISIÇÃO
         //-- 12 - GERENCIA DE MANUTENÇÃO E TRANSPORTE - GMT // 21 - REPROGRAFIA
@@ -217,6 +269,8 @@ class EmailController extends Controller
             <p>A solicitação de cópia de código <span style="color:rgb(247, 148, 29)"><strong>'.$model->matc_id.'</strong></span> foi atualizada:</p>
 
             <p><strong>Situação</strong>: '.$model->situacao->sitmat_descricao.'</p>
+
+            <p><strong>Previsão de Entrega</strong>: '.$model->matc_dataPrevisao.'</p>
 
             <p><strong>Total de Despesa</strong>: R$ ' .number_format($model->matc_totalGeral, 2, ',', '.').'</p>
 
@@ -236,6 +290,13 @@ class EmailController extends Controller
     public function actionEnviarEmailEncaminhamentoReprografia($id)
     {
         $model = $this->findModel($id);
+        
+        if(!empty($model->matc_dataPrevisao)) { 
+            $model->matc_dataPrevisao = date('d/m/Y', strtotime($model->matc_dataPrevisao));
+        }else{
+            $model->matc_dataPrevisao = '<span style="color: red;"><u>Data não definida!</span>';
+        }
+
         //ENVIANDO EMAIL PARA O USUÁRIO INFORMANDO SOBRE O ENCAMINHAMENTO....
         $sql_email = "SELECT DISTINCT emus_email FROM `db_base`.emailusuario_emus, `db_base`.colaborador_col WHERE col_codusuario = emus_codusuario AND col_codcolaborador = '".$model->matc_solicitante."'";
         $email_solicitacao = Emailusuario::findBySql($sql_email)->all(); 
@@ -251,6 +312,8 @@ class EmailController extends Controller
             <p>A solicitação de cópia de código <span style="color:rgb(247, 148, 29)"><strong>'.$model->matc_id.'</strong></span> foi atualizada:</p>
 
             <p><strong>Situação</strong>: '.$model->situacao->sitmat_descricao.'</p>
+
+            <p><strong>Previsão de Entrega</strong>: '.$model->matc_dataPrevisao.'</p>
 
             <p><strong>Total de Despesa</strong>: R$ ' .number_format($model->matc_totalGeral, 2, ',', '.').'</p>
 
@@ -274,6 +337,13 @@ class EmailController extends Controller
     public function actionEnviarEmailEncaminhamentoTerceirizada($id)
     {
         $model = $this->findModel($id);
+        
+        if(!empty($model->matc_dataPrevisao)) { 
+            $model->matc_dataPrevisao = date('d/m/Y', strtotime($model->matc_dataPrevisao));
+        }else{
+            $model->matc_dataPrevisao = '<span style="color: red;"><u>Data não definida!</span>';
+        }
+
             Yii::$app->mailer->compose()
             ->setFrom(['dep.suporte@am.senac.br' => 'REPROGRAFIA - INFORMA'])
             ->setTo('producao@poliprintam.com.br')
@@ -284,6 +354,8 @@ class EmailController extends Controller
             <p>A solicitação de cópia de código <span style="color:rgb(247, 148, 29)"><strong>'.$model->matc_id.'</strong></span> foi atualizada:</p>
 
             <p><strong>Situação</strong>: '.$model->situacao->sitmat_descricao.'</p>
+
+            <p><strong>Previsão de Entrega</strong>: '.$model->matc_dataPrevisao.'</p>
 
             <p><strong>Total de Despesa</strong>: R$ ' .number_format($model->matc_totalGeral, 2, ',', '.').'</p>
 

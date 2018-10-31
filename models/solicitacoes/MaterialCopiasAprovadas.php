@@ -60,7 +60,7 @@ class MaterialCopiasAprovadas extends \yii\db\ActiveRecord
         return [
             [['matc_segmento', 'matc_tipoacao', 'matc_curso', 'situacao_id', 'matc_totalValorMono', 'matc_totalValorColor'], 'required'],
             [['matc_segmento', 'matc_tipoacao', 'situacao_id', 'matc_autorizado', 'matc_encaminhadoRepro'], 'integer'],
-            [['matc_data', 'matc_dataGer', 'matc_dataAut', 'matc_dataRepro'], 'safe'],
+            [['matc_data', 'matc_dataGer', 'matc_dataAut', 'matc_dataRepro', 'matc_dataPrevisao'], 'safe'],
             [['matc_totalValorMono', 'matc_totalValorColor'], 'number'],
             [['matc_curso'], 'string', 'max' => 255],
             [['matc_centrocusto', 'matc_unidade', 'matc_solicitante', 'matc_ResponsavelAut', 'matc_ResponsavelRepro'], 'string', 'max' => 100],
@@ -86,6 +86,7 @@ class MaterialCopiasAprovadas extends \yii\db\ActiveRecord
             'matc_totalValorMono' => 'Total em cópias mono',
             'matc_totalValorColor' => 'Total em cópias coloridas',
             'matc_totalGeral' => 'Total Geral',
+            'matc_dataPrevisao' => 'Previsão Entrega',
         ];
     }
 

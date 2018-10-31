@@ -19,7 +19,7 @@ class MaterialCopiasAutGerenciaSearch extends MaterialCopiasAutGerencia
     {
         return [
             [['matc_id', 'matc_segmento', 'matc_tipoacao', 'situacao_id', 'matc_autorizadoGer', 'matc_autorizado', 'matc_encaminhadoRepro'], 'integer'],
-            [['matc_curso', 'matc_centrocusto', 'matc_unidade', 'matc_solicitante', 'matc_data', 'matc_ResponsavelGer', 'matc_dataGer', 'matc_ResponsavelAut', 'matc_dataAut', 'matc_ResponsavelRepro', 'matc_dataRepro'], 'safe'],
+            [['matc_curso', 'matc_centrocusto', 'matc_unidade', 'matc_solicitante', 'matc_data', 'matc_ResponsavelGer', 'matc_dataGer', 'matc_ResponsavelAut', 'matc_dataAut', 'matc_ResponsavelRepro', 'matc_dataRepro', 'matc_dataPrevisao'], 'safe'],
             [['matc_totalValorMono', 'matc_totalValorColor'], 'number'],
         ];
     }
@@ -83,7 +83,8 @@ class MaterialCopiasAutGerenciaSearch extends MaterialCopiasAutGerencia
             ->andFilterWhere(['like', 'matc_solicitante', $this->matc_solicitante])
             ->andFilterWhere(['like', 'matc_ResponsavelGer', $this->matc_ResponsavelGer])
             ->andFilterWhere(['like', 'matc_ResponsavelAut', $this->matc_ResponsavelAut])
-            ->andFilterWhere(['like', 'matc_ResponsavelRepro', $this->matc_ResponsavelRepro]);
+            ->andFilterWhere(['like', 'matc_ResponsavelRepro', $this->matc_ResponsavelRepro])
+            ->andFilterWhere(['like', 'matc_dataPrevisao', $this->matc_dataPrevisao]);
 
         return $dataProvider;
     }
