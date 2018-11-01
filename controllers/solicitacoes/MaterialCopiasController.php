@@ -257,16 +257,14 @@ class MaterialCopiasController extends Controller
                     $model->matc_ResponsavelGer = $session['sess_nomeusuario'];
                     $model->matc_ResponsavelAut = $session['sess_nomeusuario'];
 
-                    if($model->matc_tipo == 2) { //Se for Impressão Avulsa, será aprovado também a DEP automaticamente
+                    if($model->matc_tipo == 2 && $session['sess_responsavelsetor'] == 1) { //Se for Impressão Avulsa, será aprovado também a DEP automaticamente
                       //-------atualiza a situação pra aprovado pela gerência do setor e pela DEP
                        Yii::$app->db->createCommand('UPDATE `materialcopias_matc` SET `situacao_id` = 2 , `matc_autorizadoGer` = 1, `matc_ResponsavelGer` = "'.$model->matc_ResponsavelGer.'" , `matc_dataGer` = "'.$model->matc_dataGer.'" , `matc_autorizado` = 1, `matc_ResponsavelAut` = "'.$model->matc_ResponsavelAut.'" , `matc_dataAut` = "'.$model->matc_dataAut.'" WHERE `matc_id` = '.$model->matc_id.'')
                        ->execute();
-                    } else{
-                       //-------atualiza a situação pra aprovado pela gerência do setor
-                       Yii::$app->db->createCommand('UPDATE `materialcopias_matc` SET `situacao_id` = 7 , `matc_autorizadoGer` = 1, `matc_ResponsavelGer` = "'.$model->matc_ResponsavelGer.'" , `matc_dataGer` = "'.$model->matc_dataGer.'" WHERE `matc_id` = '.$model->matc_id.'')
-                       ->execute();
+                    }else{
+                        //ENVIANDO EMAIL PARA O GERENTE DO SETOR INFORMANDO SOBRE A SOLICITAÇÃO PENDENTE DE AUTORIZAÇÃO
+                        Yii::$app->runAction('email/enviar-email-autorizacao-gerencia', ['id' => $model->matc_id]);
                     }
-
                     //ENVIANDO EMAIL PARA O GERENTE DO SETOR INFORMANDO SOBRE A SOLICITAÇÃO PENDENTE DE AUTORIZAÇÃO
                     Yii::$app->runAction('email/enviar-email-autorizacao-gerencia', ['id' => $model->matc_id]);
                     Yii::$app->session->setFlash('success', '<strong>SUCESSO! </strong> Solicitação de Cópia cadastrada!</strong>');
