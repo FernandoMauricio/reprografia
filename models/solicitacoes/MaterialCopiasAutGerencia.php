@@ -83,6 +83,7 @@ class MaterialCopiasAutGerencia extends \yii\db\ActiveRecord
             'matc_unidade' => 'Unidade',
             'matc_solicitante' => 'Solicitante',
             'matc_data' => 'Data da Solicitação',
+            'matc_tipo' => 'Tipo de Serviço',
             'situacao_id' => 'Situação',
             'matc_totalValorMono' => 'Total em cópias mono',
             'matc_totalValorColor' => 'Total em cópias coloridas',

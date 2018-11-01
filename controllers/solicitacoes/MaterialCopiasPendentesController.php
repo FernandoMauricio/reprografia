@@ -62,7 +62,7 @@ class MaterialCopiasPendentesController extends Controller
         $model->matc_ResponsavelAut = $session['sess_nomeusuario'];
 
         //-------atualiza a situação pra aprovado
-        Yii::$app->db->createCommand('UPDATE `materialcopias_matc` SET `situacao_id` = 2 , `matc_autorizado` = 1, `matc_ResponsavelAut` = "'.$model->matc_ResponsavelAut.'" , `matc_dataAut` = "'.$model->matc_dataAut.'" WHERE `matc_id` = '.$model->matc_id.'')
+        Yii::$app->db->createCommand('UPDATE `materialcopias_matc` SET `situacao_id` = 2, `matc_autorizado` = 1, `matc_ResponsavelAut` = "'.$model->matc_ResponsavelAut.'" , `matc_dataAut` = "'.$model->matc_dataAut.'" WHERE `matc_id` = '.$model->matc_id.'')
         ->execute();
 
         $model->matc_totalGeral = $model->matc_totalValorMono + $model->matc_totalValorColor;

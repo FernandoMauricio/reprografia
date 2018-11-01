@@ -19,7 +19,7 @@ class MaterialCopiasAutGerenciaSearch extends MaterialCopiasAutGerencia
     {
         return [
             [['matc_id', 'matc_segmento', 'matc_tipoacao', 'situacao_id', 'matc_autorizadoGer', 'matc_autorizado', 'matc_encaminhadoRepro'], 'integer'],
-            [['matc_curso', 'matc_centrocusto', 'matc_unidade', 'matc_solicitante', 'matc_data', 'matc_ResponsavelGer', 'matc_dataGer', 'matc_ResponsavelAut', 'matc_dataAut', 'matc_ResponsavelRepro', 'matc_dataRepro', 'matc_dataPrevisao'], 'safe'],
+            [['matc_curso', 'matc_centrocusto', 'matc_unidade', 'matc_solicitante', 'matc_data', 'matc_tipo', 'matc_ResponsavelGer', 'matc_dataGer', 'matc_ResponsavelAut', 'matc_dataAut', 'matc_ResponsavelRepro', 'matc_dataRepro', 'matc_dataPrevisao'], 'safe'],
             [['matc_totalValorMono', 'matc_totalValorColor'], 'number'],
         ];
     }
@@ -73,6 +73,7 @@ class MaterialCopiasAutGerenciaSearch extends MaterialCopiasAutGerencia
             'matc_dataRepro' => $this->matc_dataRepro,
             'matc_encaminhadoRepro' => $this->matc_encaminhadoRepro,
             'situacao_id' => 1, //PARA AUTORIZAÇÃO DO GERENTE DE SETOR
+            'matc_tipo' => $this->matc_tipo,
         ]);
 
         $session = Yii::$app->session;

@@ -250,34 +250,29 @@ class MaterialCopiasController extends Controller
                     Yii::$app->db->createCommand('UPDATE `materialcopias_matc` SET `matc_totalValorMono` = '.$total->matc_totalValorMono.', `matc_totalValorColor` = '.$total->matc_totalValorColor.',`matc_totalGeral` = '.$total->matc_totalGeral.' WHERE `matc_id` = '.$model->matc_id.'')
                     ->execute();
 
-                    if ($flag && $session['sess_responsavelsetor'] == 0) {
-                        $transaction->commit();
-                        //ENVIANDO EMAIL PARA O GERENTE DO SETOR INFORMANDO SOBRE A SOLICITAÇÃO PENDENTE DE AUTORIZAÇÃO
-                        Yii::$app->runAction('email/enviar-email-autorizacao-gerencia', ['id' => $model->matc_id]);
-                        Yii::$app->session->setFlash('success', '<strong>SUCESSO! </strong> Solicitação de Cópia cadastrada!</strong>');
+                    $transaction->commit();
+
+                    $model->matc_dataGer     = date('Y-m-d H:i:s');
+                    $model->matc_dataAut     = date('Y-m-d H:i:s');
+                    $model->matc_ResponsavelGer = $session['sess_nomeusuario'];
+                    $model->matc_ResponsavelAut = $session['sess_nomeusuario'];
+
+                    if($model->matc_tipo == 2) { //Se for Impressão Avulsa, será aprovado também a DEP automaticamente
+                      //-------atualiza a situação pra aprovado pela gerência do setor e pela DEP
+                       Yii::$app->db->createCommand('UPDATE `materialcopias_matc` SET `situacao_id` = 2 , `matc_autorizadoGer` = 1, `matc_ResponsavelGer` = "'.$model->matc_ResponsavelGer.'" , `matc_dataGer` = "'.$model->matc_dataGer.'" , `matc_autorizado` = 1, `matc_ResponsavelAut` = "'.$model->matc_ResponsavelAut.'" , `matc_dataAut` = "'.$model->matc_dataAut.'" WHERE `matc_id` = '.$model->matc_id.'')
+                       ->execute();
+                    } else{
+                       //-------atualiza a situação pra aprovado pela gerência do setor
+                       Yii::$app->db->createCommand('UPDATE `materialcopias_matc` SET `situacao_id` = 7 , `matc_autorizadoGer` = 1, `matc_ResponsavelGer` = "'.$model->matc_ResponsavelGer.'" , `matc_dataGer` = "'.$model->matc_dataGer.'" WHERE `matc_id` = '.$model->matc_id.'')
+                       ->execute();
                     }
-                return $this->redirect(['view', 'id' => $model->matc_id]);
 
-                    if ($flag && $session['sess_responsavelsetor'] == 1) {
-                        //SE FOR GERENTE ENVIA DIRETAMENTE PARA A DEP COM A AUTORIZAÇÃO DO SETOR
-                        $transaction->commit();
-                        Yii::$app->session->setFlash('success', '<strong>SUCESSO! </strong> Solicitação de Cópia cadastrada!</strong>');
+                    //ENVIANDO EMAIL PARA O GERENTE DO SETOR INFORMANDO SOBRE A SOLICITAÇÃO PENDENTE DE AUTORIZAÇÃO
+                    Yii::$app->runAction('email/enviar-email-autorizacao-gerencia', ['id' => $model->matc_id]);
+                    Yii::$app->session->setFlash('success', '<strong>SUCESSO! </strong> Solicitação de Cópia cadastrada!</strong>');
 
-                        $model->matc_dataGer     = date('Y-m-d H:i:s');
-                        $model->matc_ResponsavelGer = $session['sess_nomeusuario'];
+                return $this->redirect(['index']);
 
-                        //-------atualiza a situação pra aprovado pela gerência do setor
-                        Yii::$app->db->createCommand('UPDATE `materialcopias_matc` SET `situacao_id` = 7 , `matc_autorizadoGer` = 1, `matc_ResponsavelGer` = "'.$model->matc_ResponsavelGer.'" , `matc_dataGer` = "'.$model->matc_dataGer.'" WHERE `matc_id` = '.$model->matc_id.'')
-                        ->execute();
-
-                            $model->situacao_id = 7;
-                            if($model->situacao_id == 7){
-                                //ENVIANDO EMAIL PARA OS RESPONSÁVEIS DO GABINETE TÉCNICO INFORMANDO SOBRE O RECEBIMENTO DE UMA NOVA SOLICITAÇÃO DE CÓPIA 
-                                Yii::$app->runAction('email/enviar-email-gabinete-tecnico', ['id' => $model->matc_id]);
-                            }
-                        Yii::$app->session->setFlash('success', '<strong>SUCESSO! </strong> Solicitação de Cópia cadastrada!</strong>');
-                return $this->redirect(['view', 'id' => $model->matc_id]);
-                    }
                 } catch (Exception $e) {
                     $transaction->rollBack();
                 }
@@ -398,7 +393,7 @@ class MaterialCopiasController extends Controller
                         Yii::$app->runAction('email/enviar-email-autorizacao-gerencia', ['id' => $model->matc_id]);
                         Yii::$app->session->setFlash('success', '<strong>SUCESSO! </strong> Solicitação de Cópia cadastrada!</strong>');
                     }
-                return $this->redirect(['view', 'id' => $model->matc_id]);
+                return $this->redirect(['index']);
 
                     if ($flag && $session['sess_responsavelsetor'] == 1) {
                         //SE FOR GERENTE ENVIA DIRETAMENTE PARA A DEP COM A AUTORIZAÇÃO DO SETOR
@@ -418,7 +413,7 @@ class MaterialCopiasController extends Controller
                                 Yii::$app->runAction('email/enviar-email-gabinete-tecnico', ['id' => $model->matc_id]);
                             }
                         Yii::$app->session->setFlash('success', '<strong>SUCESSO! </strong> Solicitação de Cópia cadastrada!</strong>');
-                return $this->redirect(['view', 'id' => $model->matc_id]);
+                return $this->redirect(['index']);
                     }
                 } catch (Exception $e) {
                     $transaction->rollBack();

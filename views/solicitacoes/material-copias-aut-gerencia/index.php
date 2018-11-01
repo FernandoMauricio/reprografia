@@ -43,6 +43,18 @@ $gridColumns = [
     ],
 
     [
+        'attribute'=>'matc_tipo',
+        'width'=>'3%',
+        'value' => function ($data) { return $data->matc_tipo == 1 ? 'Apostilas' : 'Impressão Avulsa'; },
+        'filterType'=>GridView::FILTER_SELECT2,
+        'filter'=> [1=>'Apostilas',2=>'Impressão Avulsa'],
+        'filterWidgetOptions'=>[
+            'pluginOptions'=>['allowClear'=>true],
+        ],
+            'filterInputOptions'=>['placeholder'=>'Tipo de Serviço'],
+    ],
+    
+    [
         'attribute'=>'matc_centrocusto', 
         'width'=>'5%',
         'value'=>function ($model, $key, $index, $widget) { 
@@ -74,12 +86,12 @@ $gridColumns = [
     [
       'attribute'=>'matc_unidade',
       'value'=> 'unidade.uni_nomeabreviado',
-      'width'=>'20%'
+      'width'=>'15%'
     ],
 
     [
         'attribute'=>'matc_curso', 
-        'width'=>'30%',
+        'width'=>'20%',
     ],
 
 
@@ -146,7 +158,7 @@ $gridColumns = [
     'beforeHeader'=>[
         [
             'columns'=>[
-                ['content'=>'Detalhes das Solicitações de Cópias', 'options'=>['colspan'=>6, 'class'=>'text-center warning']], 
+                ['content'=>'Detalhes das Solicitações de Cópias', 'options'=>['colspan'=>8, 'class'=>'text-center warning']], 
                 ['content'=>'Ações', 'options'=>['colspan'=>3, 'class'=>'text-center warning']], 
             ],
         ]

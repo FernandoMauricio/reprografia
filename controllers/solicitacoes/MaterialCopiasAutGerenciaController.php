@@ -61,11 +61,19 @@ class MaterialCopiasAutGerenciaController extends Controller
       $model = $this->findModel($id);
 
       $model->matc_dataGer     = date('Y-m-d H:i:s');
+      $model->matc_dataAut     = date('Y-m-d H:i:s');
       $model->matc_ResponsavelGer = $session['sess_nomeusuario'];
+      $model->matc_ResponsavelAut = $session['sess_nomeusuario'];
 
-      //-------atualiza a situação pra aprovado pela gerência do setor
-      Yii::$app->db->createCommand('UPDATE `materialcopias_matc` SET `situacao_id` = 7 , `matc_autorizadoGer` = 1, `matc_ResponsavelGer` = "'.$model->matc_ResponsavelGer.'" , `matc_dataGer` = "'.$model->matc_dataGer.'" WHERE `matc_id` = '.$model->matc_id.'')
-      ->execute();
+      if($model->matc_tipo == 2) { //Se for Impressão Avulsa, será aprovado também a DEP automaticamente
+        //-------atualiza a situação pra aprovado pela gerência do setor e pela DEP
+         Yii::$app->db->createCommand('UPDATE `materialcopias_matc` SET `situacao_id` = 2 , `matc_autorizadoGer` = 1, `matc_ResponsavelGer` = "'.$model->matc_ResponsavelGer.'" , `matc_dataGer` = "'.$model->matc_dataGer.'" , `matc_autorizado` = 1, `matc_ResponsavelAut` = "'.$model->matc_ResponsavelAut.'" , `matc_dataAut` = "'.$model->matc_dataAut.'" WHERE `matc_id` = '.$model->matc_id.'')
+         ->execute();
+      } else{
+         //-------atualiza a situação pra aprovado pela gerência do setor
+         Yii::$app->db->createCommand('UPDATE `materialcopias_matc` SET `situacao_id` = 7 , `matc_autorizadoGer` = 1, `matc_ResponsavelGer` = "'.$model->matc_ResponsavelGer.'" , `matc_dataGer` = "'.$model->matc_dataGer.'" WHERE `matc_id` = '.$model->matc_id.'')
+         ->execute();
+      }
 
       $model->matc_totalGeral = $model->matc_totalValorMono + $model->matc_totalValorColor;
 
