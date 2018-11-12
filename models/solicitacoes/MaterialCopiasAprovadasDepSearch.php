@@ -5,12 +5,12 @@ namespace app\models\solicitacoes;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\solicitacoes\MaterialCopias;
+use app\models\solicitacoes\MaterialCopiasAprovadas;
 
 /**
- * MaterialCopiasSearch represents the model behind the search form about `app\models\solicitacoes\MaterialCopias`.
+ * MaterialCopiasAprovadasSearch represents the model behind the search form about `app\models\solicitacoes\MaterialCopiasAprovadas`.
  */
-class MaterialCopiasSearch extends MaterialCopias
+class MaterialCopiasAprovadasDepSearch extends MaterialCopiasAprovadas
 {
     /**
      * @inheritdoc
@@ -18,8 +18,8 @@ class MaterialCopiasSearch extends MaterialCopias
     public function rules()
     {
         return [
-            [['matc_id', 'situacao_id', 'matc_totalValorMono', 'matc_totalValorColor'], 'integer'],
-            [['matc_curso', 'matc_centrocusto', 'matc_unidade', 'matc_solicitante', 'matc_data', 'matc_tipo', 'matc_totalGeral', 'matc_dataPrevisao'], 'safe'],
+            [['matc_id','matc_totalValorMono', 'matc_totalValorColor'], 'integer'],
+            [['matc_curso', 'matc_centrocusto', 'matc_unidade', 'matc_solicitante', 'matc_data', 'matc_ResponsavelAut', 'matc_dataAut', 'matc_ResponsavelRepro', 'matc_dataRepro', 'situacao_id','matc_tipo', 'matc_dataPrevisao', 'matc_dataPrevisao'], 'safe'],
         ];
     }
 
@@ -41,7 +41,7 @@ class MaterialCopiasSearch extends MaterialCopias
      */
     public function search($params)
     {
-        $query = MaterialCopias::find()->orderBy(['matc_id' => SORT_DESC]);
+        $query = MaterialCopiasAprovadas::find()->orderBy(['situacao_id' => SORT_ASC]);
 
         // add conditions that should always apply here
 
@@ -57,25 +57,28 @@ class MaterialCopiasSearch extends MaterialCopias
             return $dataProvider;
         }
 
-        $session = Yii::$app->session;
-
+        $query->joinWith('situacao');
 
         // grid filtering conditions
         $query->andFilterWhere([
             'matc_id' => $this->matc_id,
             'matc_data' => $this->matc_data,
-            'situacao_id' => $this->situacao_id,
             'matc_totalValorMono' => $this->matc_totalValorMono,
             'matc_totalValorColor' => $this->matc_totalValorColor,
-            'matc_unidade' => $session['sess_codunidade'],
+            'matc_dataAut' => $this->matc_dataAut,
+            'matc_dataRepro' => $this->matc_dataRepro,
+            'situacao_id' => [2,5], //APROVADA DEP
             'matc_tipo' => $this->matc_tipo,
-        ]);
 
+        ]);
 
         $query->andFilterWhere(['like', 'matc_curso', $this->matc_curso])
             ->andFilterWhere(['like', 'matc_centrocusto', $this->matc_centrocusto])
+            ->andFilterWhere(['like', 'matc_unidade', $this->matc_unidade])
             ->andFilterWhere(['like', 'matc_solicitante', $this->matc_solicitante])
-            ->andFilterWhere(['like', 'matc_totalGeral', $this->matc_totalGeral])
+            ->andFilterWhere(['like', 'matc_ResponsavelAut', $this->matc_ResponsavelAut])
+            ->andFilterWhere(['like', 'matc_ResponsavelRepro', $this->matc_ResponsavelRepro])
+            ->andFilterWhere(['=', 'situacaomatcopias_sitmat.sitmat_descricao', $this->situacao_id])
             ->andFilterWhere(['like', 'matc_dataPrevisao', $this->matc_dataPrevisao]);
 
         return $dataProvider;

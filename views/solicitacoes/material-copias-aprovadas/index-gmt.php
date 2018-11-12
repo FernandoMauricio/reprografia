@@ -9,16 +9,17 @@ use kartik\widgets\Select2;
 use yii\helpers\ArrayHelper;
 use yii\widgets\Pjax;
 
+
 /* @var $this yii\web\View */
-/* @var $searchModel app\models\solicitacoes\MaterialCopiasPendentesSearch */
+/* @var $searchModel app\models\solicitacoes\MaterialCopiasAprovadasSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
-$this->title = 'Solicitações de Cópias Pendentes';
+$this->title = 'Solicitações de Cópias Aprovadas';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
-<div class="material-copias-pendentes-index">
-
-   <h1><?= Html::encode($this->title) ?></h1>
+<div class="material-copias-aprovadas-index">
+    <h1><?= Html::encode($this->title) ?></h1>
+    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
 <?php
 
@@ -39,12 +40,24 @@ $gridColumns = [
 
     [
       'attribute'=>'matc_id',
-      'width'=>'3%'
+      'width'=>'2%'
+    ],
+
+    [
+        'attribute'=>'matc_tipo',
+        'width'=>'2%',
+        'value' => function ($data) { return $data->matc_tipo == 1 ? 'Apostilas' : 'Impressão Avulsa'; },
+        'filterType'=>GridView::FILTER_SELECT2,
+        'filter'=> [1=>'Apostilas',2=>'Impressão Avulsa'],
+        'filterWidgetOptions'=>[
+            'pluginOptions'=>['allowClear'=>true],
+        ],
+            'filterInputOptions'=>['placeholder'=>'Tipo de Serviço'],
     ],
 
     [
         'attribute'=>'matc_centrocusto', 
-        'width'=>'5%',
+        'width'=>'2%',
         'value'=>function ($model, $key, $index, $widget) { 
             return $model->matc_centrocusto;
         },
@@ -79,9 +92,8 @@ $gridColumns = [
 
     [
         'attribute'=>'matc_curso', 
-        'width'=>'30%',
+        'width'=>'20%',
     ],
-
 
     [
         'attribute'=>'situacao_id', 
@@ -99,33 +111,54 @@ $gridColumns = [
 
 
     ['class' => 'yii\grid\ActionColumn',
-    'template' => '{aprovar} {reprovar}',
+    'template' => '{encaminharterceirizada} {producaointerna}',
     'options' => ['width' => '15%'],
     'buttons' => [
 
-    //APROVAR REQUISIÇÃO
-    'aprovar' => function ($url, $model) {
-        return Html::a('<span class="glyphicon glyphicon-ok"></span> Aprovar', $url, [
-                    'class' => 'btn btn-success btn-xs',
-                    'title' => Yii::t('app', 'Aprovar Solicitação'),
+    //ENCAMINHADO À TERCEIRIZADA
+    'encaminharterceirizada' => function ($url, $model) {
+        return Html::a('<span class="glyphicon glyphicon-share"></span> Terceirizada', $url, [
+                    'class' => 'btn btn-warning btn-xs',
+                    'title' => Yii::t('app', 'Encaminhar à Terceirizada'),
                     'data'  => [
-                        'confirm' => 'Você tem CERTEZA que deseja APROVAR a solicitação?',
+                        'confirm' => 'Você tem CERTEZA que deseja ENCAMINHAR À TERCEIRIZADA?',
                         'method' => 'post',
                          ],
                     ]);
                 },
 
-    //REPROVAR REQUISIÇÃO
-    'reprovar' => function ($url, $model) {
-        return Html::a('<span class="glyphicon glyphicon-remove"></span> Reprovar', $url, [
-                    'class' => 'btn btn-danger btn-xs',
+    //PRODUÇÃO INTERNA
+    'producaointerna' => function ($url, $model) {
+        return Html::a('<span class="glyphicon glyphicon-book"></span> Produção Interna', $url, [
+                    'class' => 'btn btn-info btn-xs',
                     'title' => Yii::t('app', 'Reprovar Solicitação'),
+                    'data'  => [
+                        'confirm' => 'Você tem CERTEZA que deseja ENCAMINHAR PARA PRODUÇÃO INTERNA?',
+                        'method' => 'post',
+                         ],
                     ]);
                 },
-
     ],
     ],
 
+    ['class' => 'yii\grid\ActionColumn',
+    'template' => '{finalizar}',
+    'options' => ['width' => '10%'],
+    'buttons' => [
+
+    //ENCAMINHADO À TERCEIRIZADA
+    'finalizar' => function ($url, $model) {
+        return $model->situacao_id == 5 ? Html::a('<span class="glyphicon glyphicon-floppy-disk"></span> Finalizar', $url, [
+                    'class' => 'btn btn-success btn-xs',
+                    'title' => Yii::t('app', 'Finalizar Solicitação'),
+                    'data'  => [
+                        'confirm' => 'Você tem CERTEZA que deseja FINALIZAR A SOLICITAÇÃO?',
+                        'method' => 'post',
+                         ],
+                    ]): '';
+                },
+    ],
+    ],
 ]; 
 ?>
 
@@ -137,6 +170,24 @@ $gridColumns = [
     'dataProvider'=>$dataProvider,
     'filterModel'=>$searchModel,
     'columns'=>$gridColumns,
+    'rowOptions' =>function($model){
+                    if($model->situacao_id == 3 ){
+
+                            return['class'=>'danger'];                        
+                    } if($model->situacao_id == 2 ){
+
+                            return['class'=>'success'];                        
+                    }
+                    if($model->situacao_id == 4 ){
+
+                            return['class'=>'warning'];                        
+                    }
+                    if($model->situacao_id == 5 ){
+
+                            return['class'=>'info'];                        
+                    }
+
+        },
     'containerOptions'=>['style'=>'overflow: auto'], // only set when $responsive = false
     'headerRowOptions'=>['class'=>'kartik-sheet-style'],
     'filterRowOptions'=>['class'=>'kartik-sheet-style'],
@@ -146,15 +197,16 @@ $gridColumns = [
     'beforeHeader'=>[
         [
             'columns'=>[
-                ['content'=>'Detalhes das Solicitações de Cópias', 'options'=>['colspan'=>6, 'class'=>'text-center warning']], 
-                ['content'=>'Ações', 'options'=>['colspan'=>3, 'class'=>'text-center warning']], 
+                ['content'=>'Detalhes das Solicitações de Cópias', 'options'=>['colspan'=>8, 'class'=>'text-center warning']], 
+                ['content'=>'Encaminhamentos', 'options'=>['colspan'=>1, 'class'=>'text-center warning']], 
+                ['content'=>'Ações', 'options'=>['colspan'=>2, 'class'=>'text-center warning']], 
             ],
         ]
     ],
 
         'panel' => [
         'type'=>GridView::TYPE_PRIMARY,
-        'heading'=> '<h3 class="panel-title"><i class="glyphicon glyphicon-book"></i> Listagem de Solicitações Pendentes</h3>',
+        'heading'=> '<h3 class="panel-title"><i class="glyphicon glyphicon-book"></i> Listagem de Solicitações Aprovadas pela DEP</h3>',
     ],
 ]);
     ?>
