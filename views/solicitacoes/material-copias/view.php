@@ -189,12 +189,20 @@ $this->params['breadcrumbs'][] = $this->title;
       </thead>
       <tbody>
          <tr class="warning" style="border-top: #dedede">
+         <?php
+            $query = (new \yii\db\Query())->from('materialcopias_item')->where(['materialcopias_id' => $model->matc_id]);
+            $sumSubtotalMono = $query->sum('((item_qtexemplares*item_mono) * 0.12)');
+         ?>
             <td><strong>Subtotal Mono</strong><i> (Qte Exemplares * Mono) * R$ 0,12</i></td>
-            <td style="color:#c0392b"><?= 'R$ ' . number_format($model->matc_totalValorMono, 2, ',', '.') ?></td>
+            <td style="color:#c0392b"><?= 'R$ ' . number_format($sumSubtotalMono, 2, ',', '.') ?></td>
          </tr>
+         <?php
+            $query = (new \yii\db\Query())->from('materialcopias_item')->where(['materialcopias_id' => $model->matc_id]);
+            $sumSubtotalColor = $query->sum('((item_qtexemplares*item_color) * 0.95)');
+         ?>
          <tr class="warning" style="border-top: #dedede">
             <td><strong>Subtotal Color</strong><i> (Qte Exemplares * Color) * R$ 0,95</i></td>
-            <td style="color:#c0392b"><?= 'R$ ' . number_format($model->matc_totalValorColor, 2, ',', '.') ?></td>
+            <td style="color:#c0392b"><?= 'R$ ' . number_format($sumSubtotalColor, 2, ',', '.') ?></td>
          </tr>
          <?php
             //somatória de Quantidade de Exemplares * 4,00 da Encadernação
@@ -204,12 +212,12 @@ $this->params['breadcrumbs'][] = $this->title;
          <?php  if($acabamentos["acab_descricao"] == 'Encadernação') { ?>
          <tr class="warning" style="border-top: #dedede">
             <td><strong>Encadernação</strong><i> (Qte Exemplares * R$ 4,00)</i></td>
-            <td style="color:#c0392b"><strong><?= 'R$ ' . number_format($sumEncadernacao , 2, ',', '.') ?></strong></td>
+            <td style="color:#c0392b"><strong><?= 'R$ ' . number_format($sumEncadernacao, 2, ',', '.') ?></strong></td>
          </tr>
          <?php } ?>
          <tr class="warning" style="border-top: #dedede">
             <td><strong>TOTAL GERAL</strong></td>
-            <td style="color:#c0392b"><strong><?= 'R$ ' . number_format($model->matc_totalGeral, 2, ',', '.') ?></strong></td>
+            <td style="color:#c0392b"><strong><?= 'R$ ' . number_format($sumSubtotalMono + $sumSubtotalColor + $sumEncadernacao, 2, ',', '.') ?></strong></td>
          </tr>
       </tbody>
    </table>

@@ -144,7 +144,7 @@ $gridColumns = [
     ],
 
     ['class' => 'yii\grid\ActionColumn',
-    'template' => '{view} {update} {observacoes} {receber-requisicao}',
+    'template' => '{view} {update} {observacoes} {encaminharterceirizada} {receber-requisicao}',
     'options' => ['width' => '10%'],
     'buttons' => [
 
@@ -167,6 +167,22 @@ $gridColumns = [
             ]);
         }else{
         '';
+        }
+    },
+
+    //ENCAMINHADO À TERCEIRIZADA
+    'encaminharterceirizada' => function ($url, $model) {
+        if($model->situacao_id == 2) {
+        return Html::a('<span class="glyphicon glyphicon-share"></span> Terceirizada', $url, [
+                    'class' => 'btn btn-warning btn-xs',
+                    'title' => Yii::t('app', 'Encaminhar à Terceirizada'),
+                    'data'  => [
+                        'confirm' => 'Você tem CERTEZA que deseja ENCAMINHAR À TERCEIRIZADA?',
+                        'method' => 'post',
+                         ],
+                    ]);
+        }else{
+            '';
         }
     },
 

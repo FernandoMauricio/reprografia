@@ -22,8 +22,8 @@ $this->title = 'Reprografia';
                     <h5>- Alterado a nomenclatura de <b style="color: #c0392b;">Impressão</b> -> <b style="color: #27ae60;">Impressão Avulsa</b>.</h5>
                     <h5>- <b style="color: #27ae60;">Impressão Avulsa</b> não precisará mais da aprovação da DEP.</h5>
                     <h5>- Incluído o campo <b style="color: #2980b9;">Previsão Entrega</b> na solicitação de cópias.</h5>
-                    <h5>- Incluído nas listagem das solicitações o <b style="color: #2980b9;">Tipo de Serviço</b> (Apostilas/Impressão Avulsa).</h5>
-                    <h5>- Incluido nas listagem das solicitações a <b style="color: #2980b9;">Previsão Entrega</b>.</h5>
+                    <h5>- Incluído na listagem das solicitações o <b style="color: #2980b9;">Tipo de Serviço</b> (Apostilas/Impressão Avulsa).</h5>
+                    <h5>- Incluido na listagem das solicitações a <b style="color: #2980b9;">Previsão Entrega</b>.</h5>
             </div>
         </div>
 <!--         <div class="row">

@@ -14,148 +14,142 @@ NavBar::begin([
     ],
 ]);
 
-if($session['sess_codunidade'] != 12 && $session['sess_responsavelsetor'] == 1) { //ÁREA DO GERENTE
-
-    echo Navx::widget([
-        'options' => ['class' => 'navbar-nav navbar-right'],
-        'encodeLabels' => false,
+echo Navx::widget([
+    'options' => ['class' => 'navbar-nav navbar-right'],
+    'encodeLabels' => false,
+    'items' => [
+        ['label' => 'Home', 'url' => ['/site/index']],
+        [
+        'label' => 'Solicitações de Cópias',
         'items' => [
-            ['label' => 'Home', 'url' => ['/site/index']],
-            [
-            'label' => 'Solicitações de Cópias',
-            'items' =>  [
-                            ['label' => 'Nova Solicitação', 'url' => ['/solicitacoes/material-copias/index']],
-                                     '<li class="divider"></li>',
-                            ['label' => 'Administração', 'items' => [
-                                ['label' => 'Solicitações em aprovação', 'url' => ['/solicitacoes/material-copias-aut-gerencia/index']],
-                            ]],
-                        ],
-            ],
-
-            [
-            'label' => 'Usuário (' . utf8_encode(ucwords(strtolower($session['sess_nomeusuario']))) . ')',
-            'items' =>  [
-                            '<li class="dropdown-header">Área Usuário</li>',
-                            ['label' => 'Sair', 'url' => 'https://portalsenac.am.senac.br/portal_senac/control_base_vermodulos/control_base_vermodulos.php'],
-                        ],
-            ],
+                     ['label' => 'Nova Solicitação', 'url' => ['/solicitacoes/material-copias/index']],
+                                 '<li class="divider"></li>',
+                        ['label' => 'Administração', 'items' => [
+                            ['label' => 'Solicitações em aprovação', 'url' => ['/solicitacoes/material-copias-aut-gerencia/index']],
+                                 '<li class="divider"></li>',
+                            ['label' => 'Solicitações Pendentes', 'url' => ['/solicitacoes/material-copias-pendentes/index']],
+                            ['label' => 'Solicitações Aprovadas', 'url' => ['/solicitacoes/material-copias-aprovadas/index']],
+                            ['label' => 'Solicitações Encerradas', 'url' => ['/solicitacoes/material-copias-encerradas/index']],
+                        ]],
+                        ['label' => 'Cadastros', 'items' => [
+                            ['label' => 'Tipos de Acabamento', 'url' => ['/solicitacoes/acabamento/index']],
+                         ]],
+                  ],
         ],
-    ]);
+    ],
+]);
+// if($session['sess_codunidade'] != 12 && $session['sess_responsavelsetor'] == 1) { //ÁREA DO GERENTE
 
-}else if($session['sess_codunidade'] == 11) { //ÁREA DA DEP
+//     echo Navx::widget([
+//         'options' => ['class' => 'navbar-nav navbar-right'],
+//         'encodeLabels' => false,
+//         'items' => [
+//             ['label' => 'Home', 'url' => ['/site/index']],
+//             [
+//             'label' => 'Solicitações de Cópias',
+//             'items' =>  [
+//                             ['label' => 'Nova Solicitação', 'url' => ['/solicitacoes/material-copias/index']],
+//                                      '<li class="divider"></li>',
+//                             ['label' => 'Administração', 'items' => [
+//                                 ['label' => 'Solicitações em aprovação', 'url' => ['/solicitacoes/material-copias-aut-gerencia/index']],
+//                             ]],
+//                         ],
+//             ],
 
-    echo Navx::widget([
-        'options' => ['class' => 'navbar-nav navbar-right'],
-        'encodeLabels' => false,
-        'items' => [
-            ['label' => 'Home', 'url' => ['/site/index']],
-            [
-            'label' => 'Solicitações de Cópias',
-            'items' =>  [
-                         ['label' => 'Nova Solicitação', 'url' => ['/solicitacoes/material-copias/index']],
-                                     '<li class="divider"></li>',
-                            ['label' => 'Administração', 'items' => [
-                                ['label' => 'Solicitações Pendentes', 'url' => ['/solicitacoes/material-copias-pendentes/index']],
-                                ['label' => 'Solicitações Encerradas', 'url' => ['/solicitacoes/material-copias-encerradas/index']],
-                            ]],
-                        ],
-            ],
+//             [
+//             'label' => 'Usuário (' . utf8_encode(ucwords(strtolower($session['sess_nomeusuario']))) . ')',
+//             'items' =>  [
+//                             '<li class="dropdown-header">Área Usuário</li>',
+//                             ['label' => 'Sair', 'url' => 'https://portalsenac.am.senac.br/portal_senac/control_base_vermodulos/control_base_vermodulos.php'],
+//                         ],
+//             ],
+//         ],
+//     ]);
 
-            [
-            'label' => 'Usuário (' . utf8_encode(ucwords(strtolower($session['sess_nomeusuario']))) . ')',
-            'items' =>  [
-                            '<li class="dropdown-header">Área Usuário</li>',
-                            ['label' => 'Sair', 'url' => 'https://portalsenac.am.senac.br/portal_senac/control_base_vermodulos/control_base_vermodulos.php'],
-                        ],
-            ],
-        ],
-    ]);
+// }else if($session['sess_codunidade'] == 11) { //ÁREA DA DEP
 
-}else if($session['sess_codusuario'] == 409) { //ÁREA DA TERCEIRIZADA
+//     echo Navx::widget([
+//         'options' => ['class' => 'navbar-nav navbar-right'],
+//         'encodeLabels' => false,
+//         'items' => [
+//             ['label' => 'Home', 'url' => ['/site/index']],
+//             [
+//             'label' => 'Solicitações de Cópias',
+//             'items' =>  [
+//                          ['label' => 'Nova Solicitação', 'url' => ['/solicitacoes/material-copias/index']],
+//                                      '<li class="divider"></li>',
+//                             ['label' => 'Administração', 'items' => [
+//                                 ['label' => 'Solicitações Pendentes', 'url' => ['/solicitacoes/material-copias-pendentes/index']],
+//                                 ['label' => 'Solicitações Encerradas', 'url' => ['/solicitacoes/material-copias-encerradas/index']],
+//                             ]],
+//                         ],
+//             ],
 
-    echo NavX::widget([
-        'options' => ['class' => 'navbar-nav navbar-right'],
+//             [
+//             'label' => 'Usuário (' . utf8_encode(ucwords(strtolower($session['sess_nomeusuario']))) . ')',
+//             'items' =>  [
+//                             '<li class="dropdown-header">Área Usuário</li>',
+//                             ['label' => 'Sair', 'url' => 'https://portalsenac.am.senac.br/portal_senac/control_base_vermodulos/control_base_vermodulos.php'],
+//                         ],
+//             ],
+//         ],
+//     ]);
 
-        'items' => [
-            ['label' => 'Home', 'url' => ['/site/index']],
+// }else if($session['sess_codunidade'] == 12 && $session['sess_responsavelsetor'] == 0) { //ÁREA DA REPROGRAFIA - GMT
 
-            [
-            'label' => 'Solicitações de Cópias',
-            'items' => [
-                         ['label' => 'Nova Solicitação', 'url' => ['/solicitacoes/material-copias/index']],
-                                     '<li class="divider"></li>',
-                            ['label' => 'Administração', 'items' => [
-                                ['label' => 'Solicitações Aprovadas', 'url' => ['/solicitacoes/material-copias-aprovadas/index']],
-                                ['label' => 'Solicitações Encerradas', 'url' => ['/solicitacoes/material-copias-encerradas/index']],
-                            ]],
-                     ],
-            ],
+//     echo NavX::widget([
+//         'options' => ['class' => 'navbar-nav navbar-right'],
 
-            [
-            'label' => 'Usuário (' . utf8_encode(ucwords(strtolower($session['sess_nomeusuario']))) . ')',
-            'items' =>  [
-                            '<li class="dropdown-header">Área Usuário</li>',
-                            ['label' => 'Sair', 'url' => 'https://portalsenac.am.senac.br/portal_senac/control_base_vermodulos/control_base_vermodulos.php'],
-                        ],
-            ],
-        ],
-    ]);
-    
-}else if($session['sess_codunidade'] == 12 && $session['sess_responsavelsetor'] == 0) { //ÁREA DA REPROGRAFIA - GMT
+//         'items' => [
+//             ['label' => 'Home', 'url' => ['/site/index']],
 
-    echo NavX::widget([
-        'options' => ['class' => 'navbar-nav navbar-right'],
+//             [
+//             'label' => 'Solicitações de Cópias',
+//             'items' => [
+//                          ['label' => 'Nova Solicitação', 'url' => ['/solicitacoes/material-copias/index']],
+//                                      '<li class="divider"></li>',
+//                             ['label' => 'Administração', 'items' => [
+//                                 ['label' => 'Solicitações Aprovadas', 'url' => ['/solicitacoes/material-copias-aprovadas/index']],
+//                                 ['label' => 'Solicitações Encerradas', 'url' => ['/solicitacoes/material-copias-encerradas/index']],
+//                             ]],
+//                      ],
+//             ],
 
-        'items' => [
-            ['label' => 'Home', 'url' => ['/site/index']],
+//             [
+//             'label' => 'Usuário (' . utf8_encode(ucwords(strtolower($session['sess_nomeusuario']))) . ')',
+//             'items' =>  [
+//                             '<li class="dropdown-header">Área Usuário</li>',
+//                             ['label' => 'Sair', 'url' => 'https://portalsenac.am.senac.br/portal_senac/control_base_vermodulos/control_base_vermodulos.php'],
+//                         ],
+//             ],
+//         ],
+//     ]);
 
-            [
-            'label' => 'Solicitações de Cópias',
-            'items' => [
-                         ['label' => 'Nova Solicitação', 'url' => ['/solicitacoes/material-copias/index']],
-                                     '<li class="divider"></li>',
-                            ['label' => 'Administração', 'items' => [
-                                ['label' => 'Solicitações Aprovadas', 'url' => ['/solicitacoes/material-copias-aprovadas/index-gmt']],
-                                ['label' => 'Solicitações Encerradas', 'url' => ['/solicitacoes/material-copias-encerradas/index']],
-                            ]],
-                     ],
-            ],
+// }else if($session['sess_codunidade'] != 12 && $session['sess_responsavelsetor'] == 0) { //ÁREA DO USUÁRIO
 
-            [
-            'label' => 'Usuário (' . utf8_encode(ucwords(strtolower($session['sess_nomeusuario']))) . ')',
-            'items' =>  [
-                            '<li class="dropdown-header">Área Usuário</li>',
-                            ['label' => 'Sair', 'url' => 'https://portalsenac.am.senac.br/portal_senac/control_base_vermodulos/control_base_vermodulos.php'],
-                        ],
-            ],
-        ],
-    ]);
+//     echo Navx::widget([
+//         'options' => ['class' => 'navbar-nav navbar-right'],
+//         'encodeLabels' => false,
+//         'items' => [
+//             ['label' => 'Home', 'url' => ['/site/index']],
+//             [
+//             'label' => 'Solicitações de Cópias',
+//             'items' =>  [
+//                             ['label' => 'Nova Solicitação', 'url' => ['/solicitacoes/material-copias/index']],
+//                         ],
+//             ],
 
-}else if($session['sess_codunidade'] != 12 && $session['sess_responsavelsetor'] == 0) { //ÁREA DO USUÁRIO
+//             [
+//             'label' => 'Usuário (' . utf8_encode(ucwords(strtolower($session['sess_nomeusuario']))) . ')',
+//             'items' => [
+//                             '<li class="dropdown-header">Área Usuário</li>',
+//                             ['label' => 'Sair', 'url' => 'https://portalsenac.am.senac.br/portal_senac/control_base_vermodulos/control_base_vermodulos.php'],
+//                         ],
+//             ],
+//         ],
+//     ]);
 
-    echo Navx::widget([
-        'options' => ['class' => 'navbar-nav navbar-right'],
-        'encodeLabels' => false,
-        'items' => [
-            ['label' => 'Home', 'url' => ['/site/index']],
-            [
-            'label' => 'Solicitações de Cópias',
-            'items' =>  [
-                            ['label' => 'Nova Solicitação', 'url' => ['/solicitacoes/material-copias/index']],
-                        ],
-            ],
-
-            [
-            'label' => 'Usuário (' . utf8_encode(ucwords(strtolower($session['sess_nomeusuario']))) . ')',
-            'items' => [
-                            '<li class="dropdown-header">Área Usuário</li>',
-                            ['label' => 'Sair', 'url' => 'https://portalsenac.am.senac.br/portal_senac/control_base_vermodulos/control_base_vermodulos.php'],
-                        ],
-            ],
-        ],
-    ]);
-
-}
+// }
 
 NavBar::end();
 ?>
