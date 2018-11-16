@@ -217,7 +217,7 @@ $this->params['breadcrumbs'][] = $this->title;
          <?php } ?>
          <tr class="warning" style="border-top: #dedede">
             <td><strong>TOTAL GERAL</strong></td>
-            <td style="color:#c0392b"><strong><?= 'R$ ' . number_format($sumSubtotalMono + $sumSubtotalColor + $sumEncadernacao, 2, ',', '.') ?></strong></td>
+            <td style="color:#c0392b"><strong><?= 'R$ ' . number_format($model->matc_totalGeral, 2, ',', '.') ?></strong></td>
          </tr>
       </tbody>
    </table>

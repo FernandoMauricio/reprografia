@@ -239,18 +239,45 @@ class MaterialCopiasController extends Controller
                     //-------Se houver serviços de acabamento somará 4 reais em cada exemplar
                     $sql = 'SELECT 
                         ((item_qtexemplares*item_mono) * 0.12) AS matc_totalValorMono,
-                        ((item_qtexemplares*item_color) * 0.95) AS matc_totalValorColor, 
-                        IF (GROUP_CONCAT(acab_descricao) LIKE "%Encadernação%",(item_qtexemplares*4) + (((item_qtexemplares*item_mono) * 0.12) + ((item_qtexemplares*item_color) * 0.95)),(((item_qtexemplares*item_mono) * 0.12) + ((item_qtexemplares*item_color) * 0.95))) AS matc_totalGeral
+                        ((item_qtexemplares*item_color) * 0.95) AS matc_totalValorColor
                         FROM materialcopias_item 
                         INNER JOIN `materialcopias_matc` ON `materialcopias_item`.`materialcopias_id` = `materialcopias_matc`.`matc_id`
-                        INNER JOIN `copiasacabamento_copac` ON `copiasacabamento_copac`.`materialcopias_id` = `materialcopias_matc`.`matc_id`
-                        INNER JOIN `acabamento_acab` ON `acabamento_acab`.`id` = `copiasacabamento_copac`.`acabamento_id` 
                         WHERE `materialcopias_matc`.`matc_id`='.$model->matc_id.'';
                     $total = MaterialCopias::findBySql($sql)->one();
-                    Yii::$app->db->createCommand('UPDATE `materialcopias_matc` SET `matc_totalValorMono` = '.$total->matc_totalValorMono.', `matc_totalValorColor` = '.$total->matc_totalValorColor.',`matc_totalGeral` = '.$total->matc_totalGeral.' WHERE `matc_id` = '.$model->matc_id.'')
+                    Yii::$app->db->createCommand('UPDATE `materialcopias_matc` SET `matc_totalValorMono` = '.$total->matc_totalValorMono.', `matc_totalValorColor` = '.$total->matc_totalValorColor.' WHERE `matc_id` = '.$model->matc_id.'')
                     ->execute();
 
                     $transaction->commit();
+
+                    //Total Mono
+                    $query = (new \yii\db\Query())->from('materialcopias_item')->where(['materialcopias_id' => $model->matc_id]);
+                    $sumSubtotalMono = $query->sum('((item_qtexemplares*item_mono) * 0.12)');
+
+                    //Total Color
+                    $query = (new \yii\db\Query())->from('materialcopias_item')->where(['materialcopias_id' => $model->matc_id]);
+                    $sumSubtotalColor = $query->sum('((item_qtexemplares*item_color) * 0.95)');
+
+                    //Total Encadernação
+                    $query = (new \yii\db\Query())->from('materialcopias_item')->where(['materialcopias_id' => $model->matc_id]);
+                    $sumEncadernacao = $query->sum('item_qtexemplares*4');
+
+                    //Verifica se está marca a Encadernação para somar 4 reais por exemplar
+                    $sqlAcabamentos = 'SELECT DISTINCT GROUP_CONCAT(acab_descricao) AS acab_descricao
+                        FROM acabamento_acab
+                        INNER JOIN `copiasacabamento_copac` ON `copiasacabamento_copac`.`acabamento_id` = `acabamento_acab`.`id`
+                        WHERE `materialcopias_id`='.$model->matc_id.'';
+                    $encadernacaoFind = Acabamento::findBySql($sqlAcabamentos)->one();
+
+                    if(strpos($encadernacaoFind['acab_descricao'], 'Encadernação') !== false){
+                        $model->matc_totalGeral = $sumSubtotalMono + $sumSubtotalColor + $sumEncadernacao;
+                        Yii::$app->db->createCommand('UPDATE `materialcopias_matc` SET `matc_totalGeral` = '.$model->matc_totalGeral.' WHERE `matc_id` = '.$model->matc_id.'')
+                        ->execute();
+
+                    }else{
+                        $model->matc_totalGeral = $sumSubtotalMono + $sumSubtotalColor;
+                        Yii::$app->db->createCommand('UPDATE `materialcopias_matc` SET `matc_totalGeral` = '.$model->matc_totalGeral.' WHERE `matc_id` = '.$model->matc_id.'')
+                        ->execute();
+                    }
 
                     $model->matc_dataGer     = date('Y-m-d H:i:s');
                     $model->matc_dataAut     = date('Y-m-d H:i:s');
