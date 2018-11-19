@@ -7,6 +7,7 @@ use Yii;
 use app\models\base\Emailusuario;
 use app\models\solicitacoes\MaterialCopiasAprovadas;
 use app\models\solicitacoes\MaterialCopiasAprovadasSearch;
+use app\models\solicitacoes\MaterialCopiasAprovadasDepSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -51,6 +52,22 @@ class MaterialCopiasAprovadasController extends Controller
 	   ]);
 	}
 
+	/**
+	 * Lists all MaterialCopiasAprovadas models.
+	 * @return mixed
+	 */
+	public function actionIndexGmt()
+	{
+	   $this->layout = 'main-full';
+	   $searchModel = new MaterialCopiasAprovadasDepSearch();
+	   $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+	   $dataProvider->sort = ['defaultOrder' => ['matc_id'=>SORT_DESC]];
+ 	   return $this->render('index-gmt', [
+	       'searchModel' => $searchModel,
+	       'dataProvider' => $dataProvider,
+	   ]);
+	}
+	
 	public function actionEncaminharterceirizada($id)
 	{
 	    $session = Yii::$app->session;
