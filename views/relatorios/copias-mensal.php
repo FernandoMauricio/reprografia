@@ -29,7 +29,7 @@
 				<td><?=$copia['matc_id']; ?></td>
 				<td><?=$copia['unidade']['uni_nomeabreviado']; ?></td> 
 				<td><?=$copia['matc_centrocusto']; ?></td> 
-				<td><?=$copia['item_descricao']; ?></td> 
+				<td><?= substr($copia['item_descricao'], 0, 100); ?></td>
 				<td><?=$copia['item_qtoriginais']; ?></td> 
 				<td><?=$copia['item_qtexemplares']; ?></td>
 				<td><?=$copia['item_mono']; ?></td> 
