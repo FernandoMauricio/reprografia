@@ -20,9 +20,13 @@ if($session['sess_codunidade'] != 12 && $session['sess_responsavelsetor'] == 1) 
             'label' => 'Solicitações de Cópias',
             'items' =>  [
                             ['label' => 'Nova Solicitação', 'url' => ['/solicitacoes/material-copias/index']],
-                                     '<li class="divider"></li>',
+                            '<li class="divider"></li>',
                             ['label' => 'Administração', 'items' => [
                                 ['label' => 'Solicitações em aprovação', 'url' => ['/solicitacoes/material-copias-aut-gerencia/index']],
+                            ]],
+                            '<li class="divider"></li>',
+                            ['label' => 'Relatórios', 'items' => [
+                                ['label' => 'Relatório Mensal', 'url' => ['/relatorios/relatorios/relatorio']],
                             ]],
                         ],
             ],
@@ -45,10 +49,14 @@ if($session['sess_codunidade'] != 12 && $session['sess_responsavelsetor'] == 1) 
             'label' => 'Solicitações de Cópias',
             'items' =>  [
                          ['label' => 'Nova Solicitação', 'url' => ['/solicitacoes/material-copias/index']],
-                                     '<li class="divider"></li>',
+                            '<li class="divider"></li>',
                             ['label' => 'Administração', 'items' => [
                                 ['label' => 'Solicitações Pendentes', 'url' => ['/solicitacoes/material-copias-pendentes/index']],
                                 ['label' => 'Solicitações Encerradas', 'url' => ['/solicitacoes/material-copias-encerradas/index']],
+                            ]],
+                            '<li class="divider"></li>',
+                            ['label' => 'Relatórios', 'items' => [
+                                ['label' => 'Relatório Mensal', 'url' => ['/relatorios/relatorios/relatorio']],
                             ]],
                         ],
             ],
@@ -70,12 +78,16 @@ if($session['sess_codunidade'] != 12 && $session['sess_responsavelsetor'] == 1) 
             'label' => 'Solicitações de Cópias',
             'items' => [
                          ['label' => 'Nova Solicitação', 'url' => ['/solicitacoes/material-copias/index']],
-                                     '<li class="divider"></li>',
+                            '<li class="divider"></li>',
                             ['label' => 'Administração', 'items' => [
                                 ['label' => 'Solicitações Aprovadas', 'url' => ['/solicitacoes/material-copias-aprovadas/index']],
                                 ['label' => 'Solicitações Encerradas', 'url' => ['/solicitacoes/material-copias-encerradas/index']],
                             ]],
-                     ],
+                            '<li class="divider"></li>',
+                            ['label' => 'Relatórios', 'items' => [
+                                ['label' => 'Relatório Mensal', 'url' => ['/relatorios/relatorios/relatorio']],
+                            ]],
+                        ],
             ],
             [
             'label' => 'Usuário (' . utf8_encode(ucwords(strtolower($session['sess_nomeusuario']))) . ')',
@@ -96,12 +108,16 @@ if($session['sess_codunidade'] != 12 && $session['sess_responsavelsetor'] == 1) 
             'label' => 'Solicitações de Cópias',
             'items' => [
                          ['label' => 'Nova Solicitação', 'url' => ['/solicitacoes/material-copias/index']],
-                                     '<li class="divider"></li>',
+                            '<li class="divider"></li>',
                             ['label' => 'Administração', 'items' => [
                                 ['label' => 'Solicitações Aprovadas', 'url' => ['/solicitacoes/material-copias-aprovadas/index-gmt']],
                                 ['label' => 'Solicitações Encerradas', 'url' => ['/solicitacoes/material-copias-encerradas/index']],
                             ]],
-                     ],
+                            '<li class="divider"></li>',
+                            ['label' => 'Relatórios', 'items' => [
+                                ['label' => 'Relatório Mensal', 'url' => ['/relatorios/relatorios/relatorio']],
+                            ]],
+                        ],
             ],
             [
             'label' => 'Usuário (' . utf8_encode(ucwords(strtolower($session['sess_nomeusuario']))) . ')',
@@ -122,6 +138,10 @@ if($session['sess_codunidade'] != 12 && $session['sess_responsavelsetor'] == 1) 
             'label' => 'Solicitações de Cópias',
             'items' =>  [
                             ['label' => 'Nova Solicitação', 'url' => ['/solicitacoes/material-copias/index']],
+                            '<li class="divider"></li>',
+                            ['label' => 'Relatórios', 'items' => [
+                                ['label' => 'Relatório Mensal', 'url' => ['/relatorios/relatorios/relatorio']],
+                            ]],
                         ],
             ],
             [

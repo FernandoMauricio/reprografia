@@ -38,6 +38,12 @@ class MaterialCopias extends \yii\db\ActiveRecord
     public $listAcabamento;
     public $segmentoLabel;
     public $tipoLabel;
+    public $item_descricao;
+    public $item_qtoriginais;
+    public $item_qtexemplares;
+    public $item_qteCopias;
+    public $item_mono;
+    public $item_color;
 
     /**
      * @inheritdoc
