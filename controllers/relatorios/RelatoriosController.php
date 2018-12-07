@@ -18,7 +18,7 @@ class RelatoriosController extends Controller
 
     public function actionRelatorio()
     {
-    	$model = new Relatorios();
+        $model = new Relatorios();
         $unidades = Unidade::find()->where(['uni_codsituacao' => 1])->orderBy('uni_nomeabreviado')->all();
 
         if ($model->load(Yii::$app->request->post())) {
@@ -60,7 +60,7 @@ class RelatoriosController extends Controller
         FROM `materialcopias_matc`
         INNER JOIN `materialcopias_item` ON `materialcopias_matc`.`matc_id` = `materialcopias_item`.`materialcopias_id`
         WHERE (`matc_data` BETWEEN '".$relat_datainicio."' AND '".$relat_datafim."')
-        AND `situacao_id` = 6
+        AND `situacao_id`IN (6,9)
         AND `matc_unidade` = '".$relat_unidade."' 
         ";
     }else{
@@ -77,7 +77,7 @@ class RelatoriosController extends Controller
         FROM `materialcopias_matc`
         INNER JOIN `materialcopias_item` ON `materialcopias_matc`.`matc_id` = `materialcopias_item`.`materialcopias_id`
         WHERE (`matc_data` BETWEEN '".$relat_datainicio."' AND '".$relat_datafim."')
-        AND `situacao_id` = 6
+        AND `situacao_id`IN (6,9)
         AND `matc_unidade`IS NOT NULL 
         ";
     }

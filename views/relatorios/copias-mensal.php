@@ -1,6 +1,6 @@
 
 
-<h3>Solicitação de Cópias <b style="color:#27ae60">finalizadas</b> no período de <b style="color:#e74c3c"><?= date('d/m/Y', strtotime($_GET['relat_datainicio'])); ?></b> até <b style="color:#e74c3c"><?= date('d/m/Y', strtotime($_GET['relat_datafim'])); ?></b></h3>
+<h3>Solicitação de Cópias <b style="color:#27ae60">finalizadas/recebidas pelo solicitante</b> no período de <b style="color:#e74c3c"><?= date('d/m/Y', strtotime($_GET['relat_datainicio'])); ?></b> até <b style="color:#e74c3c"><?= date('d/m/Y', strtotime($_GET['relat_datafim'])); ?></b></h3>
 <div class="bs-example" data-example-id="striped-table"> 
 	<table class="table table-striped"> 
 		<thead> 
