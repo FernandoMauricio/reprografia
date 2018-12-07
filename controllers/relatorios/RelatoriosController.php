@@ -3,6 +3,7 @@
 namespace app\controllers\relatorios;
 
 use Yii;
+use app\models\base\Unidade;
 use app\models\solicitacoes\MaterialCopias;
 use app\models\solicitacoes\MaterialCopiasItens;
 use app\models\relatorios\Relatorios;
@@ -18,30 +19,34 @@ class RelatoriosController extends Controller
     public function actionRelatorio()
     {
     	$model = new Relatorios();
+        $unidades = Unidade::find()->where(['uni_codsituacao' => 1])->orderBy('uni_nomeabreviado')->all();
 
         if ($model->load(Yii::$app->request->post())) {
 
-            return $this->redirect(['copias-mensal', 'relat_datainicio' => $model->relat_datainicio, 'relat_datafim'=> $model->relat_datafim]);
+            return $this->redirect(['copias-mensal', 'relat_unidade' => $model->relat_unidade, 'relat_datainicio' => $model->relat_datainicio, 'relat_datafim'=> $model->relat_datafim]);
 
         }else{
             return $this->render('/relatorios/relatorio', [
                 'model' => $model,
+                'unidades' => $unidades,
             ]);
         }
     }
 
-    public function actionCopiasMensal($relat_datainicio, $relat_datafim)
+    public function actionCopiasMensal($relat_unidade, $relat_datainicio, $relat_datafim)
     {
        $this->layout = 'main-imprimir';
-       $copias = $this->findModelCopias($relat_datainicio, $relat_datafim);
+       $copias = $this->findModelCopias($relat_unidade, $relat_datainicio, $relat_datafim);
 
             return $this->render('/relatorios/copias-mensal', [
               'copias' => $copias, 
             ]);
     }
 
-    protected function findModelCopias($relat_datainicio, $relat_datafim)
+    protected function findModelCopias($relat_unidade, $relat_datainicio, $relat_datafim)
     {
+
+    if($relat_unidade != 0) {
         $queryCopias = "SELECT 
         `matc_id`,
         `matc_unidade`,
@@ -55,7 +60,27 @@ class RelatoriosController extends Controller
         FROM `materialcopias_matc`
         INNER JOIN `materialcopias_item` ON `materialcopias_matc`.`matc_id` = `materialcopias_item`.`materialcopias_id`
         WHERE (`matc_data` BETWEEN '".$relat_datainicio."' AND '".$relat_datafim."')
-        AND `situacao_id` = 6"; //Finalizadas
+        AND `situacao_id` = 6
+        AND `matc_unidade` = '".$relat_unidade."' 
+        ";
+    }else{
+        $queryCopias = "SELECT 
+        `matc_id`,
+        `matc_unidade`,
+        `matc_centrocusto`,
+        `item_descricao`,
+        `item_qtoriginais`,
+        `item_qtexemplares`,
+        `item_qteCopias`,
+        `item_mono`,
+        `item_color`
+        FROM `materialcopias_matc`
+        INNER JOIN `materialcopias_item` ON `materialcopias_matc`.`matc_id` = `materialcopias_item`.`materialcopias_id`
+        WHERE (`matc_data` BETWEEN '".$relat_datainicio."' AND '".$relat_datafim."')
+        AND `situacao_id` = 6
+        AND `matc_unidade`IS NOT NULL 
+        ";
+    }
 
         if (($copias = MaterialCopias::findBySql($queryCopias)->all()) !== null) {
             return $copias;

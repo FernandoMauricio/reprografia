@@ -10,7 +10,7 @@ NavBar::begin([
         'class' => 'navbar-inverse navbar-fixed-top',
     ],
 ]);
-if($session['sess_codunidade'] != 12 && $session['sess_responsavelsetor'] == 1) { //ÁREA DO GERENTE
+if($session['sess_responsavelsetor'] == 1) { //ÁREA DO GERENTE
     echo Navx::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'encodeLabels' => false,

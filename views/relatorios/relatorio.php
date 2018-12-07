@@ -16,6 +16,18 @@ $this->params['breadcrumbs'][] = 'Relatórios';
     <?php $form = ActiveForm::begin(['options'=>['target'=>'_blank']]); ?>
         <div class="panel-body">
             <div class="row">
+                <div class="col-md-6">
+                <?php
+                    $data_unidades = ArrayHelper::map($unidades, 'uni_codunidade', 'uni_nomeabreviado');
+                    echo $form->field($model, 'relat_unidade')->widget(Select2::classname(), [
+                            'data' =>  $data_unidades,
+                            'options' => ['placeholder' => 'Todas as Unidades...'],
+                            'pluginOptions' => [
+                                    'allowClear' => true
+                                ],
+                            ]);
+                ?>
+                </div>
                 <div class="col-md-3">
                     <?= $form->field($model, 'relat_datainicio')->widget(DateControl::classname(), [
                             'type'=>DateControl::FORMAT_DATE,
