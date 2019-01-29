@@ -222,10 +222,16 @@ class MaterialCopiasController extends Controller
                                     if (!file_exists($path)) {
                                         mkdir($path, 0777);
                                     }
+
+                                    $modelItens->item_arquivo = $modelItens->file->baseName . '.' . $modelItens->file->extension;
+                                    $modelItens->item_arquivo_descricao = md5($modelItens->file->baseName) . '.' . $modelItens->file->extension;
+
                                    //salva o arquivo no caminho da criação da pasta
                                    Yii::$app->params['uploadPath'] = Yii::$app->basePath . '/web/uploads/impressoes/' . $modelItens->materialcopias_id .'/';
-                                   $path = Yii::$app->params['uploadPath'] . $_FILES['MaterialCopiasItens']['name'][$i]['file'];
-                                   $modelItens->item_arquivo = $_FILES['MaterialCopiasItens']['name'][$i]['file'];
+
+
+
+                                $path = Yii::$app->params['uploadPath'] . $modelItens->item_arquivo_descricao;
                                    $modelItens->file->saveAs($path);
                                }
                             }

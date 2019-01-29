@@ -18,7 +18,7 @@ class RelatoriosController extends Controller
 
     public function actionRelatorio()
     {
-        $model = new Relatorios();
+    	$model = new Relatorios();
         $unidades = Unidade::find()->where(['uni_codsituacao' => 1])->orderBy('uni_nomeabreviado')->all();
 
         if ($model->load(Yii::$app->request->post())) {
