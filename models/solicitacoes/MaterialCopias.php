@@ -45,6 +45,7 @@ class MaterialCopias extends \yii\db\ActiveRecord
     public $item_mono;
     public $item_color;
     public $acabamento;
+    public $valorEncadernacao;
 
     /**
      * @inheritdoc
