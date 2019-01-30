@@ -9,6 +9,7 @@
 				<th>Unidade</th> 
 				<th>Centro de Custo</th> 
 				<th>Descrição</th>
+				<th>Acabamento</th>
 				<th>Originais</th>
 				<th>Exemplares</th>
 				<th>Mono</th>
@@ -30,11 +31,13 @@
 				<td><?=$copia['unidade']['uni_nomeabreviado']; ?></td> 
 				<td><?=$copia['matc_centrocusto']; ?></td> 
 				<td><?= substr($copia['item_descricao'], 0, 100); ?></td>
+				<td><?=$copia['acabamento']; ?></td>
 				<td><?=$copia['item_qtoriginais']; ?></td> 
 				<td><?=$copia['item_qtexemplares']; ?></td>
 				<td><?=$copia['item_mono']; ?></td> 
 				<td><?=$copia['item_color']; ?></td>
-				<td><?=$copia['item_qteCopias']; ?></td> 
+				<td><?=$copia['item_qteCopias']; ?></td>
+				
 				<?php 
 					$sumOriginais  += $copia['item_qtoriginais'];
 					$sumExemplares += $copia['item_qtexemplares'];

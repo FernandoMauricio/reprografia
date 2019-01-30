@@ -56,12 +56,16 @@ class RelatoriosController extends Controller
         `item_qtexemplares`,
         `item_qteCopias`,
         `item_mono`,
-        `item_color`
+        `item_color`,
+        GROUP_CONCAT(`acab_descricao` separator ', ') as `acabamento`
         FROM `materialcopias_matc`
         INNER JOIN `materialcopias_item` ON `materialcopias_matc`.`matc_id` = `materialcopias_item`.`materialcopias_id`
+        INNER JOIN `copiasacabamento_copac` ON `copiasacabamento_copac`.`materialcopias_id` = `materialcopias_item`.`materialcopias_id`
+        INNER JOIN `acabamento_acab` ON `acabamento_acab`.`id` = `copiasacabamento_copac`.`acabamento_id`
         WHERE (`matc_data` BETWEEN '".$relat_datainicio."' AND '".$relat_datafim."')
         AND `situacao_id`IN (6,9)
-        AND `matc_unidade` = '".$relat_unidade."' 
+        AND `matc_unidade` = '".$relat_unidade."'
+        GROUP BY `materialcopias_item`.`id`
         ";
     }else{
         $queryCopias = "SELECT 
@@ -73,12 +77,16 @@ class RelatoriosController extends Controller
         `item_qtexemplares`,
         `item_qteCopias`,
         `item_mono`,
-        `item_color`
+        `item_color`,
+        GROUP_CONCAT(`acab_descricao` separator ', ') as `acabamento`
         FROM `materialcopias_matc`
         INNER JOIN `materialcopias_item` ON `materialcopias_matc`.`matc_id` = `materialcopias_item`.`materialcopias_id`
+        INNER JOIN `copiasacabamento_copac` ON `copiasacabamento_copac`.`materialcopias_id` = `materialcopias_item`.`materialcopias_id`
+        INNER JOIN `acabamento_acab` ON `acabamento_acab`.`id` = `copiasacabamento_copac`.`acabamento_id`
         WHERE (`matc_data` BETWEEN '".$relat_datainicio."' AND '".$relat_datafim."')
         AND `situacao_id`IN (6,9)
-        AND `matc_unidade`IS NOT NULL 
+        AND `matc_unidade`IS NOT NULL
+        GROUP BY `materialcopias_item`.`id`
         ";
     }
 
