@@ -190,7 +190,7 @@ class MaterialCopiasController extends Controller
         $acabamento  = Acabamento::find()->all();
         $segmento    = Segmento::find()->all();
         $centrocusto = Centrocusto::find()->where(['cen_codsituacao' => 1])->orderBy('cen_codano')->all();
-        $repositorio = Repositorio::find()->where(['rep_status' => 1])->orderBy('rep_titulo')->all();
+        $repositorio = Repositorio::find()->where(['rep_status' => 1])->andWhere(['not', ['rep_arquivo' => null]])->orderBy('rep_titulo')->all();
 
         $model->matc_data        = date('Y-m-d');
         $model->matc_solicitante = $session['sess_codcolaborador'];
@@ -343,7 +343,7 @@ class MaterialCopiasController extends Controller
         $modelsItens = $model->materialCopiasItens;
 
         $centrocusto = Centrocusto::find()->where(['cen_codsituacao' => 1])->orderBy('cen_codano')->all();
-        $repositorio = Repositorio::find()->where(['rep_status' => 1])->orderBy('rep_titulo')->all();
+        $repositorio = Repositorio::find()->where(['rep_status' => 1])->andWhere(['not', ['rep_arquivo' => null]])->orderBy('rep_titulo')->all();
         $acabamento = Acabamento::find()->where(['acab_status' => 1])->all();
         //Retrieve the stored checkboxes
         $model->listAcabamento = \yii\helpers\ArrayHelper::getColumn(
