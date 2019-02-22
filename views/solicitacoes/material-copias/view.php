@@ -155,7 +155,7 @@ $this->params['breadcrumbs'][] = $this->title;
                   <?php if($model->matc_tipo == 1) { ?>
                      <a target="_blank" href="http://portalsenac.am.senac.br/aux_planejamento/web/uploads/repositorio/<?= $itens["item_codrepositorio"]; ?>/<?= $itens["item_arquivo"]; ?>" "><?= $itens["item_arquivo"]; ?></a>
                   <?php }else{ ?>
-                     <a target="_blank" href="http://portalsenac.am.senac.br/reprografia/web/uploads/impressoes/<?= $itens["materialcopias_id"]; ?>/<?= $itens["item_arquivo"]; ?>" "><?= $itens["item_arquivo"]; ?></a>
+                     <a target="_blank" href="http://portalsenac.am.senac.br/reprografia/web/uploads/impressoes/<?= $itens["materialcopias_id"]; ?>/<?= $itens["item_arquivo_descricao"]; ?>" "><?= $itens["item_arquivo"]; ?></a>
                   <?php } ?>
             </td>
             </tr>
