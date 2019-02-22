@@ -23,7 +23,7 @@ class RelatoriosController extends Controller
 
         if ($model->load(Yii::$app->request->post())) {
 
-            return $this->redirect(['copias-mensal', 'relat_unidade' => $model->relat_unidade, 'relat_datainicio' => $model->relat_datainicio, 'relat_datafim'=> $model->relat_datafim]);
+            return $this->redirect(['copias-mensal', 'relat_unidade' => $model->relat_unidade, 'relat_encaminhamento' => $model->relat_encaminhamento, 'relat_datainicio' => $model->relat_datainicio, 'relat_datafim'=> $model->relat_datafim]);
 
         }else{
             return $this->render('/relatorios/relatorio', [
@@ -33,17 +33,17 @@ class RelatoriosController extends Controller
         }
     }
 
-    public function actionCopiasMensal($relat_unidade, $relat_datainicio, $relat_datafim)
+    public function actionCopiasMensal($relat_unidade, $relat_encaminhamento, $relat_datainicio, $relat_datafim)
     {
        $this->layout = 'main-imprimir';
-       $copias = $this->findModelCopias($relat_unidade, $relat_datainicio, $relat_datafim);
+       $copias = $this->findModelCopias($relat_unidade, $relat_encaminhamento, $relat_datainicio, $relat_datafim);
 
             return $this->render('/relatorios/copias-mensal', [
               'copias' => $copias, 
             ]);
     }
 
-    protected function findModelCopias($relat_unidade, $relat_datainicio, $relat_datafim)
+    protected function findModelCopias($relat_unidade, $relat_encaminhamento, $relat_datainicio, $relat_datafim)
     {
 
     if($relat_unidade != 0) {
@@ -65,6 +65,7 @@ class RelatoriosController extends Controller
         WHERE (`matc_data` BETWEEN '".$relat_datainicio."' AND '".$relat_datafim."')
         AND `situacao_id`IN (6,9)
         AND `matc_unidade` = '".$relat_unidade."'
+        AND `matc_encaminhadoRepro` = '".$relat_encaminhamento."'
         GROUP BY `materialcopias_item`.`id`
         ";
     }else{
@@ -85,6 +86,7 @@ class RelatoriosController extends Controller
         INNER JOIN `acabamento_acab` ON `acabamento_acab`.`id` = `copiasacabamento_copac`.`acabamento_id`
         WHERE (`matc_data` BETWEEN '".$relat_datainicio."' AND '".$relat_datafim."')
         AND `situacao_id`IN (6,9)
+        AND `matc_encaminhadoRepro` = '".$relat_encaminhamento."'
         AND `matc_unidade`IS NOT NULL
         GROUP BY `materialcopias_item`.`id`
         ";

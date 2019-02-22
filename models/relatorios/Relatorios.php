@@ -8,6 +8,7 @@ use yii\base\Model;
 class Relatorios extends Model
 {
     public $relat_unidade;
+    public $relat_encaminhamento;
     public $relat_datainicio;
     public $relat_datafim;
 
@@ -17,7 +18,7 @@ class Relatorios extends Model
     public function rules()
     {
         return [
-            [['relat_datainicio', 'relat_datafim'], 'required'],
+            [['relat_datainicio', 'relat_datafim', 'relat_encaminhamento'], 'required'],
             [['relat_unidade', 'relat_datainicio', 'relat_datafim'], 'safe'],
         ];
     }
@@ -29,6 +30,7 @@ class Relatorios extends Model
     {
         return [
             'relat_unidade' => 'Unidade',
+            'relat_encaminhamento' => 'Encaminhamento',
             'relat_datainicio' => 'Início',
             'relat_datafim' => 'Fim',
         ];

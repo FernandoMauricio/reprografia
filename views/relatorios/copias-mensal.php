@@ -1,6 +1,6 @@
 
 
-<h3>Solicitação de Cópias <b style="color:#27ae60">finalizadas/recebidas pelo solicitante</b> no período de <b style="color:#e74c3c"><?= date('d/m/Y', strtotime($_GET['relat_datainicio'])); ?></b> até <b style="color:#e74c3c"><?= date('d/m/Y', strtotime($_GET['relat_datafim'])); ?></b></h3>
+<h3>Solicitação de Cópias <b style="color:#27ae60">finalizadas/recebidas pelo solicitante</b> no período de <b style="color:#e74c3c"><?= date('d/m/Y', strtotime($_GET['relat_datainicio'])); ?></b> até <b style="color:#e74c3c"><?= date('d/m/Y', strtotime($_GET['relat_datafim'])); ?></b> encaminhadas para <b style="color:#106bbb"><?= $_GET['relat_encaminhamento'] == 0 ? 'produção interna' : 'terceirizada'; ?></b>.</h3>
 <div class="bs-example" data-example-id="striped-table"> 
 	<table class="table table-striped"> 
 		<thead> 
@@ -15,7 +15,6 @@
 				<th>Exemplares</th>
 				<th>Mono</th>
 				<th>Color</th>
-				<th>Cópias</th>
 			</tr> 
 		</thead> 
 		<tbody>
@@ -25,7 +24,6 @@
 				$sumExemplares = 0;
 				$sumMono = 0;
 				$sumColor = 0;
-				$sumCopias = 0;
 			?>
 
 			<?php
@@ -62,16 +60,14 @@
 
 				<td><?=$copia['item_qtoriginais']; ?></td> 
 				<td><?=$copia['item_qtexemplares']; ?></td>
-				<td><?=$copia['item_mono']; ?></td> 
-				<td><?=$copia['item_color']; ?></td>
-				<td><?=$copia['item_qteCopias']; ?></td>
+				<td><?=$copia['item_mono'] * $copia['item_qtexemplares']; ?></td> 
+				<td><?=$copia['item_color'] * $copia['item_qtexemplares']; ?></td>
 				
 				<?php
 					$sumOriginais    += $copia['item_qtoriginais'];
 					$sumExemplares   += $copia['item_qtexemplares'];
-					$sumMono         += $copia['item_mono'];
-					$sumColor        += $copia['item_color'];
-					$sumCopias       += $copia['item_qteCopias'];
+					$sumMono         += $copia['item_mono'] * $copia['item_qtexemplares'];
+					$sumColor        += $copia['item_color'] * $copia['item_qtexemplares'];
 				?>
 			</tr>
 			<?php endforeach; ?> 
@@ -84,7 +80,6 @@
 	              <th><?= $sumExemplares; ?></th>
 	              <th><?= $sumMono; ?></th>
 	              <th><?= $sumColor; ?></th>
-	              <th><?= $sumCopias; ?></th>
 	            </tr>
 	    </tfoot>
 	</table> 

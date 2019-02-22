@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = 'Relatórios';
     <?php $form = ActiveForm::begin(['options'=>['target'=>'_blank']]); ?>
         <div class="panel-body">
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-5">
                 <?php
                     $data_unidades = ArrayHelper::map($unidades, 'uni_codunidade', 'uni_nomeabreviado');
                     echo $form->field($model, 'relat_unidade')->widget(Select2::classname(), [
@@ -29,6 +29,17 @@ $this->params['breadcrumbs'][] = 'Relatórios';
                 ?>
                 </div>
                 <div class="col-md-3">
+                <?php
+                    echo $form->field($model, 'relat_encaminhamento')->widget(Select2::classname(), [
+                            'data' =>  [0 => 'Produção Interna', 1 => 'Terceirizada'],
+                            'options' => ['placeholder' => 'Tipo de Encaminhamento...'],
+                            'pluginOptions' => [
+                                    'allowClear' => true
+                                ],
+                            ]);
+                ?>
+                </div>
+                <div class="col-md-2">
                     <?= $form->field($model, 'relat_datainicio')->widget(DateControl::classname(), [
                             'type'=>DateControl::FORMAT_DATE,
                             'ajaxConversion'=>false,
@@ -41,7 +52,7 @@ $this->params['breadcrumbs'][] = 'Relatórios';
                         ]);
                     ?>
 				</div>
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <?= $form->field($model, 'relat_datafim')->widget(DateControl::classname(), [
                             'type'=>DateControl::FORMAT_DATE,
                             'ajaxConversion'=>false,
