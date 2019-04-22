@@ -132,7 +132,7 @@ class MaterialCopiasController extends Controller
     //Localiza os dados de quantidade de originais de materiais didático cadastrados no repositorio
     public function actionGetRepositorio($repId){
 
-        $getRepositorio = Repositorio::find()->where(['rep_titulo' => $repId])->one();
+        $getRepositorio = Repositorio::find()->where(['rep_titulo' => $repId])->andWhere(['not', ['rep_arquivo' => null]])->one();
 
         echo Json::encode($getRepositorio);
     }
